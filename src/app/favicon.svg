@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <!-- Circular background -->
+  <circle cx="32" cy="32" r="32" fill="#111" />
+
+  <!-- Monitor screen cutout (fills top center of circle) -->
+  <rect x="14" y="18" width="36" height="22" rx="2" fill="#fff" />
+
+  <!-- Stand -->
+  <rect x="28" y="42" width="8" height="4" fill="#fff" />
+
+  <!-- Base -->
+  <rect x="24" y="46" width="16" height="2" fill="#fff" />
+</svg>
