@@ -1,23 +1,61 @@
 "use client";
-import { useEffect } from "react";
+import { useEffect, useCallback } from "react";
 import { motion } from "framer-motion";
 
 export default function Home() {
+  // Smooth cursor-following glow
   useEffect(() => {
     const cursorLight = document.createElement("div");
-    cursorLight.className = "cursor-light pointer-events-none fixed w-32 h-32 rounded-full bg-gradient-to-r from-purple-400 via-pink-500 to-indigo-500 opacity-30 blur-3xl transform -translate-x-1/2 -translate-y-1/2 transition-all duration-150";
+    cursorLight.className =
+      "cursor-light pointer-events-none fixed w-32 h-32 rounded-full bg-gradient-to-r from-purple-400 via-pink-500 to-indigo-500 opacity-30 blur-3xl transform -translate-x-1/2 -translate-y-1/2";
     document.body.appendChild(cursorLight);
 
-    const moveLight = (e: MouseEvent) => {
-      cursorLight.style.left = `${e.clientX}px`;
-      cursorLight.style.top = `${e.clientY}px`;
+    let mouseX = 0;
+    let mouseY = 0;
+    let currentX = 0;
+    let currentY = 0;
+
+    const onMouseMove = (e: MouseEvent) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
     };
 
-    window.addEventListener("mousemove", moveLight);
+    const animate = () => {
+      // Smooth follow: change 0.2 for trailing effect
+      currentX += (mouseX - currentX) * 0.2;
+      currentY += (mouseY - currentY) * 0.2;
+      cursorLight.style.left = `${currentX}px`;
+      cursorLight.style.top = `${currentY}px`;
+      requestAnimationFrame(animate);
+    };
+
+    window.addEventListener("mousemove", onMouseMove);
+    animate();
+
     return () => {
-      window.removeEventListener("mousemove", moveLight);
+      window.removeEventListener("mousemove", onMouseMove);
       document.body.removeChild(cursorLight);
     };
+  }, []);
+
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      const hiddenTextRef = document.querySelector('.cursor-proximity') as HTMLElement;
+      if (!hiddenTextRef) return;
+      const centerX = window.innerWidth / 2;
+      const centerY = window.innerHeight / 2;
+      const dist = Math.hypot(e.clientX - centerX, e.clientY - centerY);
+
+      if (dist < 200) {
+        hiddenTextRef.style.display = "block";
+        hiddenTextRef.style.opacity = `${Math.min(1, (200 - dist) / 200)}`;
+      } else {
+        hiddenTextRef.style.opacity = "0";
+      }
+    };
+
+    window.addEventListener("mousemove", handleMouseMove);
+    return () => window.removeEventListener("mousemove", handleMouseMove);
   }, []);
 
   return (
@@ -61,13 +99,11 @@ export default function Home() {
         </div>
       </motion.div>
 
-      {/* Hidden magical text revealed by cursor proximity */}
+      {/* Hidden console magic text */}
       <div className="absolute w-full h-full flex items-center justify-center pointer-events-none">
         <p
-          className="text-white opacity-0 hover:opacity-80 transition-opacity duration-500 text-3xl font-mono"
-          style={{
-            mixBlendMode: "screen",
-          }}
+          className="cursor-proximity absolute text-white opacity-0 text-3xl font-mono"
+          style={{ mixBlendMode: "screen" }}
         >
           {"{ console.log('✨ Magic behind the code ✨'); }"}
         </p>
