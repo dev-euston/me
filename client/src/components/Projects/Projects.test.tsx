@@ -12,43 +12,39 @@ describe('Projects', () => {
     expect(screen.getByTestId('projects-section')).toBeInTheDocument()
   })
 
-  it('renders 3 project cards', () => {
+  it('renders 2 project cards', () => {
     render(<Projects projects={projects} />)
-    expect(screen.getAllByTestId('project-card')).toHaveLength(3)
+    expect(screen.getAllByTestId('project-card')).toHaveLength(2)
   })
 
   it('renders the first project name', () => {
     render(<Projects projects={projects} />)
-    expect(screen.getAllByTestId('project-name')[0].textContent).toContain('Portfolio Site')
+    expect(screen.getAllByTestId('project-name')[0].textContent).toContain('Spell Star')
   })
 
   it('renders at least one tag per card', () => {
     render(<Projects projects={projects} />)
     const tags = screen.getAllByTestId('project-tag')
-    expect(tags.length).toBeGreaterThanOrEqual(3)
+    expect(tags.length).toBeGreaterThanOrEqual(2)
   })
 
   it('renders GitHub links on all cards', () => {
     render(<Projects projects={projects} />)
     const links = screen.getAllByRole('link', { name: 'GitHub repository' })
-    expect(links).toHaveLength(3)
+    expect(links).toHaveLength(2)
   })
 
-  it('does not render live demo link on first card (no liveUrl)', () => {
+  it('renders live demo link on first card (Spell Star has liveUrl)', () => {
     render(<Projects projects={projects} />)
     const cards = screen.getAllByTestId('project-card')
     const firstCard = cards[0]
-    expect(
-      firstCard.querySelector('[aria-label="Live demo"]')
-    ).toBeNull()
+    expect(firstCard.querySelector('[aria-label="Live demo"]')).toBeTruthy()
   })
 
-  it('renders live demo link on second card (has liveUrl)', () => {
+  it('does not render live demo link on second card (portfolio has no liveUrl)', () => {
     render(<Projects projects={projects} />)
     const cards = screen.getAllByTestId('project-card')
     const secondCard = cards[1]
-    expect(
-      secondCard.querySelector('[aria-label="Live demo"]')
-    ).toBeTruthy()
+    expect(secondCard.querySelector('[aria-label="Live demo"]')).toBeNull()
   })
 })

@@ -15,12 +15,12 @@ describe('Contact', () => {
   it('renders LinkedIn link with correct href', () => {
     render(<Contact />)
     const link = screen.getByRole('link', { name: 'LinkedIn profile' })
-    expect(link).toHaveAttribute('href', 'https://linkedin.com/in/eustonlee')
+    expect(link).toHaveAttribute('href', 'https://www.linkedin.com/in/eustonleeys/')
   })
 
   it('renders GitHub link with correct href', () => {
     render(<Contact />)
     const link = screen.getByRole('link', { name: 'GitHub profile' })
-    expect(link).toHaveAttribute('href', 'https://github.com/eustonlee')
+    expect(link).toHaveAttribute('href', 'https://github.com/dev-euston')
   })
 })

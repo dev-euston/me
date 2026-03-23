@@ -12,25 +12,23 @@ describe('Experience', () => {
     expect(screen.getByTestId('experience-section')).toBeInTheDocument()
   })
 
-  it('renders 3 experience entries', () => {
+  it('renders 5 experience entries', () => {
     render(<Experience experience={experience} />)
-    expect(screen.getAllByTestId('experience-entry')).toHaveLength(3)
+    expect(screen.getAllByTestId('experience-entry')).toHaveLength(5)
   })
 
   it('renders company name for first entry', () => {
     render(<Experience experience={experience} />)
-    expect(screen.getAllByTestId('experience-company')[0].textContent).toContain('Acme Corp')
+    expect(screen.getAllByTestId('experience-company')[0].textContent).toContain('GovTech Singapore')
   })
 
   it('renders role for first entry', () => {
     render(<Experience experience={experience} />)
-    expect(screen.getAllByTestId('experience-role')[0].textContent).toContain(
-      'Senior Software Engineer'
-    )
+    expect(screen.getAllByTestId('experience-role')[0].textContent).toContain('Software Engineer')
   })
 
   it('renders date range for first entry', () => {
     render(<Experience experience={experience} />)
-    expect(screen.getAllByTestId('experience-dates')[0].textContent).toContain('Jan 2023')
+    expect(screen.getAllByTestId('experience-dates')[0].textContent).toContain('Nov 2024')
   })
 })

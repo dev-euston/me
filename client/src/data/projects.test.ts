@@ -2,8 +2,8 @@ import { describe, it, expect } from 'vitest'
 import { projects } from './projects'
 
 describe('projects data', () => {
-  it('exports an array of 3 projects', () => {
-    expect(projects).toHaveLength(3)
+  it('exports an array of 2 projects', () => {
+    expect(projects).toHaveLength(2)
   })
 
   it('each project has required fields', () => {
@@ -16,11 +16,11 @@ describe('projects data', () => {
     }
   })
 
-  it('first project has no liveUrl', () => {
-    expect(projects[0].liveUrl).toBeUndefined()
+  it('first project (Spell Star) has a liveUrl', () => {
+    expect(projects[0].liveUrl).toBeTruthy()
   })
 
-  it('second project has a liveUrl', () => {
-    expect(projects[1].liveUrl).toBeTruthy()
+  it('second project (portfolio) has no liveUrl', () => {
+    expect(projects[1].liveUrl).toBeUndefined()
   })
 })

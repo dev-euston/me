@@ -50,11 +50,11 @@ describe('App', () => {
 
   it('passes projects data (first project name visible)', () => {
     render(<App />)
-    expect(screen.getByText('Portfolio Site')).toBeInTheDocument()
+    expect(screen.getByText('Spell Star')).toBeInTheDocument()
   })
 
   it('passes experience data (first company name visible)', () => {
     render(<App />)
-    expect(screen.getByText('Acme Corp')).toBeInTheDocument()
+    expect(screen.getAllByText('GovTech Singapore')[0]).toBeInTheDocument()
   })
 })

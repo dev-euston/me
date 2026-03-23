@@ -26,11 +26,12 @@ export function About() {
           <motion.div variants={fadeUp}>
             <h2 className="text-3xl font-display font-bold mb-6">About</h2>
             <p data-testid="about-bio" className="text-muted leading-relaxed space-y-4">
-              Hi, I&apos;m Euston — a software engineer based in Singapore. I specialise in
-              building reliable, well-tested web applications from front to back. I care
-              deeply about clean architecture, developer experience, and shipping software
-              that lasts. Outside of work, I enjoy tinkering with side projects and
-              contributing to open source.
+              Hi, I&apos;m Euston — a software engineer based in Singapore with over a decade
+              of experience across government technology, telco, and data industries. I
+              currently work at GovTech Singapore, building digital services that improve
+              how government operates. I care about clean architecture, well-tested code,
+              and shipping software that lasts. Outside of work, I build side projects like
+              Spell Star, a spelling trainer for primary school kids.
             </p>
           </motion.div>
         </motion.div>

@@ -18,7 +18,7 @@ export function Contact() {
         <h2 className="text-3xl font-display font-bold mb-8">Let's connect</h2>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <a
-            href="https://linkedin.com/in/eustonlee"
+            href="https://www.linkedin.com/in/eustonleeys/"
             aria-label="LinkedIn profile"
             target="_blank"
             rel="noopener noreferrer"
@@ -27,7 +27,7 @@ export function Contact() {
             LinkedIn
           </a>
           <a
-            href="https://github.com/eustonlee"
+            href="https://github.com/dev-euston"
             aria-label="GitHub profile"
             target="_blank"
             rel="noopener noreferrer"

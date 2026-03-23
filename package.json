@@ -1,0 +1,20 @@
+{
+  "name": "me",
+  "private": true,
+  "workspaces": ["client"],
+  "scripts": {
+    "dev": "npm run dev -w @me/web",
+    "build": "npm run build -w @me/web",
+    "preview": "npm run preview -w @me/web",
+    "test": "npm run test -w @me/web",
+    "test:watch": "npm run test:watch -w @me/web",
+    "test:coverage": "npm run test:coverage -w @me/web",
+    "lint": "npm run lint -w @me/web",
+    "lint:fix": "npm run lint:fix -w @me/web",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
+  },
+  "devDependencies": {
+    "prettier": "^3.8.1"
+  }
+}
