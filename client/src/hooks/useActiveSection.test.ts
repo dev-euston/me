@@ -43,7 +43,7 @@ describe('useActiveSection', () => {
 
     act(() => {
       observerCallback(
-        [{ target: projectsEl, isIntersecting: true } as IntersectionObserverEntry],
+        [{ target: projectsEl, isIntersecting: true } as unknown as IntersectionObserverEntry],
         {} as IntersectionObserver
       )
     })
@@ -59,8 +59,8 @@ describe('useActiveSection', () => {
     act(() => {
       observerCallback(
         [
-          { target: projectsEl, isIntersecting: true } as IntersectionObserverEntry,
-          { target: aboutEl, isIntersecting: true } as IntersectionObserverEntry,
+          { target: projectsEl, isIntersecting: true } as unknown as IntersectionObserverEntry,
+          { target: aboutEl, isIntersecting: true } as unknown as IntersectionObserverEntry,
         ],
         {} as IntersectionObserver
       )
@@ -76,7 +76,7 @@ describe('useActiveSection', () => {
     // First make projects active
     act(() => {
       observerCallback(
-        [{ target: projectsEl, isIntersecting: true } as IntersectionObserverEntry],
+        [{ target: projectsEl, isIntersecting: true } as unknown as IntersectionObserverEntry],
         {} as IntersectionObserver
       )
     })
@@ -85,7 +85,7 @@ describe('useActiveSection', () => {
     // Then fire callback with nothing intersecting — should stay on projects
     act(() => {
       observerCallback(
-        [{ target: projectsEl, isIntersecting: false } as IntersectionObserverEntry],
+        [{ target: projectsEl, isIntersecting: false } as unknown as IntersectionObserverEntry],
         {} as IntersectionObserver
       )
     })
