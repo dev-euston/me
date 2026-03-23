@@ -20,7 +20,7 @@ describe('projects data', () => {
     expect(projects[0].liveUrl).toBeTruthy()
   })
 
-  it('second project (portfolio) has no liveUrl', () => {
-    expect(projects[1].liveUrl).toBeUndefined()
+  it('second project (portfolio) has a liveUrl', () => {
+    expect(projects[1].liveUrl).toBeTruthy()
   })
 })

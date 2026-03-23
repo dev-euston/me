@@ -34,17 +34,12 @@ describe('Projects', () => {
     expect(links).toHaveLength(2)
   })
 
-  it('renders live demo link on first card (Spell Star has liveUrl)', () => {
+  it('renders live demo link on both cards (Spell Star has liveUrl)', () => {
     render(<Projects projects={projects} />)
     const cards = screen.getAllByTestId('project-card')
     const firstCard = cards[0]
-    expect(firstCard.querySelector('[aria-label="Live demo"]')).toBeTruthy()
-  })
-
-  it('does not render live demo link on second card (portfolio has no liveUrl)', () => {
-    render(<Projects projects={projects} />)
-    const cards = screen.getAllByTestId('project-card')
     const secondCard = cards[1]
-    expect(secondCard.querySelector('[aria-label="Live demo"]')).toBeNull()
+    expect(firstCard.querySelector('[aria-label="Live demo"]')).toBeTruthy()
+    expect(secondCard.querySelector('[aria-label="Live demo"]')).toBeTruthy()
   })
 })
