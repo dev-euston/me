@@ -1,0 +1,1055 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mission: Singapore — The City, Told by Its People</title>
+  <link rel="icon" type="image/svg+xml" href="../../ui-web/public/favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,700&family=DM+Sans:wght@400;500;600&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --page:          #f8f1e2;
+      --surface:       #fffdf6;
+      --surface-warm:  #fdfaf2;
+      --card:          #fffdf6;
+      --raised:        #efe5cf;
+      --amber:         #c9532a;
+      --amber-bright:  #d4612f;
+      --amber-dim:     rgba(201,83,42,0.12);
+      --amber-tint:    #fce6d6;
+      --warm:          #1f1b13;
+      --ink-soft:      #5b5345;
+      --muted:         #9b9282;
+      --hairline:      rgba(31,27,19,0.08);
+      --divider:       rgba(31,27,19,0.06);
+      --stroke:        rgba(31,27,19,0.14);
+
+      --player:        #2563eb;
+      --player-dim:    rgba(37,99,235,0.08);
+      --player-tint:   #eff6ff;
+      --storyteller:   #7c3aed;
+      --storyteller-dim: rgba(124,58,237,0.08);
+      --storyteller-tint: #f5f3ff;
+      --vendor:        #059669;
+      --vendor-dim:    rgba(5,150,105,0.08);
+      --vendor-tint:   #ecfdf5;
+      --curator:       #c9532a;
+      --curator-dim:   rgba(201,83,42,0.10);
+      --curator-tint:  #fef7f4;
+    }
+
+    html {
+      scroll-snap-type: y mandatory;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--page);
+      color: var(--warm);
+      font-family: 'DM Sans', system-ui, sans-serif;
+      font-size: 16px;
+      line-height: 1.45;
+      overflow-x: hidden;
+    }
+
+    /* ── Slide shell ─────────────────────────────── */
+    .slide {
+      width: 100%;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 2rem 3rem;
+      position: relative;
+      background: var(--page);
+      scroll-snap-align: start;
+      overflow: hidden;
+    }
+
+    /* ── Typography ──────────────────────────────── */
+    .label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--amber);
+      font-weight: 600;
+      margin-bottom: 0.7rem;
+    }
+
+    h1 {
+      font-family: 'Bricolage Grotesque', serif;
+      font-size: clamp(2.5rem, 6vw, 4rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.05;
+      color: var(--warm);
+    }
+    h1 .accent { color: var(--amber); }
+
+    h2 {
+      font-family: 'Bricolage Grotesque', serif;
+      font-size: clamp(1.3rem, 3vw, 1.8rem);
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      line-height: 1.2;
+      color: var(--warm);
+    }
+
+    p { font-size: 0.85rem; line-height: 1.6; color: var(--warm); }
+    .muted { color: var(--muted); font-size: 0.75rem; }
+
+    /* ── Shared layout helpers ───────────────────── */
+    .rule {
+      width: 48px; height: 3px;
+      background: var(--amber);
+      border-radius: 2px;
+      margin: 1rem auto;
+    }
+
+    .slide-header {
+      text-align: center;
+      margin-bottom: 1.8rem;
+    }
+    .slide-header h2 { margin-top: 0.3rem; }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--stroke);
+      border-radius: 12px;
+      padding: 1rem 1.2rem;
+    }
+
+    /* ── Phone frame ─────────────────────────────── */
+    .phone {
+      width: 120px;
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.3rem;
+    }
+    .phone.lg { width: 150px; }
+    .phone-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.55rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-align: center;
+    }
+    .phone-frame {
+      width: 100%;
+      aspect-ratio: 9 / 19.5;
+      border-radius: 20px;
+      border: 2.5px solid var(--stroke);
+      background: var(--warm);
+      overflow: hidden;
+      position: relative;
+      box-shadow: 0 4px 20px rgba(31,27,19,0.15), 0 2px 6px rgba(31,27,19,0.08);
+    }
+    .phone-frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top center;
+      display: block;
+    }
+    .phone-frame::before {
+      content: '';
+      position: absolute;
+      top: 6px; left: 50%;
+      transform: translateX(-50%);
+      width: 32%;
+      height: 4px;
+      background: rgba(0,0,0,0.45);
+      border-radius: 2px;
+      z-index: 2;
+    }
+    .phone-frame.placeholder {
+      background: var(--raised);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .phone-frame.placeholder::after {
+      content: attr(data-label);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.55rem;
+      color: var(--muted);
+      text-align: center;
+      padding: 1rem 0.5rem;
+      line-height: 1.6;
+      white-space: pre-wrap;
+    }
+
+    .phone.player .phone-frame       { border-color: var(--player); }
+    .phone.storyteller .phone-frame   { border-color: var(--storyteller); }
+    .phone.vendor .phone-frame        { border-color: var(--vendor); }
+    .phone.curator .phone-frame       { border-color: var(--curator); }
+
+    /* ── Role badge ──────────────────────────────── */
+    .role-badge {
+      display: inline-block;
+      padding: 0.3rem 0.85rem;
+      border-radius: 100px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.62rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 0.7rem;
+    }
+    .role-badge.player      { background: var(--player-dim);      color: var(--player);      border: 1px solid var(--player); }
+    .role-badge.storyteller { background: var(--storyteller-dim); color: var(--storyteller); border: 1px solid var(--storyteller); }
+    .role-badge.vendor      { background: var(--vendor-dim);      color: var(--vendor);      border: 1px solid var(--vendor); }
+    .role-badge.curator     { background: var(--curator-dim);     color: var(--curator);     border: 1px solid var(--curator); }
+
+    /* ── POV layout ──────────────────────────────── */
+    .pov-layout {
+      display: flex;
+      gap: 2.5rem;
+      max-width: 1100px;
+      width: 100%;
+      align-items: center;
+    }
+    .pov-info { flex: 1; min-width: 300px; }
+    .pov-info h2 { font-size: 1.5rem; margin-bottom: 0.6rem; }
+    .pov-info .description {
+      font-size: 0.85rem;
+      color: var(--ink-soft);
+      line-height: 1.65;
+      margin-bottom: 1.2rem;
+    }
+    .value-props { display: flex; flex-direction: column; gap: 0.5rem; }
+    .value-prop {
+      display: flex;
+      gap: 0.6rem;
+      align-items: flex-start;
+      padding: 0.6rem 0.85rem;
+      background: var(--card);
+      border: 1px solid var(--hairline);
+      border-radius: 10px;
+    }
+    .vp-icon {
+      width: 28px; height: 28px;
+      border-radius: 7px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.85rem;
+      flex-shrink: 0;
+    }
+    .value-prop h4 { font-size: 0.78rem; font-weight: 600; margin-bottom: 0.15rem; }
+    .value-prop p { font-size: 0.68rem; color: var(--ink-soft); line-height: 1.45; }
+
+    .pov-screens {
+      flex: 0 0 auto;
+      display: flex;
+      gap: 0.85rem;
+      align-items: flex-start;
+    }
+
+    /* ── Problem ─────────────────────────────────── */
+    .problem-card {
+      max-width: 900px; width: 100%;
+      background: var(--card);
+      border: 2px solid var(--stroke);
+      border-radius: 16px;
+      padding: 2.2rem 2.8rem;
+      text-align: center;
+    }
+    .problem-points {
+      display: flex;
+      gap: 1.2rem;
+      text-align: left;
+    }
+    .problem-points .point {
+      flex: 1;
+      padding: 0.8rem 1rem;
+      background: var(--surface-warm);
+      border-radius: 10px;
+      border: 1px solid var(--hairline);
+    }
+    .problem-points .point h4 {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.68rem;
+      font-weight: 700;
+      margin-bottom: 0.3rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .problem-points .point p {
+      font-size: 0.72rem;
+      color: var(--ink-soft);
+      line-height: 1.5;
+    }
+    .point.tourists h4 { color: var(--player); }
+    .point.storytellers h4 { color: var(--storyteller); }
+    .point.businesses h4 { color: var(--vendor); }
+
+    /* ── Approach ────────────────────────────────── */
+    .approach-card {
+      max-width: 900px; width: 100%;
+      background: var(--card);
+      border: 2px solid var(--amber);
+      border-radius: 16px;
+      padding: 2.2rem 2.8rem;
+      text-align: center;
+    }
+    .approach-card .headline {
+      font-family: 'Bricolage Grotesque', serif;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--warm);
+      line-height: 1.35;
+      margin-bottom: 0.5rem;
+    }
+    .approach-card .subline {
+      font-size: 0.88rem;
+      color: var(--ink-soft);
+      line-height: 1.65;
+      max-width: 640px;
+      margin: 0 auto 1.5rem;
+    }
+    .how-it-works {
+      display: flex;
+      gap: 1rem;
+      text-align: center;
+    }
+    .how-step {
+      flex: 1;
+      padding: 0.85rem 0.7rem;
+      background: var(--amber-dim);
+      border: 1px solid var(--amber);
+      border-radius: 12px;
+    }
+    .how-step .icon { font-size: 1.5rem; margin-bottom: 0.3rem; }
+    .how-step h4 {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.68rem; font-weight: 700;
+      color: var(--amber); margin-bottom: 0.2rem;
+      text-transform: uppercase; letter-spacing: 0.05em;
+    }
+    .how-step p {
+      font-size: 0.66rem; color: var(--ink-soft); line-height: 1.45;
+    }
+
+    /* ── Opportunity stats ────────────────────────── */
+    .opp-stats {
+      display: flex;
+      gap: 1.5rem;
+      max-width: 900px;
+      width: 100%;
+      margin-top: 1.4rem;
+    }
+    .opp-stat {
+      flex: 1;
+      text-align: center;
+      padding: 1.2rem 1rem;
+      background: var(--card);
+      border: 1px solid var(--stroke);
+      border-radius: 14px;
+    }
+    .opp-stat .num {
+      font-family: 'Bricolage Grotesque', serif;
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: var(--amber);
+      line-height: 1.1;
+      margin-bottom: 0.35rem;
+    }
+    .opp-stat .desc {
+      font-size: 0.7rem;
+      color: var(--ink-soft);
+      line-height: 1.45;
+    }
+
+    /* ── Ecosystem ───────────────────────────────── */
+    .ecosystem-wrap {
+      display: flex;
+      align-items: center;
+      gap: 2.8rem;
+      max-width: 1100px;
+      width: 100%;
+    }
+    .ecosystem-diagram {
+      flex-shrink: 0;
+      width: 360px; height: 360px;
+    }
+    .ecosystem-legend {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+    .legend-item {
+      padding: 0.7rem 0.9rem;
+      border-radius: 10px;
+      border: 1px solid var(--hairline);
+      background: var(--card);
+    }
+    .legend-item h4 { font-size: 0.78rem; font-weight: 700; margin-bottom: 0.18rem; }
+    .legend-item p { font-size: 0.68rem; color: var(--ink-soft); line-height: 1.45; }
+    .legend-item.player   { border-left: 4px solid var(--player); }
+    .legend-item.player h4 { color: var(--player); }
+    .legend-item.storyteller { border-left: 4px solid var(--storyteller); }
+    .legend-item.storyteller h4 { color: var(--storyteller); }
+    .legend-item.vendor   { border-left: 4px solid var(--vendor); }
+    .legend-item.vendor h4 { color: var(--vendor); }
+
+    /* ── Partner grid ────────────────────────────── */
+    .partner-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.85rem;
+      max-width: 860px;
+      width: 100%;
+    }
+    .partner-card {
+      padding: 1rem 1.1rem;
+      background: var(--card);
+      border: 1px solid var(--stroke);
+      border-radius: 14px;
+      border-top: 3px solid var(--amber);
+    }
+    .partner-card .icon {
+      font-size: 1.3rem;
+      margin-bottom: 0.35rem;
+    }
+    .partner-card h4 {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--amber);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.3rem;
+    }
+    .partner-card p {
+      font-size: 0.72rem;
+      color: var(--ink-soft);
+      line-height: 1.5;
+    }
+
+    /* ── CTA ─────────────────────────────────────── */
+    .cta-card {
+      max-width: 720px;
+      width: 100%;
+      text-align: center;
+      background: var(--card);
+      border: 2px solid var(--amber);
+      border-radius: 16px;
+      padding: 2.5rem 2.8rem;
+    }
+    .cta-card h2 { margin-bottom: 0.7rem; }
+    .cta-steps {
+      display: flex;
+      gap: 0.85rem;
+      margin-top: 1.4rem;
+      text-align: left;
+    }
+    .cta-step {
+      flex: 1;
+      padding: 0.7rem 0.85rem;
+      background: var(--surface-warm);
+      border-radius: 10px;
+      border: 1px solid var(--hairline);
+    }
+    .cta-step h4 {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.66rem;
+      font-weight: 700;
+      color: var(--amber);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: 0.18rem;
+    }
+    .cta-step p {
+      font-size: 0.66rem;
+      color: var(--ink-soft);
+      line-height: 1.45;
+    }
+
+    /* ── Navigation dots ─────────────────────────── */
+    .nav-dots {
+      position: fixed;
+      right: 1.2rem;
+      top: 50%;
+      transform: translateY(-50%);
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      z-index: 100;
+    }
+    .nav-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--muted);
+      opacity: 0.35;
+      cursor: pointer;
+      transition: opacity 0.2s, transform 0.2s, background 0.2s;
+      border: none;
+      padding: 0;
+    }
+    .nav-dot:hover { opacity: 0.7; transform: scale(1.3); }
+    .nav-dot.active {
+      opacity: 1;
+      background: var(--amber);
+      transform: scale(1.4);
+    }
+
+    /* ── Keyboard hint ───────────────────────────── */
+    .kb-hint {
+      position: fixed;
+      bottom: 1rem; left: 50%;
+      transform: translateX(-50%);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.6rem;
+      color: var(--muted);
+      background: var(--card);
+      border: 1px solid var(--stroke);
+      padding: 0.35rem 0.75rem;
+      border-radius: 6px;
+      opacity: 0.7;
+      z-index: 100;
+      pointer-events: none;
+      transition: opacity 0.5s;
+    }
+
+    /* ── Responsive ──────────────────────────────── */
+    @media (max-width: 768px) {
+      .slide { padding: 1.5rem 1.2rem; }
+      .pov-layout { flex-direction: column; gap: 1.5rem; }
+      .pov-screens { flex-direction: row; justify-content: center; }
+      .ecosystem-wrap { flex-direction: column; gap: 1.5rem; }
+      .ecosystem-diagram { width: 280px; height: 280px; }
+      .problem-points { flex-direction: column; }
+      .how-it-works { flex-direction: column; }
+      .opp-stats { flex-direction: column; }
+      .partner-grid { grid-template-columns: 1fr; }
+      .cta-steps { flex-direction: column; }
+      .nav-dots { right: 0.6rem; gap: 0.4rem; }
+      .nav-dot { width: 6px; height: 6px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Navigation dots -->
+<nav class="nav-dots" aria-label="Slide navigation">
+  <button class="nav-dot active" data-slide="0" aria-label="Slide 1"></button>
+  <button class="nav-dot" data-slide="1" aria-label="Slide 2"></button>
+  <button class="nav-dot" data-slide="2" aria-label="Slide 3"></button>
+  <button class="nav-dot" data-slide="3" aria-label="Slide 4"></button>
+  <button class="nav-dot" data-slide="4" aria-label="Slide 5"></button>
+  <button class="nav-dot" data-slide="5" aria-label="Slide 6"></button>
+  <button class="nav-dot" data-slide="6" aria-label="Slide 7"></button>
+  <button class="nav-dot" data-slide="7" aria-label="Slide 8"></button>
+  <button class="nav-dot" data-slide="8" aria-label="Slide 9"></button>
+  <button class="nav-dot" data-slide="9" aria-label="Slide 10"></button>
+  <button class="nav-dot" data-slide="10" aria-label="Slide 11"></button>
+</nav>
+
+<div class="kb-hint">&#x2191; &#x2193; Arrow keys to navigate</div>
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!-- S1: TITLE                                                 -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<section class="slide" id="s1">
+  <svg width="72" height="72" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" style="margin-bottom:1.2rem;">
+    <circle cx="24" cy="24" r="24" fill="#c9532a"/>
+    <defs><mask id="wear2"><rect width="48" height="48" fill="white"/><circle cx="11" cy="13" r="1.5" fill="black"/><circle cx="36" cy="12" r="1.8" fill="black"/><circle cx="38" cy="28" r="1.3" fill="black"/><circle cx="12" cy="34" r="1.6" fill="black"/><circle cx="30" cy="35" r="1.2" fill="black"/><circle cx="14" cy="17" r="0.9" fill="black"/><circle cx="35" cy="33" r="1.1" fill="black"/><circle cx="22" cy="12" r="1" fill="black"/><circle cx="10" cy="25" r="1.4" fill="black"/><circle cx="37" cy="19" r="1" fill="black"/></mask></defs>
+    <g mask="url(#wear2)" transform="rotate(-8 24 24)"><rect x="10" y="12" width="28" height="24" rx="2" fill="none" stroke="#ffffff" stroke-width="2.5"/><text x="24" y="25" font-family="monospace" font-size="14" font-weight="800" fill="#ffffff" text-anchor="middle" dominant-baseline="central" letter-spacing="2">SG</text></g>
+  </svg>
+  <div class="label">{ Build } Hackathon 2026</div>
+  <h1>MISSION:<br/><span class="accent">SINGAPORE</span></h1>
+  <div class="rule"></div>
+  <p style="font-size:1.2rem; color:var(--ink-soft); margin-top:0.8rem; max-width:500px; text-align:center; line-height:1.55;">The city, told by its people.</p>
+  <p style="margin-top:1.6rem; font-family:'JetBrains Mono',monospace; font-size:0.65rem; letter-spacing:0.22em; text-transform:uppercase; color:var(--muted);">Community-Powered &middot; Location-Based &middot; Narrative Tourism</p>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!-- S2: THE OPPORTUNITY                                        -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<section class="slide" id="s2">
+  <div class="slide-header">
+    <div class="label">The Opportunity</div>
+    <h2>Travellers want authentic. Locals have the stories.</h2>
+  </div>
+  <div class="opp-stats">
+    <div class="opp-stat">
+      <div class="num">16.5M</div>
+      <div class="desc">international visitors arrive in Singapore each year &mdash; STB 2024</div>
+    </div>
+    <div class="opp-stat">
+      <div class="num">93%</div>
+      <div class="desc">say they want &ldquo;authentic local experiences&rdquo; over packaged tours &mdash; Booking.com 2024</div>
+    </div>
+    <div class="opp-stat">
+      <div class="num">+40%</div>
+      <div class="desc">year-on-year growth in community-led experiences across Asia &mdash; Airbnb Experiences 2024</div>
+    </div>
+  </div>
+  <p class="muted" style="margin-top:1.4rem; max-width:640px; text-align:center; line-height:1.6;">
+    Post-COVID travellers don&rsquo;t want another hop-on-hop-off bus. They want to <strong style="color:var(--warm);">see the city through local eyes</strong> &mdash; but there&rsquo;s no scalable platform connecting local knowledge to visitor curiosity.
+  </p>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!-- S3: THE PROBLEM                                           -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<section class="slide" id="s3">
+  <div class="slide-header">
+    <div class="label">The Problem</div>
+    <h2>Three communities. Three unmet needs.</h2>
+  </div>
+  <div class="problem-card">
+    <div class="problem-points">
+      <div class="point tourists">
+        <h4>Tourists</h4>
+        <p>Walking past heritage, culture, and stories without knowing they&rsquo;re there. No narrative. No context. No connection to the people who live here.</p>
+      </div>
+      <div class="point storytellers">
+        <h4>Local Storytellers</h4>
+        <p>Guides, heritage experts, and passionate residents have deep knowledge &mdash; but no scalable way to share it beyond whoever shows up for a walking tour.</p>
+      </div>
+      <div class="point businesses">
+        <h4>Local Businesses</h4>
+        <p>Heritage shops, hawker stalls, and cultural spaces sit metres from tourist foot traffic &mdash; invisible because they can&rsquo;t compete with aggregator marketing.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!-- S4: OUR APPROACH                                          -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<section class="slide" id="s4">
+  <div class="slide-header">
+    <div class="label">Our Approach</div>
+  </div>
+  <div class="approach-card">
+    <div class="headline">
+      A community-powered tour platform<br/>
+      where locals tell the stories and visitors live them.
+    </div>
+    <p class="subline">
+      <strong style="color:var(--amber);">Mission: Singapore</strong> gives local storytellers the tools to create location-based narrative adventures. Tourists play these missions in the real world &mdash; navigating to stops, completing tasks, and experiencing a branching story shaped by their choices. Local businesses become natural waypoints in the journey.
+    </p>
+    <div class="how-it-works">
+      <div class="how-step">
+        <div class="icon">&#x270d;&#xfe0f;</div>
+        <h4>Locals Create</h4>
+        <p>Storytellers craft missions. Vendors supply tasks and vouchers. Curators publish heritage content.</p>
+      </div>
+      <div class="how-step">
+        <div class="icon">&#x1f3ae;</div>
+        <h4>Tourists Play</h4>
+        <p>Pick a mission, navigate to real locations, complete interactive tasks, shape the branching story.</p>
+      </div>
+      <div class="how-step">
+        <div class="icon">&#x1f91d;</div>
+        <h4>Community Grows</h4>
+        <p>Players bring foot traffic. Vendors gain customers. Storytellers earn revenue. The cycle strengthens.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!-- S5: THE PLAYER                                            -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<section class="slide" id="s5">
+  <div class="pov-layout">
+    <div class="pov-info">
+      <div class="role-badge player">The Player</div>
+      <h2>Tour the city like<br/>a local would show you.</h2>
+      <p class="description">
+        Tourists become protagonists in locally-crafted stories. Every mission is a curated route through real places &mdash; written by someone who lives here, not generated by an algorithm.
+      </p>
+      <div class="value-props">
+        <div class="value-prop">
+          <div class="vp-icon" style="background:var(--player-dim);">&#x1f5fa;&#xfe0f;</div>
+          <div>
+            <h4 style="color:var(--player);">Locally-Curated Routes</h4>
+            <p>Every mission is authored by a local storyteller who knows the hidden corners, the history, and the best places to eat.</p>
+          </div>
+        </div>
+        <div class="value-prop">
+          <div class="vp-icon" style="background:var(--player-dim);">&#x1f4d6;</div>
+          <div>
+            <h4 style="color:var(--player);">Interactive Narrative</h4>
+            <p>Not a checklist &mdash; a branching story. Choices shape the experience. Every outcome leads somewhere meaningful.</p>
+          </div>
+        </div>
+        <div class="value-prop">
+          <div class="vp-icon" style="background:var(--player-dim);">&#x1f3db;&#xfe0f;</div>
+          <div>
+            <h4 style="color:var(--player);">Field Guide Discovery</h4>
+            <p>A living encyclopedia of heritage sites, food spots, and points of interest &mdash; surfaced by proximity as you explore.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="pov-screens">
+      <div class="phone lg player">
+        <div class="phone-label">Browse Missions</div>
+        <div class="phone-frame" data-label="screenshot&#10;player-missions-browse">
+          <img src="screenshots/player-missions-browse.png" alt="Mission browse" onerror="this.parentElement.classList.add('placeholder')" />
+        </div>
+      </div>
+      <div class="phone lg player">
+        <div class="phone-label">In-Game</div>
+        <div class="phone-frame" data-label="screenshot&#10;player-play-ingame">
+          <img src="screenshots/player-play-ingame.png" alt="In-game moment" onerror="this.parentElement.classList.add('placeholder')" />
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!-- S6: THE STORYTELLER                                        -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<section class="slide" id="s6">
+  <div class="pov-layout">
+    <div class="pov-info">
+      <div class="role-badge storyteller">The Storyteller</div>
+      <h2>Your knowledge,<br/>reaching the world.</h2>
+      <p class="description">
+        Local guides and heritage experts craft narrative missions &mdash; weaving real locations, local businesses, and branching stories into immersive adventures that scale beyond a single walking tour group.
+      </p>
+      <div class="value-props">
+        <div class="value-prop">
+          <div class="vp-icon" style="background:var(--storyteller-dim);">&#x1f4dd;</div>
+          <div>
+            <h4 style="color:var(--storyteller);">Full Creative Control</h4>
+            <p>Build multi-act missions with narrative branching, outcome flags, and cinematic story beats. Your voice, your story.</p>
+          </div>
+        </div>
+        <div class="value-prop">
+          <div class="vp-icon" style="background:var(--storyteller-dim);">&#x1f4b0;</div>
+          <div>
+            <h4 style="color:var(--storyteller);">Revenue Share</h4>
+            <p>Earn 70% of every mission pack sold. Your expertise generates recurring income as players discover your content.</p>
+          </div>
+        </div>
+        <div class="value-prop">
+          <div class="vp-icon" style="background:var(--storyteller-dim);">&#x1f4e3;</div>
+          <div>
+            <h4 style="color:var(--storyteller);">Scalable Reach</h4>
+            <p>Create once, serve thousands. No group size limits. Your stories run 24/7 in any language you write them.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="pov-screens">
+      <div class="phone lg storyteller">
+        <div class="phone-label">Story Builder</div>
+        <div class="phone-frame" data-label="screenshot&#10;creator-mission-wizard">
+          <img src="screenshots/creator-mission-wizard.png" alt="Mission wizard" onerror="this.parentElement.classList.add('placeholder')" />
+        </div>
+      </div>
+      <div class="phone lg storyteller">
+        <div class="phone-label">Creator Hub</div>
+        <div class="phone-frame" data-label="screenshot&#10;creator-hub">
+          <img src="screenshots/creator-hub.png" alt="Creator hub" onerror="this.parentElement.classList.add('placeholder')" />
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!-- S7: THE VENDOR                                            -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<section class="slide" id="s7">
+  <div class="pov-layout">
+    <div class="pov-info">
+      <div class="role-badge vendor">The Vendor</div>
+      <h2>Turn passing tourists<br/>into customers.</h2>
+      <p class="description">
+        Local businesses, cultural spaces, and heritage shops become waypoints in the adventure. Players are routed to your doorstep as part of the story &mdash; not through ads, but through narrative context that makes your location meaningful.
+      </p>
+      <div class="value-props">
+        <div class="value-prop">
+          <div class="vp-icon" style="background:var(--vendor-dim);">&#x1f4cd;</div>
+          <div>
+            <h4 style="color:var(--vendor);">GPS-Anchored Discovery</h4>
+            <p>Your location becomes a task stop in missions. Players arrive with context and curiosity, not just proximity.</p>
+          </div>
+        </div>
+        <div class="value-prop">
+          <div class="vp-icon" style="background:var(--vendor-dim);">&#x1f3ab;</div>
+          <div>
+            <h4 style="color:var(--vendor);">Voucher Placement</h4>
+            <p>Offer vouchers as in-game rewards. Players earn them through gameplay and redeem at your location.</p>
+          </div>
+        </div>
+        <div class="value-prop">
+          <div class="vp-icon" style="background:var(--vendor-dim);">&#x1f4ca;</div>
+          <div>
+            <h4 style="color:var(--vendor);">Measurable Engagement</h4>
+            <p>Track visits, voucher redemptions, and player interactions. Real data on real foot traffic from real missions.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="pov-screens">
+      <div class="phone lg vendor">
+        <div class="phone-label">Task Creator</div>
+        <div class="phone-frame" data-label="screenshot&#10;creator-task-new">
+          <img src="screenshots/creator-task-new.png" alt="Task creator" onerror="this.parentElement.classList.add('placeholder')" />
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!-- S8: THE CURATOR                                           -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<section class="slide" id="s8">
+  <div class="pov-layout">
+    <div class="pov-info">
+      <div class="role-badge curator">The Curator</div>
+      <h2>Preserve heritage.<br/>Make it discoverable.</h2>
+      <p class="description">
+        Heritage experts and cultural enthusiasts publish a living Field Guide &mdash; location-aware entries on heritage sites, food culture, and points of interest that surface to players based on proximity. The city&rsquo;s stories are never out of reach.
+      </p>
+      <div class="value-props">
+        <div class="value-prop">
+          <div class="vp-icon" style="background:var(--curator-dim);">&#x1f3db;&#xfe0f;</div>
+          <div>
+            <h4 style="color:var(--curator);">Heritage Activation</h4>
+            <p>Transform static plaques and forgotten sites into discoverable, living content that visitors actually engage with.</p>
+          </div>
+        </div>
+        <div class="value-prop">
+          <div class="vp-icon" style="background:var(--curator-dim);">&#x1f4f1;</div>
+          <div>
+            <h4 style="color:var(--curator);">In-Mission Integration</h4>
+            <p>Field Guide entries complement missions. Players deepen their understanding mid-adventure without leaving the experience.</p>
+          </div>
+        </div>
+        <div class="value-prop">
+          <div class="vp-icon" style="background:var(--curator-dim);">&#x1f310;</div>
+          <div>
+            <h4 style="color:var(--curator);">Community Moderation</h4>
+            <p>Curated by experts with a clear publication workflow. Quality content, not user-generated noise.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="pov-screens">
+      <div class="phone lg curator">
+        <div class="phone-label">Curator Tools</div>
+        <div class="phone-frame" data-label="screenshot&#10;curator-field-guide-entries">
+          <img src="screenshots/curator-field-guide-entries.png" alt="Curator tools" onerror="this.parentElement.classList.add('placeholder')" />
+        </div>
+      </div>
+      <div class="phone lg player">
+        <div class="phone-label">Player View</div>
+        <div class="phone-frame" data-label="screenshot&#10;player-field-guide-entry">
+          <img src="screenshots/player-field-guide-entry.png" alt="Field guide entry" onerror="this.parentElement.classList.add('placeholder')" />
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!-- S9: THE ECOSYSTEM                                         -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<section class="slide" id="s9">
+  <div class="slide-header">
+    <div class="label">The Ecosystem</div>
+    <h2>A virtuous cycle. Each role strengthens the others.</h2>
+  </div>
+  <div class="ecosystem-wrap">
+    <div class="ecosystem-diagram">
+      <svg viewBox="0 0 380 380" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;">
+        <defs>
+          <marker id="arr-pv2" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+            <path d="M0,0 L8,3 L0,6" fill="none" stroke="#059669" stroke-width="1.2"/>
+          </marker>
+          <marker id="arr-vs2" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+            <path d="M0,0 L8,3 L0,6" fill="none" stroke="#7c3aed" stroke-width="1.2"/>
+          </marker>
+          <marker id="arr-sp2" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+            <path d="M0,0 L8,3 L0,6" fill="none" stroke="#2563eb" stroke-width="1.2"/>
+          </marker>
+        </defs>
+
+        <text x="190" y="186" text-anchor="middle" font-size="9" fill="#9b9282" font-weight="600" letter-spacing="0.12em">MISSION</text>
+        <text x="190" y="200" text-anchor="middle" font-size="9" fill="#9b9282" font-weight="600" letter-spacing="0.12em">SINGAPORE</text>
+
+        <!-- Player (top) -->
+        <circle cx="190" cy="58" r="40" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
+        <text x="190" y="52" text-anchor="middle" font-size="22">&#x1f3ae;</text>
+        <text x="190" y="70" text-anchor="middle" font-size="9" fill="#2563eb" font-weight="700">PLAYER</text>
+
+        <!-- Storyteller (bottom-left) -->
+        <circle cx="76" cy="310" r="40" fill="#f5f3ff" stroke="#7c3aed" stroke-width="2"/>
+        <text x="76" y="304" text-anchor="middle" font-size="22">&#x270d;&#xfe0f;</text>
+        <text x="76" y="324" text-anchor="middle" font-size="8" fill="#7c3aed" font-weight="700">STORYTELLER</text>
+
+        <!-- Vendor (bottom-right) -->
+        <circle cx="304" cy="310" r="40" fill="#ecfdf5" stroke="#059669" stroke-width="2"/>
+        <text x="304" y="304" text-anchor="middle" font-size="22">&#x1f3ea;</text>
+        <text x="304" y="324" text-anchor="middle" font-size="8" fill="#059669" font-weight="700">VENDOR</text>
+
+        <!-- Player → Vendor -->
+        <path d="M 222,90 Q 310,170 310,268" fill="none" stroke="#059669" stroke-width="1.8" stroke-dasharray="4,3" marker-end="url(#arr-pv2)"/>
+        <rect x="268" y="152" width="108" height="32" rx="4" fill="#fffdf6" stroke="#059669" stroke-width="0.8"/>
+        <text x="322" y="164" text-anchor="middle" font-size="7" fill="#059669" font-weight="600">Foot traffic &amp;</text>
+        <text x="322" y="176" text-anchor="middle" font-size="7" fill="#059669" font-weight="600">voucher redemption</text>
+
+        <!-- Vendor → Storyteller -->
+        <path d="M 264,322 Q 190,368 118,322" fill="none" stroke="#7c3aed" stroke-width="1.8" stroke-dasharray="4,3" marker-end="url(#arr-vs2)"/>
+        <rect x="144" y="346" width="92" height="28" rx="4" fill="#fffdf6" stroke="#7c3aed" stroke-width="0.8"/>
+        <text x="190" y="356" text-anchor="middle" font-size="7" fill="#7c3aed" font-weight="600">Sponsored tasks</text>
+        <text x="190" y="366" text-anchor="middle" font-size="7" fill="#7c3aed" font-weight="600">&amp; voucher supply</text>
+
+        <!-- Storyteller → Player -->
+        <path d="M 70,268 Q 60,170 158,90" fill="none" stroke="#2563eb" stroke-width="1.8" stroke-dasharray="4,3" marker-end="url(#arr-sp2)"/>
+        <rect x="12" y="152" width="92" height="28" rx="4" fill="#fffdf6" stroke="#2563eb" stroke-width="0.8"/>
+        <text x="58" y="163" text-anchor="middle" font-size="7" fill="#2563eb" font-weight="600">Missions &amp;</text>
+        <text x="58" y="174" text-anchor="middle" font-size="7" fill="#2563eb" font-weight="600">narrative content</text>
+      </svg>
+    </div>
+    <div class="ecosystem-legend">
+      <div class="legend-item player">
+        <h4>Players bring foot traffic</h4>
+        <p>Every mission routes tourists to real businesses. Vendors gain measurable visits and voucher redemptions.</p>
+      </div>
+      <div class="legend-item vendor">
+        <h4>Vendors supply tasks &amp; rewards</h4>
+        <p>Businesses create location-based tasks and offer vouchers that storytellers weave into their narratives.</p>
+      </div>
+      <div class="legend-item storyteller">
+        <h4>Storytellers create the content</h4>
+        <p>Local guides and heritage experts build the missions that attract players and route them to vendor locations.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!-- S10: FOR TOURISM PARTNERS                                 -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<section class="slide" id="s10">
+  <div class="slide-header">
+    <div class="label">For Tourism Partners</div>
+    <h2>Ready-made infrastructure for community tourism.</h2>
+  </div>
+  <div class="partner-grid">
+    <div class="partner-card">
+      <div class="icon">&#x1f3db;&#xfe0f;</div>
+      <h4>Heritage Activation at Scale</h4>
+      <p>Transform static heritage assets into interactive, discoverable experiences. Community curators maintain a living Field Guide that grows with the city.</p>
+    </div>
+    <div class="partner-card">
+      <div class="icon">&#x1f4ca;</div>
+      <h4>Measurable Tourist Engagement</h4>
+      <p>Track which areas visitors explore, how long they stay, and which stories resonate. Real behavioural data, not survey self-reports.</p>
+    </div>
+    <div class="partner-card">
+      <div class="icon">&#x1f331;</div>
+      <h4>Sustainable Community Model</h4>
+      <p>Locals are the supply engine. Content is created by residents, not imported. Revenue flows back to the community through storyteller earnings and vendor uplift.</p>
+    </div>
+    <div class="partner-card">
+      <div class="icon">&#x1f527;</div>
+      <h4>Digital Infrastructure, Ready to Deploy</h4>
+      <p>Full platform with mission authoring, task verification (GPS, photo AI, QR), field guide publishing, and player progression &mdash; built and operational.</p>
+    </div>
+  </div>
+  <p class="muted" style="margin-top:1.4rem; max-width:640px; text-align:center; line-height:1.6;">
+    Pilot-ready for heritage districts, cultural precincts, and event activations. Scalable from a single neighbourhood to city-wide deployment.
+  </p>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!-- S11: NEXT STEPS                                           -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<section class="slide" id="s11">
+  <div class="cta-card">
+    <div class="label">Next Steps</div>
+    <h2>Let&rsquo;s bring community tourism to life.</h2>
+    <p style="font-size:0.88rem; color:var(--ink-soft); line-height:1.65; margin-top:0.6rem; max-width:540px; margin-left:auto; margin-right:auto;">
+      Mission: Singapore is built, operational, and ready for pilot partnerships. We&rsquo;re looking for partners who believe tourism should benefit the communities it touches.
+    </p>
+    <div class="cta-steps">
+      <div class="cta-step">
+        <h4>Live Demo</h4>
+        <p>Walk through a real mission in Singapore. See the full player, storyteller, and vendor experience end-to-end.</p>
+      </div>
+      <div class="cta-step">
+        <h4>Pilot Programme</h4>
+        <p>Deploy in a heritage district or cultural precinct. Onboard local storytellers and measure tourist engagement.</p>
+      </div>
+      <div class="cta-step">
+        <h4>Partnership</h4>
+        <p>Co-develop content pipelines, integrate with existing tourism infrastructure, and scale across precincts.</p>
+      </div>
+    </div>
+  </div>
+  <p class="muted" style="margin-top:1.8rem;">{ Build } Hackathon 2026 &middot; ms.eustonlee.com</p>
+</section>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  const dots = document.querySelectorAll('.nav-dot');
+  const hint = document.querySelector('.kb-hint');
+
+  function updateDots() {
+    const scrollTop = window.scrollY;
+    const winH = window.innerHeight;
+    let current = 0;
+    slides.forEach((s, i) => {
+      if (scrollTop >= s.offsetTop - winH * 0.4) current = i;
+    });
+    dots.forEach((d, i) => d.classList.toggle('active', i === current));
+  }
+
+  dots.forEach(dot => {
+    dot.addEventListener('click', () => {
+      const idx = parseInt(dot.dataset.slide);
+      slides[idx].scrollIntoView({ behavior: 'smooth' });
+    });
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (hint) { hint.style.opacity = '0'; }
+    const scrollTop = window.scrollY;
+    const winH = window.innerHeight;
+    let current = 0;
+    slides.forEach((s, i) => {
+      if (scrollTop >= s.offsetTop - winH * 0.3) current = i;
+    });
+
+    if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
+      e.preventDefault();
+      const next = Math.min(current + 1, slides.length - 1);
+      slides[next].scrollIntoView({ behavior: 'smooth' });
+    } else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
+      e.preventDefault();
+      const prev = Math.max(current - 1, 0);
+      slides[prev].scrollIntoView({ behavior: 'smooth' });
+    }
+  });
+
+  window.addEventListener('scroll', updateDots, { passive: true });
+  updateDots();
+
+  setTimeout(() => { if (hint) hint.style.opacity = '0'; }, 4000);
+</script>
+
+</body>
+</html>
