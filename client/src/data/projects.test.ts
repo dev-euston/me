@@ -2,8 +2,8 @@ import { describe, it, expect } from 'vitest'
 import { projects } from './projects'
 
 describe('projects data', () => {
-  it('exports an array of 2 projects', () => {
-    expect(projects).toHaveLength(2)
+  it('exports an array of 3 projects', () => {
+    expect(projects).toHaveLength(3)
   })
 
   it('each project has required fields', () => {
@@ -22,5 +22,21 @@ describe('projects data', () => {
 
   it('second project (portfolio) has a liveUrl', () => {
     expect(projects[1].liveUrl).toBeTruthy()
+  })
+
+  it('third project (jira-code) has correct fields', () => {
+    expect(projects[2].id).toBe('jira-code')
+    expect(projects[2].name).toBe('Jira Code')
+    expect(projects[2].description).toBe(
+      'Connects your Jira backlog to your codebase. Tickets become pull requests — without leaving Jira.'
+    )
+    expect(projects[2].githubUrl).toBe('https://github.com/dev-euston/jira-code')
+    expect(projects[2].liveUrl).toBe('/projects/jira-code')
+    expect(projects[2].tags).toContain('Next.js')
+    expect(projects[2].tags).toContain('Claude AI')
+    expect(projects[2].tags).toContain('PostgreSQL')
+    expect(projects[2].tags).toContain('GitHub API')
+    expect(projects[2].tags).toContain('Jira REST API')
+    expect(projects[2].tags).toContain('TypeScript')
   })
 })
