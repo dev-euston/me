@@ -70,7 +70,7 @@ Content lives in `src/data/` as plain TypeScript objects (no CMS). To add/update
 
 **Routing:** React Router v6 (`react-router-dom`). Routes are defined in `main.tsx` via `createBrowserRouter`. The main portfolio is the `"/"` route (`App`). Project detail pages live under `src/pages/` and are registered as additional routes.
 
-**Pitch decks:** Static HTML files in `client/public/pitch/` are served at `/pitch/<name>.html`. Page components under `src/pages/` render them via a full-viewport `<iframe>`. The source pitch decks also exist in `pitch/` at the repo root for standalone viewing outside the app.
+**Pitch decks:** Static HTML files in `client/public/pitch/` are served under `/pitch/`. Single-asset decks live at `/pitch/<name>.html`; multi-asset decks (with screenshots etc.) use a subdirectory at `/pitch/<name>/index.html`. Page components under `src/pages/` render them with a 48px top nav (dark background, "← Back to portfolio" button using `useNavigate(-1)`) above a `calc(100vh - 48px)` iframe. The source pitch decks also exist in `pitch/` at the repo root for standalone viewing outside the app.
 
 The site is **frontend-only** for now. Keep data-fetching in hooks so components are unchanged when a backend is added.
 
@@ -93,3 +93,4 @@ The site is **frontend-only** for now. Keep data-fetching in hooks so components
 - Functional components with explicit props interfaces
 - Named exports only from `src/data/` (no default exports)
 - Use CSS custom properties from `src/styles/` — no hardcoded colours
+- `Project` type link fields: `githubUrl` (optional — omit for projects without a public repo), `pitchUrl` (optional — internal React Router path, e.g. `/projects/<id>`), and `demoUrl` (optional — external URL to a live deployment). Use `pitchUrl` for projects with a pitch page; use `demoUrl` for publicly deployed apps. All three can coexist.

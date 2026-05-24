@@ -47,4 +47,4 @@ pitch/    # Standalone HTML pitch decks (not part of Vite build)
 
 See [CLAUDE.md](CLAUDE.md) for full architecture and conventions.
 
-<!-- git-wrap-up-baseline: 0197524 -->
+<!-- git-wrap-up-baseline: 5ac545b -->

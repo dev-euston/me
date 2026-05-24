@@ -25,7 +25,6 @@ export const projects: Project[] = [
     description:
       'Connects your Jira backlog to your codebase. Tickets become pull requests — without leaving Jira.',
     tags: ['Next.js', 'Claude AI', 'PostgreSQL', 'GitHub API', 'Jira REST API', 'TypeScript'],
-    githubUrl: 'https://github.com/dev-euston/jira-code',
     pitchUrl: '/projects/jira-code',
   },
   {
@@ -34,7 +33,6 @@ export const projects: Project[] = [
     description:
       'AI-powered code review triage — unified, persistent, and entirely under your control.',
     tags: ['Next.js', 'React', 'TypeScript', 'Tailwind CSS', 'GitLab API', 'Claude AI'],
-    githubUrl: 'https://github.com/dev-euston/mr-reviewer',
     pitchUrl: '/projects/mr-reviewer',
   },
   {
