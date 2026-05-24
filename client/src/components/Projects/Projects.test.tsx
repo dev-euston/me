@@ -8,6 +8,14 @@ import { Projects } from './Projects'
 import { projects } from '../../data/projects'
 import type { Project } from '../../types'
 
+const baseProject: Project = {
+  id: 'test',
+  name: 'Test Project',
+  description: 'A test project',
+  tags: ['TypeScript'],
+  githubUrl: 'https://github.com/dev-euston/test',
+}
+
 describe('Projects', () => {
   it('renders the section wrapper', () => {
     render(<MemoryRouter><Projects projects={projects} /></MemoryRouter>)
@@ -36,44 +44,38 @@ describe('Projects', () => {
     expect(links).toHaveLength(3)
   })
 
-  it('renders live demo link on all three cards', () => {
-    render(<MemoryRouter><Projects projects={projects} /></MemoryRouter>)
-    const cards = screen.getAllByTestId('project-card')
-    expect(cards[0].querySelector('[aria-label="Live demo"]')).toBeTruthy()
-    expect(cards[1].querySelector('[aria-label="Live demo"]')).toBeTruthy()
-    expect(cards[2].querySelector('[aria-label="Live demo"]')).toBeTruthy()
+  it('renders only a pitch link when only pitchUrl is set', () => {
+    const project: Project[] = [{ ...baseProject, pitchUrl: '/projects/test' }]
+    render(<MemoryRouter><Projects projects={project} /></MemoryRouter>)
+    const pitchLink = screen.getByRole('link', { name: 'View pitch' })
+    expect(pitchLink).toBeInTheDocument()
+    expect(pitchLink).not.toHaveAttribute('target')
+    expect(screen.queryByRole('link', { name: 'Live demo' })).toBeNull()
   })
 
-  it('renders internal liveUrl as a router Link without target attribute', () => {
-    const internalProject: Project[] = [
-      {
-        id: 'jira-code',
-        name: 'Jira Code',
-        description: 'Test',
-        tags: ['TypeScript'],
-        githubUrl: 'https://github.com/dev-euston/jira-code',
-        liveUrl: '/projects/jira-code',
-      },
-    ]
-    render(<MemoryRouter><Projects projects={internalProject} /></MemoryRouter>)
-    const link = screen.getByRole('link', { name: 'Live demo' })
-    expect(link).not.toHaveAttribute('target')
+  it('renders only a demo link when only demoUrl is set', () => {
+    const project: Project[] = [{ ...baseProject, demoUrl: 'https://example.com' }]
+    render(<MemoryRouter><Projects projects={project} /></MemoryRouter>)
+    const demoLink = screen.getByRole('link', { name: 'Live demo' })
+    expect(demoLink).toHaveAttribute('target', '_blank')
+    expect(demoLink).toHaveAttribute('rel', 'noopener noreferrer')
+    expect(screen.queryByRole('link', { name: 'View pitch' })).toBeNull()
   })
 
-  it('renders external liveUrl as an anchor with target=_blank', () => {
-    const externalProject: Project[] = [
-      {
-        id: 'external',
-        name: 'External',
-        description: 'Test',
-        tags: ['TypeScript'],
-        githubUrl: 'https://github.com/dev-euston/external',
-        liveUrl: 'https://example.com',
-      },
+  it('renders both pitch and demo links when both fields are set', () => {
+    const project: Project[] = [
+      { ...baseProject, pitchUrl: '/projects/test', demoUrl: 'https://example.com' },
     ]
-    render(<MemoryRouter><Projects projects={externalProject} /></MemoryRouter>)
-    const link = screen.getByRole('link', { name: 'Live demo' })
-    expect(link.getAttribute('target')).toBe('_blank')
-    expect(link.getAttribute('rel')).toBe('noopener noreferrer')
+    render(<MemoryRouter><Projects projects={project} /></MemoryRouter>)
+    expect(screen.getByRole('link', { name: 'View pitch' })).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: 'Live demo' })).toBeInTheDocument()
+  })
+
+  it('renders no extra links when neither pitchUrl nor demoUrl is set', () => {
+    const project: Project[] = [{ ...baseProject }]
+    render(<MemoryRouter><Projects projects={project} /></MemoryRouter>)
+    expect(screen.queryByRole('link', { name: 'View pitch' })).toBeNull()
+    expect(screen.queryByRole('link', { name: 'Live demo' })).toBeNull()
+    expect(screen.getByRole('link', { name: 'GitHub repository' })).toBeInTheDocument()
   })
 })
