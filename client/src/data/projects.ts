@@ -37,4 +37,13 @@ export const projects: Project[] = [
     githubUrl: 'https://github.com/dev-euston/mr-reviewer',
     pitchUrl: '/projects/mr-reviewer',
   },
+  {
+    id: 'mission-singapore',
+    name: 'Mission: Singapore',
+    description:
+      'Location-based narrative adventure platform connecting tourists with locally-crafted story missions. Storytellers author branching adventures tied to real Singapore locations; players navigate stops, complete GPS-verified tasks, and discover the city through local eyes.',
+    tags: ['Mobile', 'GPS', 'AI', 'QR'],
+    pitchUrl: '/projects/mission-singapore',
+    demoUrl: 'https://ms.eustonlee.com',
+  },
 ]
