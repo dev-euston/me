@@ -3,7 +3,7 @@ export interface Project {
   name: string
   description: string
   tags: string[]
-  githubUrl: string
+  githubUrl?: string
   pitchUrl?: string
   demoUrl?: string
 }

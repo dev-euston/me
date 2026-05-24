@@ -10,11 +10,13 @@ import './index.css'
 import App from './App.tsx'
 import { JiraCodePage } from './pages/JiraCode/JiraCode'
 import { MrReviewerPage } from './pages/MrReviewer/MrReviewer'
+import { MissionSingaporePage } from './pages/MissionSingapore/MissionSingapore'
 
 const router = createBrowserRouter([
   { path: '/', element: <App /> },
   { path: '/projects/jira-code', element: <JiraCodePage /> },
   { path: '/projects/mr-reviewer', element: <MrReviewerPage /> },
+  { path: '/projects/mission-singapore', element: <MissionSingaporePage /> },
 ])
 
 createRoot(document.getElementById('root')!).render(

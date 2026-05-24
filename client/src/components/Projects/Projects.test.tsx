@@ -22,9 +22,9 @@ describe('Projects', () => {
     expect(screen.getByTestId('projects-section')).toBeInTheDocument()
   })
 
-  it('renders 4 project cards', () => {
+  it('renders 5 project cards', () => {
     render(<MemoryRouter><Projects projects={projects} /></MemoryRouter>)
-    expect(screen.getAllByTestId('project-card')).toHaveLength(4)
+    expect(screen.getAllByTestId('project-card')).toHaveLength(5)
   })
 
   it('renders the first project name', () => {
@@ -38,10 +38,16 @@ describe('Projects', () => {
     expect(tags.length).toBeGreaterThanOrEqual(2)
   })
 
-  it('renders GitHub links on all cards', () => {
+  it('renders GitHub links only for projects with a githubUrl', () => {
     render(<MemoryRouter><Projects projects={projects} /></MemoryRouter>)
     const links = screen.getAllByRole('link', { name: 'GitHub repository' })
     expect(links).toHaveLength(4)
+  })
+
+  it('does not render GitHub link when githubUrl is absent', () => {
+    const project: Project[] = [{ id: 'test', name: 'Test', description: 'A test', tags: ['T'] }]
+    render(<MemoryRouter><Projects projects={project} /></MemoryRouter>)
+    expect(screen.queryByRole('link', { name: 'GitHub repository' })).toBeNull()
   })
 
   it('renders only a pitch link when only pitchUrl is set', () => {
