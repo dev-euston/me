@@ -16,12 +16,14 @@ describe('projects data', () => {
     }
   })
 
-  it('first project (Spell Star) has a liveUrl', () => {
-    expect(projects[0].liveUrl).toBeTruthy()
+  it('first project (Spell Star) has a demoUrl', () => {
+    expect(projects[0].demoUrl).toBe('https://spell.eustonlee.com')
+    expect(projects[0].pitchUrl).toBeUndefined()
   })
 
-  it('second project (portfolio) has a liveUrl', () => {
-    expect(projects[1].liveUrl).toBeTruthy()
+  it('second project (portfolio) has a demoUrl', () => {
+    expect(projects[1].demoUrl).toBe('https://eustonlee.com')
+    expect(projects[1].pitchUrl).toBeUndefined()
   })
 
   it('third project (jira-code) has correct fields', () => {
@@ -31,12 +33,20 @@ describe('projects data', () => {
       'Connects your Jira backlog to your codebase. Tickets become pull requests — without leaving Jira.'
     )
     expect(projects[2].githubUrl).toBe('https://github.com/dev-euston/jira-code')
-    expect(projects[2].liveUrl).toBe('/projects/jira-code')
+    expect(projects[2].pitchUrl).toBe('/projects/jira-code')
+    expect(projects[2].demoUrl).toBeUndefined()
     expect(projects[2].tags).toContain('Next.js')
     expect(projects[2].tags).toContain('Claude AI')
     expect(projects[2].tags).toContain('PostgreSQL')
     expect(projects[2].tags).toContain('GitHub API')
     expect(projects[2].tags).toContain('Jira REST API')
     expect(projects[2].tags).toContain('TypeScript')
+  })
+
+  it('no project uses the removed liveUrl field', () => {
+    for (const p of projects) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      expect((p as any).liveUrl).toBeUndefined()
+    }
   })
 })

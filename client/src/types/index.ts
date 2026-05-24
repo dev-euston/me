@@ -4,7 +4,8 @@ export interface Project {
   description: string
   tags: string[]
   githubUrl: string
-  liveUrl?: string
+  pitchUrl?: string
+  demoUrl?: string
 }
 
 export interface Experience {
