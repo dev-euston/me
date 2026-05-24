@@ -28,4 +28,13 @@ export const projects: Project[] = [
     githubUrl: 'https://github.com/dev-euston/jira-code',
     pitchUrl: '/projects/jira-code',
   },
+  {
+    id: 'mr-reviewer',
+    name: 'MR Reviewer',
+    description:
+      'AI-powered code review triage — unified, persistent, and entirely under your control.',
+    tags: ['Next.js', 'React', 'TypeScript', 'Tailwind CSS', 'GitLab API', 'Claude AI'],
+    githubUrl: 'https://github.com/dev-euston/mr-reviewer',
+    pitchUrl: '/projects/mr-reviewer',
+  },
 ]
