@@ -1,73 +1,50 @@
-# React + TypeScript + Vite
+# me — Euston Lee's Portfolio
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Personal portfolio site for **Euston Lee**, Software Engineer. Built with Vite + React + TypeScript.
 
-Currently, two official plugins are available:
+**Live:** [eustonlee.com](https://eustonlee.com)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Stack
 
-## React Compiler
+- Vite + React + TypeScript
+- Tailwind CSS v4
+- Framer Motion
+- React Router v6
+- Vitest + Testing Library (100% coverage enforced)
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Design
 
-## Expanding the ESLint configuration
+Bold & modern: `#0A0A0A` background, white text, `#3B82F6` electric blue accent.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Getting started
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm install        # install all workspaces
+npm run dev        # start Vite dev server (HMR)
+npm run build      # type-check + build to client/dist/
+npm run preview    # serve production build locally
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Testing & linting
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+```bash
+npm test                # run all tests once
+npm run test:watch      # watch mode
+npm run test:coverage   # must hit 100% coverage
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+npm run lint            # ESLint check
+npm run lint:fix        # ESLint auto-fix
+npm run format          # Prettier format
+npm run format:check    # Prettier check (CI)
 ```
+
+## Structure
+
+```
+client/   # Vite + React + TypeScript frontend
+pitch/    # Standalone HTML pitch decks (not part of Vite build)
+```
+
+See [CLAUDE.md](CLAUDE.md) for full architecture and conventions.
+
+<!-- git-wrap-up-baseline: 0197524 -->

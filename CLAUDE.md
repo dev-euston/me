@@ -52,17 +52,25 @@ npx vitest run src/components/Hero/Hero.test.tsx
 client/
   src/
     components/   # One folder per section/component, each with index.tsx + *.test.tsx
+    pages/        # Route-level page components (one folder per route, with *.test.tsx)
     hooks/        # Custom React hooks (data-fetching logic isolated here for future API swap)
     data/         # Static content (projects, experience, skills) as typed TS objects
     types/        # Shared TypeScript interfaces
     styles/       # Global CSS custom properties / design tokens
     test/
       setup.ts    # @testing-library/jest-dom (auto-loaded by vitest)
-    main.tsx      # Entry point (excluded from coverage)
-    App.tsx       # Root component — renders section components in order
+    main.tsx      # Entry point — defines routes via createBrowserRouter, excluded from coverage
+    App.tsx       # Root component — renders section components in order (the "/" route)
+  public/
+    pitch/        # Static HTML pitch decks served at /pitch/<name>.html
+pitch/            # Source pitch decks (standalone HTML, outside Vite build)
 ```
 
 Content lives in `src/data/` as plain TypeScript objects (no CMS). To add/update projects or experience, edit those files.
+
+**Routing:** React Router v6 (`react-router-dom`). Routes are defined in `main.tsx` via `createBrowserRouter`. The main portfolio is the `"/"` route (`App`). Project detail pages live under `src/pages/` and are registered as additional routes.
+
+**Pitch decks:** Static HTML files in `client/public/pitch/` are served at `/pitch/<name>.html`. Page components under `src/pages/` render them via a full-viewport `<iframe>`. The source pitch decks also exist in `pitch/` at the repo root for standalone viewing outside the app.
 
 The site is **frontend-only** for now. Keep data-fetching in hooks so components are unchanged when a backend is added.
 
