@@ -24,5 +24,4 @@ dist-ssr
 *.sw?
 
 # AI Tools
-.claude
-CLAUDE.md
+.worktrees/

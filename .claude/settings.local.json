@@ -1,0 +1,38 @@
+{
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "cd /Users/elee/Projects/me && npm run build && npm test",
+            "timeout": 120,
+            "statusMessage": "Verifying build and tests..."
+          }
+        ]
+      }
+    ]
+  },
+  "permissions": {
+    "allow": [
+      "Bash(npm create:*)",
+      "Bash(npx create-vite@latest . --template react-ts)",
+      "Bash(npx --yes create-vite@latest . --template react-ts)",
+      "Bash(npx --yes create-vite@latest portfolio --template react-ts)",
+      "Bash(mv /Users/elee/Projects/me/portfolio/.* /Users/elee/Projects/me/)",
+      "Bash(mv /Users/elee/Projects/me/portfolio/* /Users/elee/Projects/me/)",
+      "Bash(rmdir /Users/elee/Projects/me/portfolio)",
+      "Bash(npm install:*)",
+      "Bash(npm run:*)",
+      "Bash(npm test:*)",
+      "Bash(npx tsc:*)",
+      "Bash(npx vite:*)",
+      "Bash(npm ls:*)",
+      "Bash(npx vitest:*)",
+      "WebFetch(domain:www.linkedin.com)",
+      "WebFetch(domain:spell.eustonlee.com)",
+      "Skill(update-config)",
+      "Skill(update-config:*)"
+    ]
+  }
+}
