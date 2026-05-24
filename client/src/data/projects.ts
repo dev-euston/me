@@ -19,4 +19,13 @@ export const projects: Project[] = [
     githubUrl: 'https://github.com/dev-euston/me',
     liveUrl: 'https://eustonlee.com',
   },
+  {
+    id: 'jira-code',
+    name: 'Jira Code',
+    description:
+      'Connects your Jira backlog to your codebase. Tickets become pull requests — without leaving Jira.',
+    tags: ['Next.js', 'Claude AI', 'PostgreSQL', 'GitHub API', 'Jira REST API', 'TypeScript'],
+    githubUrl: 'https://github.com/dev-euston/jira-code',
+    liveUrl: '/projects/jira-code',
+  },
 ]
