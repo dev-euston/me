@@ -9,10 +9,12 @@ import '@fontsource/sora/800.css'
 import './index.css'
 import App from './App.tsx'
 import { JiraCodePage } from './pages/JiraCode/JiraCode'
+import { MrReviewerPage } from './pages/MrReviewer/MrReviewer'
 
 const router = createBrowserRouter([
   { path: '/', element: <App /> },
   { path: '/projects/jira-code', element: <JiraCodePage /> },
+  { path: '/projects/mr-reviewer', element: <MrReviewerPage /> },
 ])
 
 createRoot(document.getElementById('root')!).render(

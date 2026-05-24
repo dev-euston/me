@@ -2,8 +2,8 @@ import { describe, it, expect } from 'vitest'
 import { projects } from './projects'
 
 describe('projects data', () => {
-  it('exports an array of 3 projects', () => {
-    expect(projects).toHaveLength(3)
+  it('exports an array of 4 projects', () => {
+    expect(projects).toHaveLength(4)
   })
 
   it('each project has required fields', () => {
@@ -41,6 +41,23 @@ describe('projects data', () => {
     expect(projects[2].tags).toContain('GitHub API')
     expect(projects[2].tags).toContain('Jira REST API')
     expect(projects[2].tags).toContain('TypeScript')
+  })
+
+  it('fourth project (mr-reviewer) has correct fields', () => {
+    expect(projects[3].id).toBe('mr-reviewer')
+    expect(projects[3].name).toBe('MR Reviewer')
+    expect(projects[3].description).toBe(
+      'AI-powered code review triage — unified, persistent, and entirely under your control.'
+    )
+    expect(projects[3].githubUrl).toBe('https://github.com/dev-euston/mr-reviewer')
+    expect(projects[3].pitchUrl).toBe('/projects/mr-reviewer')
+    expect(projects[3].demoUrl).toBeUndefined()
+    expect(projects[3].tags).toContain('Next.js')
+    expect(projects[3].tags).toContain('React')
+    expect(projects[3].tags).toContain('TypeScript')
+    expect(projects[3].tags).toContain('Tailwind CSS')
+    expect(projects[3].tags).toContain('GitLab API')
+    expect(projects[3].tags).toContain('Claude AI')
   })
 
   it('no project uses the removed liveUrl field', () => {
