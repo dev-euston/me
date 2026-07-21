@@ -44,4 +44,14 @@ export const projects: Project[] = [
     pitchUrl: '/projects/mission-singapore',
     demoUrl: 'https://ms.eustonlee.com',
   },
+  {
+    id: 'markdown-commenter',
+    name: 'Markdown Commenter',
+    description:
+      'Render Markdown documents alongside inline comments — Confluence-style. Select text to anchor a comment; highlights and the sidebar stay in sync. Supports comment threads, zip bundles, Mermaid diagrams, and GitLab file loading. Everything runs client-side.',
+    tags: ['Next.js', 'React', 'TypeScript', 'Tailwind CSS'],
+    githubUrl: 'https://github.com/dev-euston/markdown-commenter',
+    externalPitchUrl: 'https://markdown-commenter.eustonlee.com/?doc=pitchdeck',
+    demoUrl: 'https://markdown-commenter.eustonlee.com',
+  },
 ]

@@ -93,4 +93,4 @@ The site is **frontend-only** for now. Keep data-fetching in hooks so components
 - Functional components with explicit props interfaces
 - Named exports only from `src/data/` (no default exports)
 - Use CSS custom properties from `src/styles/` — no hardcoded colours
-- `Project` type link fields: `githubUrl` (optional — omit for projects without a public repo), `pitchUrl` (optional — internal React Router path, e.g. `/projects/<id>`), and `demoUrl` (optional — external URL to a live deployment). Use `pitchUrl` for projects with a pitch page; use `demoUrl` for publicly deployed apps. All three can coexist.
+- `Project` type link fields: `githubUrl` (optional — omit for projects without a public repo), `pitchUrl` (optional — internal React Router path, e.g. `/projects/<id>`), `externalPitchUrl` (optional — external URL to a pitch deck hosted outside this app, opens in new tab), and `demoUrl` (optional — external URL to a live deployment). Use `pitchUrl` for projects with an internal pitch page; use `externalPitchUrl` when the pitch deck is hosted externally (e.g. loaded via query param on the deployed app). All four can coexist.

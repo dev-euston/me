@@ -22,9 +22,9 @@ describe('Projects', () => {
     expect(screen.getByTestId('projects-section')).toBeInTheDocument()
   })
 
-  it('renders 5 project cards', () => {
+  it('renders 6 project cards', () => {
     render(<MemoryRouter><Projects projects={projects} /></MemoryRouter>)
-    expect(screen.getAllByTestId('project-card')).toHaveLength(5)
+    expect(screen.getAllByTestId('project-card')).toHaveLength(6)
   })
 
   it('renders the first project name', () => {
@@ -41,7 +41,7 @@ describe('Projects', () => {
   it('renders GitHub links only for projects with a githubUrl', () => {
     render(<MemoryRouter><Projects projects={projects} /></MemoryRouter>)
     const links = screen.getAllByRole('link', { name: 'GitHub repository' })
-    expect(links).toHaveLength(4)
+    expect(links).toHaveLength(3)
   })
 
   it('does not render GitHub link when githubUrl is absent', () => {
@@ -57,6 +57,15 @@ describe('Projects', () => {
     expect(pitchLink).toBeInTheDocument()
     expect(pitchLink).not.toHaveAttribute('target')
     expect(screen.queryByRole('link', { name: 'Live demo' })).toBeNull()
+  })
+
+  it('renders an external pitch link when externalPitchUrl is set', () => {
+    const project: Project[] = [{ ...baseProject, externalPitchUrl: 'https://example.com/?doc=pitch' }]
+    render(<MemoryRouter><Projects projects={project} /></MemoryRouter>)
+    const pitchLink = screen.getByRole('link', { name: 'View pitch' })
+    expect(pitchLink).toHaveAttribute('href', 'https://example.com/?doc=pitch')
+    expect(pitchLink).toHaveAttribute('target', '_blank')
+    expect(pitchLink).toHaveAttribute('rel', 'noopener noreferrer')
   })
 
   it('renders only a demo link when only demoUrl is set', () => {
