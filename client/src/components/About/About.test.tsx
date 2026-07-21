@@ -11,11 +11,6 @@ describe('About', () => {
     expect(screen.getByTestId('about-section')).toBeInTheDocument()
   })
 
-  it('renders the avatar placeholder', () => {
-    render(<About />)
-    expect(screen.getByTestId('avatar-placeholder')).toBeInTheDocument()
-  })
-
   it('renders the bio text', () => {
     render(<About />)
     const bio = screen.getByTestId('about-bio')

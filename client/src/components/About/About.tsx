@@ -14,15 +14,8 @@ export function About() {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
-          className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center"
+          className="max-w-2xl"
         >
-          <motion.div variants={fadeUp}>
-            <div
-              data-testid="avatar-placeholder"
-              className="w-full aspect-square bg-surface rounded-2xl max-w-sm mx-auto"
-            />
-          </motion.div>
-
           <motion.div variants={fadeUp}>
             <h2 className="text-3xl font-display font-bold mb-6">About</h2>
             <p data-testid="about-bio" className="text-muted leading-relaxed space-y-4">
@@ -30,8 +23,9 @@ export function About() {
               of experience across government technology, telco, and data industries. I
               currently work at GovTech Singapore, building digital services that improve
               how government operates. I care about clean architecture, well-tested code,
-              and shipping software that lasts. Outside of work, I build side projects like
-              Spell Star, a spelling trainer for primary school kids.
+              and shipping software that lasts. Outside of work, I build developer productivity
+              tools — most recently an AI agent that turns Jira tickets into pull requests, and a
+              triage dashboard that brings all your code review activity into one place.
             </p>
           </motion.div>
         </motion.div>
