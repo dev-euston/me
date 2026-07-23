@@ -45,6 +45,14 @@ export const projects: Project[] = [
     demoUrl: 'https://ms.eustonlee.com',
   },
   {
+    id: 'appraisal-helper',
+    name: 'Appraisal Helper',
+    description:
+      'Engineering Manager tool that pulls activity signals from GitLab and Confluence, then uses Claude AI to generate coaching-oriented appraisal narratives — grounded in real evidence.',
+    tags: ['Next.js', 'TypeScript', 'Claude AI', 'GitLab API', 'Confluence API', 'PostgreSQL'],
+    pitchUrl: '/projects/appraisal-helper',
+  },
+  {
     id: 'markdown-commenter',
     name: 'Markdown Commenter',
     description:

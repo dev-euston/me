@@ -22,9 +22,9 @@ describe('Projects', () => {
     expect(screen.getByTestId('projects-section')).toBeInTheDocument()
   })
 
-  it('renders 6 project cards', () => {
+  it('renders 7 project cards', () => {
     render(<MemoryRouter><Projects projects={projects} /></MemoryRouter>)
-    expect(screen.getAllByTestId('project-card')).toHaveLength(6)
+    expect(screen.getAllByTestId('project-card')).toHaveLength(7)
   })
 
   it('renders the first project name', () => {

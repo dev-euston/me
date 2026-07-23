@@ -2,8 +2,8 @@ import { describe, it, expect } from 'vitest'
 import { projects } from './projects'
 
 describe('projects data', () => {
-  it('exports an array of 6 projects', () => {
-    expect(projects).toHaveLength(6)
+  it('exports an array of 7 projects', () => {
+    expect(projects).toHaveLength(7)
   })
 
   it('each project has required fields', () => {
@@ -69,17 +69,31 @@ describe('projects data', () => {
     expect(projects[4].githubUrl).toBeUndefined()
   })
 
-  it('sixth project (markdown-commenter) has correct fields', () => {
-    expect(projects[5].id).toBe('markdown-commenter')
-    expect(projects[5].name).toBe('Markdown Commenter')
-    expect(projects[5].githubUrl).toBe('https://github.com/dev-euston/markdown-commenter')
-    expect(projects[5].externalPitchUrl).toBe('https://markdown-commenter.eustonlee.com/?doc=pitchdeck')
-    expect(projects[5].demoUrl).toBe('https://markdown-commenter.eustonlee.com')
-    expect(projects[5].pitchUrl).toBeUndefined()
+  it('sixth project (appraisal-helper) has correct fields', () => {
+    expect(projects[5].id).toBe('appraisal-helper')
+    expect(projects[5].name).toBe('Appraisal Helper')
+    expect(projects[5].pitchUrl).toBe('/projects/appraisal-helper')
+    expect(projects[5].githubUrl).toBeUndefined()
+    expect(projects[5].demoUrl).toBeUndefined()
     expect(projects[5].tags).toContain('Next.js')
-    expect(projects[5].tags).toContain('React')
     expect(projects[5].tags).toContain('TypeScript')
-    expect(projects[5].tags).toContain('Tailwind CSS')
+    expect(projects[5].tags).toContain('Claude AI')
+    expect(projects[5].tags).toContain('GitLab API')
+    expect(projects[5].tags).toContain('Confluence API')
+    expect(projects[5].tags).toContain('PostgreSQL')
+  })
+
+  it('seventh project (markdown-commenter) has correct fields', () => {
+    expect(projects[6].id).toBe('markdown-commenter')
+    expect(projects[6].name).toBe('Markdown Commenter')
+    expect(projects[6].githubUrl).toBe('https://github.com/dev-euston/markdown-commenter')
+    expect(projects[6].externalPitchUrl).toBe('https://markdown-commenter.eustonlee.com/?doc=pitchdeck')
+    expect(projects[6].demoUrl).toBe('https://markdown-commenter.eustonlee.com')
+    expect(projects[6].pitchUrl).toBeUndefined()
+    expect(projects[6].tags).toContain('Next.js')
+    expect(projects[6].tags).toContain('React')
+    expect(projects[6].tags).toContain('TypeScript')
+    expect(projects[6].tags).toContain('Tailwind CSS')
   })
 
   it('no project uses the removed liveUrl field', () => {

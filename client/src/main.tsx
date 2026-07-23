@@ -11,12 +11,14 @@ import App from './App.tsx'
 import { JiraCodePage } from './pages/JiraCode/JiraCode'
 import { MrReviewerPage } from './pages/MrReviewer/MrReviewer'
 import { MissionSingaporePage } from './pages/MissionSingapore/MissionSingapore'
+import { AppraisalHelperPage } from './pages/AppraisalHelper/AppraisalHelper'
 
 const router = createBrowserRouter([
   { path: '/', element: <App /> },
   { path: '/projects/jira-code', element: <JiraCodePage /> },
   { path: '/projects/mr-reviewer', element: <MrReviewerPage /> },
   { path: '/projects/mission-singapore', element: <MissionSingaporePage /> },
+  { path: '/projects/appraisal-helper', element: <AppraisalHelperPage /> },
 ])
 
 createRoot(document.getElementById('root')!).render(
