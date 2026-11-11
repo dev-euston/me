@@ -11,7 +11,7 @@ export const motion = {
   ),
 }
 
-export const useInView = () => true
+export const useInView = (_ref: React.RefObject<Element>, _options?: { threshold?: number; once?: boolean }) => true
 
 export const AnimatePresence = ({ children }: { children: React.ReactNode }) => (
   <>{children}</>
