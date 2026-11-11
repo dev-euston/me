@@ -1,19 +1,27 @@
 /* eslint-disable react-refresh/only-export-components -- test mock, not a real module */
-import React from 'react'
+import React, { forwardRef } from 'react'
 
-function MotionDiv({ children, ...props }: any, ref: any) {
-  return React.createElement('div', { ...props, ref }, children)
-}
+const MotionDivComponent = forwardRef<HTMLDivElement, any>(
+  ({ children, initial, animate, variants, whileInView, viewport, transition, ...props }, ref) => {
+    return (
+      <div ref={ref} {...props}>
+        {children}
+      </div>
+    )
+  }
+)
+
+MotionDivComponent.displayName = 'MotionDiv'
 
 export const motion = {
-  div: React.forwardRef(MotionDiv),
+  div: MotionDivComponent,
 }
 
-export function useInView(ref: any, options?: any) {
+export function useInView(ref: any, options?: any): boolean {
   return true
 }
 
-export function useReducedMotion() {
+export function useReducedMotion(): boolean {
   return false
 }
 

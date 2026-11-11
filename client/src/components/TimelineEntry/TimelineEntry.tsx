@@ -32,10 +32,10 @@ export function TimelineEntry({ entry, index, isLeft }: TimelineEntryProps) {
       animate={inView ? 'visible' : 'hidden'}
       variants={prefersReduced ? {} : animationVariants}
       data-testid={`timeline-entry-${index}`}
-      className={`flex ${isLeft ? 'flex-row' : 'flex-row-reverse'}`}
+      className={`flex flex-row ${isLeft ? 'md:flex-row' : 'md:flex-row-reverse'}`}
     >
       {/* Content container */}
-      <div className={`w-full md:w-[calc(50%-20px)] ${isLeft ? 'pr-10 text-right' : 'pl-10'}`}>
+      <div className={`w-full md:w-[calc(50%-20px)] ${isLeft ? 'md:pr-10 md:text-right' : 'md:pl-10'}`}>
         <div className="bg-muted/10 backdrop-blur-sm border border-muted/20 rounded-lg p-6 hover:border-accent/50 transition-colors">
           <p className="text-sm text-muted mb-1">
             {entry.startDate} – {entry.endDate}
@@ -52,8 +52,8 @@ export function TimelineEntry({ entry, index, isLeft }: TimelineEntryProps) {
         </div>
       </div>
 
-      {/* Center dot and line */}
-      <div className="flex flex-col items-center md:w-[40px] px-5">
+      {/* Center dot and line - hidden on mobile */}
+      <div className="hidden md:flex flex-col items-center md:w-[40px] px-5">
         <div
           className="w-3 h-3 rounded-full bg-accent border-2 border-bg"
           aria-hidden="true"
