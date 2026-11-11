@@ -5,7 +5,7 @@ export const fadeUp = {
   visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.5, ease: 'easeOut' as const },
+    transition: { duration: 0.4, ease: 'easeOut' as const },
   },
 } satisfies Variants
 
