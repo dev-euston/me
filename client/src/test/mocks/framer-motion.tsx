@@ -17,7 +17,7 @@ export const motion = {
   div: MotionDivComponent,
 }
 
-export function useInView(ref: any, options?: any): boolean {
+export function useInView(_ref: any, _options?: any): boolean {
   return true
 }
 
