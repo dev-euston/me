@@ -1,11 +1,20 @@
-import React from 'react'
 import '@testing-library/jest-dom'
+import React from 'react'
+import ReactDOM from 'react-dom'
 
-// Polyfill React.act for vitest + jsdom + React 19 compatibility
-// testing-library's act-compat tries to use React.act, but it's not available in jsdom without explicit setup
-if (typeof React.act !== 'function') {
-  React.act = ((callback: () => any) => {
+// Ensure React.act is available for testing-library
+const ReactDOMTestUtils = (ReactDOM as any).unstable_batchedUpdates ? ReactDOM : (ReactDOM as any).default
+if (!React.act && (ReactDOMTestUtils as any).act) {
+  React.act = (ReactDOMTestUtils as any).act
+}
+
+// Fallback if neither is available
+if (!React.act) {
+  React.act = ((callback: (() => any) | (() => Promise<any>)) => {
     const result = callback()
-    return result instanceof Promise ? result : Promise.resolve(result)
+    if (result && typeof result.then === 'function') {
+      return result
+    }
+    return Promise.resolve(result)
   }) as any
 }
