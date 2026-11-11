@@ -6,8 +6,12 @@ import React from 'react'
 export const motion = {
   // All animated elements in the codebase use motion.div only (spec constraint).
   // This keeps the mock complete. Never use motion.h1, motion.p, etc.
-  div: ({ children, ...props }: React.HTMLAttributes<HTMLDivElement>) => (
-    <div {...props}>{children}</div>
+  div: React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
+    ({ children, ...props }, ref) => (
+      <div {...props} ref={ref}>
+        {children}
+      </div>
+    )
   ),
 }
 

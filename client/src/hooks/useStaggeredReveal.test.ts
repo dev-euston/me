@@ -1,14 +1,25 @@
 import { describe, it, expect, vi } from 'vitest'
+
+// Mock framer-motion FIRST
+vi.mock('framer-motion', () => ({
+  useInView: () => true,
+  useReducedMotion: () => false,
+  motion: {
+    div: ({ children }: any) => children,
+  },
+  AnimatePresence: ({ children }: any) => children,
+  MotionConfig: ({ children }: any) => children,
+}))
+
+// Then import everything after the mock is set up
 import { renderHook } from '@testing-library/react'
-
-vi.mock('framer-motion', async () => await import('../test/mocks/framer-motion'))
-
 import { useStaggeredReveal } from './useStaggeredReveal'
 
 describe('useStaggeredReveal', () => {
   it('returns correct animation config for index 0', () => {
     const { result } = renderHook(() => useStaggeredReveal(0))
 
+    expect(result.current).toBeDefined()
     expect(result.current.ref).toBeDefined()
     expect(result.current.variants).toBeDefined()
     expect(result.current.initial).toBe('hidden')
