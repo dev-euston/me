@@ -13,7 +13,7 @@ interface TimelineEntryProps {
 export function TimelineEntry({ entry, index, isLeft }: TimelineEntryProps) {
   const ref = useRef(null)
   // eslint-disable-next-line @typescript-eslint/no-explicit-any -- framer-motion useInView options
-  const inView = useInView(ref, { once: true } as any)
+  const inView = useInView(ref, { threshold: 0.3, once: true } as any)
   const prefersReduced = useReducedMotion()
 
   const animationVariants = {
