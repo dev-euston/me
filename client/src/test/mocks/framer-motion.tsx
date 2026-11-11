@@ -13,6 +13,8 @@ export const motion = {
 
 export const useInView = () => true
 
+export const useReducedMotion = () => false
+
 export const AnimatePresence = ({ children }: { children: React.ReactNode }) => (
   <>{children}</>
 )

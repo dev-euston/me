@@ -22,9 +22,11 @@ describe('Projects', () => {
     expect(screen.getByTestId('projects-section')).toBeInTheDocument()
   })
 
-  it('renders 7 project cards', () => {
+  it('renders 7 project cards with indexed data-testid', () => {
     render(<MemoryRouter><Projects projects={projects} /></MemoryRouter>)
-    expect(screen.getAllByTestId('project-card')).toHaveLength(7)
+    for (let i = 0; i < 7; i++) {
+      expect(screen.getByTestId(`project-card-${i}`)).toBeInTheDocument()
+    }
   })
 
   it('renders the first project name', () => {
@@ -92,5 +94,14 @@ describe('Projects', () => {
     expect(screen.queryByRole('link', { name: 'View pitch' })).toBeNull()
     expect(screen.queryByRole('link', { name: 'Live demo' })).toBeNull()
     expect(screen.getByRole('link', { name: 'GitHub repository' })).toBeInTheDocument()
+  })
+
+  it('applies staggered animation with index-based delays', () => {
+    render(<MemoryRouter><Projects projects={projects} /></MemoryRouter>)
+    const cards = screen.getAllByTestId(/^project-card-/)
+    expect(cards).toHaveLength(7)
+    cards.forEach((card, index) => {
+      expect(card).toHaveAttribute('data-testid', `project-card-${index}`)
+    })
   })
 })
