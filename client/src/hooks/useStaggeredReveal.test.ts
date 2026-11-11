@@ -1,4 +1,3 @@
-import React from 'react'
 import { describe, it, expect, vi } from 'vitest'
 
 // Mock framer-motion FIRST, using the shared mock file
