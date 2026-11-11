@@ -40,7 +40,7 @@ interface ProjectCardProps {
   index: number
 }
 
-function ProjectCard({ project, index }: ProjectCardProps) {
+export function ProjectCard({ project, index }: ProjectCardProps) {
   const { ref, variants, initial, animate, transition } =
     useStaggeredReveal(index)
 

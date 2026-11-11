@@ -19,9 +19,20 @@ interface UseStaggeredRevealResult {
   transition: { delay: number }
 }
 
-export function useStaggeredReveal(index: number): UseStaggeredRevealResult {
+interface UseStaggeredRevealOptions {
+  threshold?: number
+  once?: boolean
+}
+
+export function useStaggeredReveal(
+  index: number,
+  options?: UseStaggeredRevealOptions
+): UseStaggeredRevealResult {
   const ref = useRef<HTMLDivElement | null>(null)
-  const inView = useInView(ref, { once: true, amount: 0.2 })
+  const inView = useInView(ref, {
+    once: options?.once ?? true,
+    amount: options?.threshold ?? 0.2,
+  })
   const prefersReducedMotion = useReducedMotion()
 
   return {
