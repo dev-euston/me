@@ -12,7 +12,7 @@ const staggeredVariants = {
 } satisfies Variants
 
 interface UseStaggeredRevealResult {
-  ref: React.RefObject<HTMLDivElement>
+  ref: React.RefObject<HTMLDivElement | null>
   variants: Variants
   initial: 'hidden' | 'visible'
   animate: 'hidden' | 'visible'
@@ -20,8 +20,8 @@ interface UseStaggeredRevealResult {
 }
 
 export function useStaggeredReveal(index: number): UseStaggeredRevealResult {
-  const ref = useRef<HTMLDivElement>(null)
-  const inView = useInView(ref, { threshold: 0.2, once: true })
+  const ref = useRef<HTMLDivElement | null>(null)
+  const inView = useInView(ref, { once: true, amount: 0.2 })
   const prefersReducedMotion = useReducedMotion()
 
   return {
