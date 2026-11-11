@@ -53,7 +53,7 @@ client/
   src/
     components/   # One folder per section/component, each with index.tsx + *.test.tsx
     pages/        # Route-level page components (one folder per route, with *.test.tsx)
-    hooks/        # Custom React hooks (data-fetching logic isolated here for future API swap)
+    hooks/        # Custom React hooks — data-fetching (isolated for future API swap) and animation utilities (e.g. useStaggeredReveal)
     data/         # Static content (projects, experience, skills) as typed TS objects
     types/        # Shared TypeScript interfaces
     styles/       # Global CSS custom properties / design tokens
@@ -87,6 +87,13 @@ The site is **frontend-only** for now. Keep data-fetching in hooks so components
 - ESLint: `client/eslint.config.js` — flat config, per-app (TypeScript + React Hooks + Prettier compat)
 - Prettier: `.prettierrc` at repo root — single quotes, no semis, 100 char width, trailing commas (ES5)
 - When a lint rule cannot be auto-fixed, add an inline `// eslint-disable-next-line` comment with the reason
+
+## Animation Conventions (Framer Motion)
+
+- Scroll-triggered entrance animations use `useInView` with `amount` (not `threshold`) as the parameter name — this is Framer Motion's API, not Intersection Observer's.
+- Stagger pattern: wrap each item in `motion.div`, use `useStaggeredReveal(index)` hook which returns `{ref, initial, animate, transition}`. Initial: `{opacity:0, y:24}`, animate: `{opacity:1, y:0}`, stagger delay = `index * 0.1s`, `once: true`.
+- Always check `useReducedMotion()` and skip animation (render at final state with `duration:0`) when it returns `true`.
+- Framer Motion exports (including `useReducedMotion`) are mocked in `client/src/test/mocks/framer-motion.tsx`. Add new exports there if tests fail with "not a function."
 
 ## Key Conventions
 
