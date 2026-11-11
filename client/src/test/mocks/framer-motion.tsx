@@ -6,14 +6,15 @@ import React from 'react'
 export const motion = {
   // All animated elements in the codebase use motion.div only (spec constraint).
   // This keeps the mock complete. Never use motion.h1, motion.p, etc.
-  div: React.forwardRef<HTMLDivElement, any>(({ children, ...props }, ref) => (
-    <div ref={ref} {...props}>
-      {children}
-    </div>
-  )),
+  div: React.forwardRef((props: any, ref: any) => {
+    const { children, ...rest } = props
+    return React.createElement('div', { ...rest, ref }, children)
+  }),
 }
 
-export const useInView = (_ref: React.RefObject<Element>, _options?: { threshold?: number; once?: boolean }) => true
+export const useInView = () => true
+
+export const useReducedMotion = () => false
 
 export const AnimatePresence = ({ children }: { children: React.ReactNode }) => (
   <>{children}</>
