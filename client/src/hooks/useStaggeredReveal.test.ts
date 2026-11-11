@@ -1,15 +1,8 @@
+import React from 'react'
 import { describe, it, expect, vi } from 'vitest'
 
-// Mock framer-motion FIRST
-vi.mock('framer-motion', () => ({
-  useInView: () => true,
-  useReducedMotion: () => false,
-  motion: {
-    div: ({ children }: any) => children,
-  },
-  AnimatePresence: ({ children }: any) => children,
-  MotionConfig: ({ children }: any) => children,
-}))
+// Mock framer-motion FIRST, using the shared mock file
+vi.mock('framer-motion', async () => await import('../test/mocks/framer-motion'))
 
 // Then import everything after the mock is set up
 import { renderHook } from '@testing-library/react'
