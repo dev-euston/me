@@ -5,7 +5,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "cd /Users/elee/Projects/me && npm run build && npm test",
+            "command": "npm run build && npm test",
             "timeout": 120,
             "statusMessage": "Verifying build and tests..."
           }
