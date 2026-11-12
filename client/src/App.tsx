@@ -3,7 +3,7 @@ import { Nav } from './components/Nav/Nav'
 import { Hero } from './components/Hero/Hero'
 import { About } from './components/About/About'
 import { Projects } from './components/Projects/Projects'
-import { Experience } from './components/Experience/Experience'
+import { TimelineSection } from './components/TimelineSection/TimelineSection'
 import { Contact } from './components/Contact/Contact'
 import { Footer } from './components/Footer/Footer'
 import { projects } from './data/projects'
@@ -17,7 +17,7 @@ export default function App() {
         <Hero />
         <About />
         <Projects projects={projects} />
-        <Experience experience={experience} />
+        <TimelineSection experience={experience} />
         <Contact />
       </main>
       <Footer />

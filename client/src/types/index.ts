@@ -16,4 +16,5 @@ export interface Experience {
   startDate: string
   endDate: string
   bullets: string[]
+  achievements?: string[]
 }

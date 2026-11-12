@@ -1,17 +1,29 @@
-/* eslint-disable react-refresh/only-export-components -- test mock, not a real module */
-import React from 'react'
+/* eslint-disable react-refresh/only-export-components, @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars -- test mock, not a real module */
+import React, { forwardRef } from 'react'
 
-// Plain named exports — NOT a vi.mock() call.
-// This file is used as the factory for vi.mock in each test file.
+const MotionDivComponent = forwardRef<HTMLDivElement, any>(
+  ({ children, initial, animate, variants, whileInView, viewport, transition, ...props }, ref) => {
+    return (
+      <div ref={ref} {...props}>
+        {children}
+      </div>
+    )
+  }
+)
+
+MotionDivComponent.displayName = 'MotionDiv'
+
 export const motion = {
-  // All animated elements in the codebase use motion.div only (spec constraint).
-  // This keeps the mock complete. Never use motion.h1, motion.p, etc.
-  div: ({ children, ...props }: React.HTMLAttributes<HTMLDivElement>) => (
-    <div {...props}>{children}</div>
-  ),
+  div: MotionDivComponent,
 }
 
-export const useInView = () => true
+export function useInView(_ref: any, _options?: any): boolean {
+  return true
+}
+
+export function useReducedMotion(): boolean {
+  return false
+}
 
 export const useReducedMotion = () => false
 
