@@ -1,7 +1,16 @@
 import { motion } from 'framer-motion'
 import { fadeUp, staggerChildren } from '../../styles/animations'
+import { useReducedMotion } from '../../hooks/useReducedMotion'
+
+const instantFadeUp = {
+  hidden: fadeUp.visible,
+  visible: { ...fadeUp.visible, transition: { duration: 0 } },
+}
 
 export function Hero() {
+  const reducedMotion = useReducedMotion()
+  const item = reducedMotion ? instantFadeUp : fadeUp
+
   return (
     <div
       data-testid="hero-section"
@@ -21,29 +30,28 @@ export function Hero() {
       {/* All animated elements use motion.div only — spec constraint */}
       <motion.div
         variants={staggerChildren}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true }}
+        initial={reducedMotion ? 'visible' : 'hidden'}
+        animate="visible"
         className="relative z-10 max-w-4xl w-full"
       >
-        <motion.div variants={fadeUp}>
+        <motion.div variants={item}>
           <h1 className="text-6xl md:text-8xl font-display font-bold text-text leading-none mb-4">
             Euston Lee
           </h1>
         </motion.div>
 
-        <motion.div variants={fadeUp}>
+        <motion.div variants={item}>
           <p className="text-xl text-muted mb-3">Software Engineer</p>
         </motion.div>
 
-        <motion.div variants={fadeUp}>
+        <motion.div variants={item}>
           <p className="text-base text-muted mb-10 max-w-lg">
             I build fast, accessible, and well-tested software.
           </p>
         </motion.div>
 
         <motion.div
-          variants={fadeUp}
+          variants={item}
           className="flex flex-col sm:flex-row gap-4"
         >
           <a

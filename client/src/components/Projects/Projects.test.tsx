@@ -1,4 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
+import { createElement } from 'react'
 import { useInView, useReducedMotion } from 'framer-motion'
 import { render, screen, within } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
@@ -28,7 +29,7 @@ vi.mock('framer-motion', async () => {
         void animate
         void transition
         void variants
-        return baseDiv(rest as never)
+        return createElement(baseDiv, rest as never)
       },
     },
     useInView: vi.fn(() => true),
