@@ -25,6 +25,8 @@ export function useReducedMotion(): boolean {
   return false
 }
 
+export const useReducedMotion = () => false
+
 export const AnimatePresence = ({ children }: { children: React.ReactNode }) => (
   <>{children}</>
 )

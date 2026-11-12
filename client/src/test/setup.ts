@@ -1,21 +1,11 @@
-/* eslint-disable @typescript-eslint/no-explicit-any -- test setup polyfill */
-import '@testing-library/jest-dom'
 import React from 'react'
-import ReactDOM from 'react-dom'
+import '@testing-library/jest-dom'
 
-// Ensure React.act is available for testing-library
-const ReactDOMTestUtils = (ReactDOM as any).unstable_batchedUpdates ? ReactDOM : (ReactDOM as any).default
-if (!React.act && (ReactDOMTestUtils as any).act) {
-  React.act = (ReactDOMTestUtils as any).act
-}
-
-// Fallback if neither is available
-if (!React.act) {
-  React.act = ((callback: (() => any) | (() => Promise<any>)) => {
-    const result = callback()
-    if (result && typeof result.then === 'function') {
-      return result
-    }
-    return Promise.resolve(result)
-  }) as any
+// Polyfill React.act for vitest + jsdom + React 19 compatibility
+// testing-library tries to use React.act, and jsdom needs a synchronous version
+if (typeof React.act !== 'function') {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- polyfill must match React.act overloads
+  React.act = (callback: () => any) => {
+    return callback()
+  }
 }
