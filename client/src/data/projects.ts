@@ -65,3 +65,13 @@ export const projects: Project[] = [
     demoUrl: 'https://markdown-commenter.eustonlee.com',
   },
 ]
+
+export function getAllTechStacks(): string[] {
+  const techs = new Set<string>()
+  for (const project of projects) {
+    for (const tech of project.techStack) {
+      techs.add(tech)
+    }
+  }
+  return Array.from(techs).sort()
+}
