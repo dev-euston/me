@@ -13,8 +13,21 @@ const MotionDivComponent = forwardRef<HTMLDivElement, any>(
 
 MotionDivComponent.displayName = 'MotionDiv'
 
+const MotionSpanComponent = forwardRef<HTMLSpanElement, any>(
+  ({ children, initial, animate, variants, whileInView, viewport, transition, ...props }, ref) => {
+    return (
+      <span ref={ref} {...props}>
+        {children}
+      </span>
+    )
+  }
+)
+
+MotionSpanComponent.displayName = 'MotionSpan'
+
 export const motion = {
   div: MotionDivComponent,
+  span: MotionSpanComponent,
 }
 
 export function useInView(_ref: any, _options?: any): boolean {

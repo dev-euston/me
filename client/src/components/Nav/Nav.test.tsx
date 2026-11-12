@@ -1,9 +1,10 @@
-import { describe, it, expect, vi } from 'vitest'
-import { render, screen } from '@testing-library/react'
+import { describe, it, expect, vi, beforeEach } from 'vitest'
+import { render, screen, fireEvent } from '@testing-library/react'
 
 vi.mock('framer-motion', async () => await import('../../test/mocks/framer-motion'))
 vi.mock('../../hooks/useActiveSection')
 vi.mock('../../hooks/useScrollDirection')
+vi.mock('../../hooks/useReducedMotion')
 
 import { useActiveSection } from '../../hooks/useActiveSection'
 import { useScrollDirection } from '../../hooks/useScrollDirection'
@@ -57,5 +58,56 @@ describe('Nav', () => {
     mockUseScrollDirection.mockReturnValue('up')
     render(<Nav />)
     expect(screen.getByRole('navigation')).not.toHaveClass('-translate-y-full')
+  })
+
+  describe('mobile navigation', () => {
+    beforeEach(() => {
+      mockUseActiveSection.mockReturnValue('about')
+      mockUseScrollDirection.mockReturnValue('up')
+    })
+
+    it('hides desktop links below md and shows hamburger only below md', () => {
+      render(<Nav />)
+      const desktop = screen.getByRole('link', { name: 'About' }).parentElement
+      expect(desktop).toHaveClass('hidden', 'md:flex')
+      expect(screen.getByRole('button', { name: 'Open menu' }).parentElement).toHaveClass(
+        'md:hidden'
+      )
+    })
+
+    it('does not render the drawer initially', () => {
+      render(<Nav />)
+      expect(screen.queryByTestId('mobile-nav-drawer')).not.toBeInTheDocument()
+    })
+
+    it('opens the drawer when the hamburger is clicked and toggles it closed', () => {
+      render(<Nav />)
+      fireEvent.click(screen.getByRole('button', { name: 'Open menu' }))
+      expect(screen.getByTestId('mobile-nav-drawer')).toBeInTheDocument()
+      expect(screen.getByRole('link', { name: 'Home' })).toBeInTheDocument()
+      fireEvent.click(screen.getByRole('button', { name: 'Close menu' }))
+      expect(screen.queryByTestId('mobile-nav-drawer')).not.toBeInTheDocument()
+    })
+
+    it('closes the drawer when a drawer link is clicked', () => {
+      render(<Nav />)
+      fireEvent.click(screen.getByRole('button', { name: 'Open menu' }))
+      fireEvent.click(screen.getByRole('link', { name: 'Home' }))
+      expect(screen.queryByTestId('mobile-nav-drawer')).not.toBeInTheDocument()
+    })
+
+    it('closes the drawer on Escape', () => {
+      render(<Nav />)
+      fireEvent.click(screen.getByRole('button', { name: 'Open menu' }))
+      fireEvent.keyDown(document, { key: 'Escape' })
+      expect(screen.queryByTestId('mobile-nav-drawer')).not.toBeInTheDocument()
+    })
+
+    it('closes the drawer when the backdrop is clicked', () => {
+      render(<Nav />)
+      fireEvent.click(screen.getByRole('button', { name: 'Open menu' }))
+      fireEvent.click(screen.getByTestId('mobile-nav-backdrop'))
+      expect(screen.queryByTestId('mobile-nav-drawer')).not.toBeInTheDocument()
+    })
   })
 })

@@ -1,3 +1,6 @@
+import { useState } from 'react'
+import { HamburgerButton } from '../HamburgerButton/HamburgerButton'
+import { MobileNavDrawer } from '../MobileNavDrawer/MobileNavDrawer'
 import { useActiveSection } from '../../hooks/useActiveSection'
 import { useScrollDirection } from '../../hooks/useScrollDirection'
 
@@ -11,6 +14,7 @@ const links = [
 export function Nav() {
   const activeSection = useActiveSection(links.map((l) => l.id))
   const scrollDirection = useScrollDirection()
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false)
 
   return (
     <nav
@@ -24,7 +28,7 @@ export function Nav() {
     >
       <span className="font-display font-bold text-lg text-text">EL</span>
 
-      <div className="flex gap-8">
+      <div className="hidden md:flex gap-8">
         {links.map((link) => (
           <a
             key={link.id}
@@ -38,6 +42,12 @@ export function Nav() {
           </a>
         ))}
       </div>
+
+      <div className="md:hidden">
+        <HamburgerButton isOpen={isDrawerOpen} onClick={() => setIsDrawerOpen((open) => !open)} />
+      </div>
+
+      <MobileNavDrawer isOpen={isDrawerOpen} onClose={() => setIsDrawerOpen(false)} />
     </nav>
   )
 }
