@@ -1,17 +1,34 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import type { Project } from '../../types'
+import { ProjectCoverHeader } from '../ProjectCoverHeader/ProjectCoverHeader'
 
 interface PitchDeckPageProps {
   src: string
   title: string
+  project?: Project
 }
 
-export function PitchDeckPage({ src, title }: PitchDeckPageProps) {
+export function PitchDeckPage({ src, title, project }: PitchDeckPageProps) {
   const navigate = useNavigate()
   const [hovered, setHovered] = useState(false)
+  const coverImage = project?.coverImage
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', height: '100vh', overflow: 'hidden' }}>
+    <div
+      style={
+        coverImage
+          ? { display: 'flex', flexDirection: 'column', minHeight: '100vh' }
+          : { display: 'flex', flexDirection: 'column', height: '100vh', overflow: 'hidden' }
+      }
+    >
+      {project && coverImage && (
+        <ProjectCoverHeader
+          coverImage={coverImage}
+          title={project.name}
+          techStack={project.techStack}
+        />
+      )}
       <nav
         style={{
           height: '48px',
@@ -41,7 +58,13 @@ export function PitchDeckPage({ src, title }: PitchDeckPageProps) {
       <iframe
         src={src}
         title={title}
-        style={{ width: '100%', height: 'calc(100vh - 48px)', border: 'none', display: 'block' }}
+        style={{
+          width: '100%',
+          height: 'calc(100vh - 48px)',
+          flex: coverImage ? 1 : undefined,
+          border: 'none',
+          display: 'block',
+        }}
       />
     </div>
   )
