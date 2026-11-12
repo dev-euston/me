@@ -2,6 +2,7 @@ import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
 import { fadeUp } from '../../styles/animations'
 import { useStaggeredReveal } from '../../hooks/useStaggeredReveal'
+import { TechBadge } from '../TechBadge'
 import type { Project } from '../../types'
 
 interface ProjectsProps {
@@ -43,6 +44,13 @@ interface ProjectCardProps {
 export function ProjectCard({ project, index }: ProjectCardProps) {
   const { ref, variants, initial, animate, transition } =
     useStaggeredReveal(index)
+  const {
+    ref: badgesRef,
+    variants: badgesVariants,
+    initial: badgesInitial,
+    animate: badgesAnimate,
+    transition: badgesTransition,
+  } = useStaggeredReveal(index)
 
   return (
     <motion.div
@@ -163,17 +171,19 @@ export function ProjectCard({ project, index }: ProjectCardProps) {
 
       <p className="text-muted text-sm mb-4">{project.description}</p>
 
-      <div className="flex flex-wrap gap-2">
-        {project.tags.map((tag) => (
-          <span
-            key={tag}
-            data-testid="project-tag"
-            className="px-2 py-0.5 text-xs rounded-md bg-surface border border-border text-muted"
-          >
-            {tag}
-          </span>
+      <motion.div
+        ref={badgesRef}
+        variants={badgesVariants}
+        initial={badgesInitial}
+        animate={badgesAnimate}
+        transition={badgesTransition}
+        data-testid="tech-badges-container"
+        className="flex flex-wrap gap-2"
+      >
+        {project.techStack.map((tech) => (
+          <TechBadge key={tech} label={tech} />
         ))}
-      </div>
+      </motion.div>
     </motion.div>
   )
 }

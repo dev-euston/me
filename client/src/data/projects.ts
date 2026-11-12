@@ -6,7 +6,7 @@ export const projects: Project[] = [
     name: 'Spell Star',
     description:
       'Spelling trainer for primary school kids. Input the word lists; the app reads words aloud via the Web Speech API for kids to type. Tracks results and generates per-session accuracy reports.',
-    tags: ['React', 'TypeScript', 'Tailwind', 'Node.js', 'PostgreSQL', 'Web Speech API'],
+    techStack: ['React', 'TypeScript', 'Tailwind', 'Node.js', 'PostgreSQL', 'Web Speech API'],
     githubUrl: 'https://github.com/dev-euston/spelling-trainer',
     demoUrl: 'https://spell.eustonlee.com',
   },
@@ -15,7 +15,7 @@ export const projects: Project[] = [
     name: 'Portfolio Site',
     description:
       'This site — a single-page scroll portfolio built with Vite, React, TypeScript, Tailwind CSS v4, and Framer Motion. 100% test coverage enforced via Vitest.',
-    tags: ['React', 'TypeScript', 'Tailwind', 'Framer Motion', 'Vite'],
+    techStack: ['React', 'TypeScript', 'Tailwind', 'Framer Motion', 'Vite'],
     githubUrl: 'https://github.com/dev-euston/me',
     demoUrl: 'https://eustonlee.com',
   },
@@ -24,7 +24,7 @@ export const projects: Project[] = [
     name: 'Jira Code',
     description:
       'Connects your Jira backlog to your codebase. Tickets become pull requests — without leaving Jira.',
-    tags: ['Next.js', 'Claude AI', 'PostgreSQL', 'GitHub API', 'Jira REST API', 'TypeScript'],
+    techStack: ['Next.js', 'Claude AI', 'PostgreSQL', 'GitHub API', 'Jira REST API', 'TypeScript'],
     pitchUrl: '/projects/jira-code',
   },
   {
@@ -32,7 +32,7 @@ export const projects: Project[] = [
     name: 'MR Reviewer',
     description:
       'AI-powered code review triage — unified, persistent, and entirely under your control.',
-    tags: ['Next.js', 'React', 'TypeScript', 'Tailwind CSS', 'GitLab API', 'Claude AI'],
+    techStack: ['Next.js', 'React', 'TypeScript', 'Tailwind CSS', 'GitLab API', 'Claude AI'],
     pitchUrl: '/projects/mr-reviewer',
   },
   {
@@ -40,7 +40,7 @@ export const projects: Project[] = [
     name: 'Mission: Singapore',
     description:
       'Location-based narrative adventure platform connecting tourists with locally-crafted story missions. Storytellers author branching adventures tied to real Singapore locations; players navigate stops, complete GPS-verified tasks, and discover the city through local eyes.',
-    tags: ['Mobile', 'GPS', 'AI', 'QR'],
+    techStack: ['Mobile', 'GPS', 'AI', 'QR'],
     pitchUrl: '/projects/mission-singapore',
     demoUrl: 'https://ms.eustonlee.com',
   },
@@ -49,7 +49,7 @@ export const projects: Project[] = [
     name: 'Appraisal Helper',
     description:
       'Engineering Manager tool that pulls activity signals from GitLab and Confluence, then uses Claude AI to generate coaching-oriented appraisal narratives — grounded in real evidence.',
-    tags: ['Next.js', 'TypeScript', 'Claude AI', 'GitLab API', 'Confluence API', 'PostgreSQL'],
+    techStack: ['Next.js', 'TypeScript', 'Claude AI', 'GitLab API', 'Confluence API', 'PostgreSQL'],
     pitchUrl: '/projects/appraisal-helper',
   },
   {
@@ -57,7 +57,7 @@ export const projects: Project[] = [
     name: 'Markdown Commenter',
     description:
       'Render Markdown documents alongside inline comments — Confluence-style. Select text to anchor a comment; highlights and the sidebar stay in sync. Supports comment threads, zip bundles, Mermaid diagrams, and GitLab file loading. Everything runs client-side.',
-    tags: ['Next.js', 'React', 'TypeScript', 'Tailwind CSS'],
+    techStack: ['Next.js', 'React', 'TypeScript', 'Tailwind CSS'],
     githubUrl: 'https://github.com/dev-euston/markdown-commenter',
     externalPitchUrl: 'https://markdown-commenter.eustonlee.com/?doc=pitchdeck',
     demoUrl: 'https://markdown-commenter.eustonlee.com',
