@@ -95,6 +95,8 @@ The site is **frontend-only** for now. Keep data-fetching in hooks so components
 - Always check `useReducedMotion()` and skip animation (render at final state with `duration:0`) when it returns `true`. Use the custom hook from `hooks/useReducedMotion` (wraps `window.matchMedia`) — not framer-motion's own `useReducedMotion`.
 - Framer Motion exports (including its own `useReducedMotion`) are mocked in `client/src/test/mocks/framer-motion.tsx`. Add new exports there if tests fail with "not a function." The custom `hooks/useReducedMotion` is tested separately and must be mocked in component tests that use it.
 - **Page transition exception:** `PageTransition` uses framer-motion's own `useReducedMotion` directly (imported alongside `motion`) rather than the custom hook — this is intentional since it already imports from framer-motion. All other components still use the custom hook.
+- **Above-the-fold animations:** Components visible on initial load (e.g. `Hero`) use `initial={reducedMotion ? 'visible' : 'hidden'}` + `animate="visible"` instead of `whileInView` — these are always visible so scroll-trigger is not appropriate. Use `whileInView` only for below-the-fold sections.
+- **Mobile nav:** `HamburgerButton` (animated ☰→✕ icon, `aria-expanded`) and `MobileNavDrawer` (slide-in from right, backdrop, Escape key closes) are established components. `AnimatePresence` wraps the drawer for exit animations. Z-index: backdrop at `z-[999]`, drawer at `z-[1000]`.
 
 ## Key Conventions
 
