@@ -7,9 +7,6 @@ interface TimelineSectionProps {
 }
 
 export function TimelineSection({ experience }: TimelineSectionProps) {
-  // Sort in reverse-chronological order (most recent first)
-  const sortedExperience = [...experience].reverse()
-
   const fadeUp = {
     hidden: { opacity: 0, y: 24 },
     visible: {
@@ -36,7 +33,7 @@ export function TimelineSection({ experience }: TimelineSectionProps) {
         </motion.div>
 
         <div className="space-y-8 relative">
-          {sortedExperience.map((entry, index) => (
+          {experience.map((entry, index) => (
             <TimelineEntry
               key={entry.id}
               entry={entry}

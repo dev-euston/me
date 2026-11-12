@@ -54,12 +54,12 @@ describe('TimelineSection', () => {
     expect(screen.getByText('Experience')).toBeInTheDocument()
   })
 
-  it('renders entries in reverse-chronological order (most recent first)', () => {
+  it('renders entries in reverse-chronological order (data is ordered most recent first)', () => {
     render(<TimelineSection experience={mockExperience} />)
     const entries = screen.getAllByTestId(/^timeline-entry-/)
-    expect(entries[0].textContent).toContain('Company C')
+    expect(entries[0].textContent).toContain('Company A')
     expect(entries[1].textContent).toContain('Company B')
-    expect(entries[2].textContent).toContain('Company A')
+    expect(entries[2].textContent).toContain('Company C')
   })
 
   it('alternates left-right layout for entries', () => {
@@ -67,8 +67,8 @@ describe('TimelineSection', () => {
     const firstEntry = container.querySelector('[data-testid="timeline-entry-0"]')
     const secondEntry = container.querySelector('[data-testid="timeline-entry-1"]')
 
-    expect(firstEntry).toHaveClass('flex-row')
-    expect(secondEntry).toHaveClass('flex-row-reverse')
+    expect(firstEntry).toHaveClass('md:flex-row')
+    expect(secondEntry).toHaveClass('md:flex-row-reverse')
   })
 
   it('renders empty when no experience provided', () => {

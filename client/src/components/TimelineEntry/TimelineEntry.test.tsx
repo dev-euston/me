@@ -1,9 +1,14 @@
-import { describe, it, expect, vi } from 'vitest'
+import { describe, it, expect, vi, afterEach } from 'vitest'
 import { render, screen } from '@testing-library/react'
 
-vi.mock('framer-motion', async () => await import('../../test/mocks/framer-motion'))
+const inViewState = vi.hoisted(() => ({ value: true }))
+vi.mock('framer-motion', async () => ({
+  ...(await import('../../test/mocks/framer-motion')),
+  useInView: () => inViewState.value,
+}))
+const reducedMotion = vi.hoisted(() => ({ value: false }))
 vi.mock('../../hooks/useReducedMotion', () => ({
-  useReducedMotion: () => false,
+  useReducedMotion: () => reducedMotion.value,
 }))
 
 import { TimelineEntry } from './TimelineEntry'
@@ -20,6 +25,23 @@ const mockEntry: Experience = {
 }
 
 describe('TimelineEntry', () => {
+  afterEach(() => {
+    reducedMotion.value = false
+    inViewState.value = true
+  })
+
+  it('renders when the entry is not yet in view', () => {
+    inViewState.value = false
+    render(<TimelineEntry entry={mockEntry} index={0} isLeft={true} />)
+    expect(screen.getByTestId('timeline-entry-0')).toBeInTheDocument()
+  })
+
+  it('renders without animation variants when reduced motion is preferred', () => {
+    reducedMotion.value = true
+    render(<TimelineEntry entry={mockEntry} index={0} isLeft={true} />)
+    expect(screen.getByTestId('timeline-entry-0')).toBeInTheDocument()
+  })
+
   it('renders entry with correct test id', () => {
     render(<TimelineEntry entry={mockEntry} index={0} isLeft={true} />)
     expect(screen.getByTestId('timeline-entry-0')).toBeInTheDocument()
@@ -56,13 +78,13 @@ describe('TimelineEntry', () => {
   it('applies left layout class when isLeft is true', () => {
     const { container } = render(<TimelineEntry entry={mockEntry} index={0} isLeft={true} />)
     const flexContainer = container.querySelector('[data-testid="timeline-entry-0"]')
-    expect(flexContainer).toHaveClass('flex-row')
+    expect(flexContainer).toHaveClass('md:flex-row')
   })
 
   it('applies right layout class when isLeft is false', () => {
     const { container } = render(<TimelineEntry entry={mockEntry} index={0} isLeft={false} />)
     const flexContainer = container.querySelector('[data-testid="timeline-entry-0"]')
-    expect(flexContainer).toHaveClass('flex-row-reverse')
+    expect(flexContainer).toHaveClass('md:flex-row-reverse')
   })
 
   it('renders centered dot indicator', () => {

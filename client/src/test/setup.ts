@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any -- test setup polyfill */
 import '@testing-library/jest-dom'
 import React from 'react'
 import ReactDOM from 'react-dom'

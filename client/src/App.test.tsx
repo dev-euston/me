@@ -3,6 +3,7 @@ import { render, screen } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
 
 vi.mock('framer-motion', async () => await import('./test/mocks/framer-motion'))
+vi.mock('./hooks/useReducedMotion', () => ({ useReducedMotion: () => false }))
 vi.mock('./hooks/useActiveSection')
 vi.mock('./hooks/useScrollDirection')
 

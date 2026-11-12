@@ -1,4 +1,4 @@
-/* eslint-disable react-refresh/only-export-components -- test mock, not a real module */
+/* eslint-disable react-refresh/only-export-components, @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars -- test mock, not a real module */
 import React, { forwardRef } from 'react'
 
 const MotionDivComponent = forwardRef<HTMLDivElement, any>(
