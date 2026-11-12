@@ -6,6 +6,8 @@ vi.mock('react-router-dom', () => ({
   useNavigate: () => vi.fn(),
 }))
 
+vi.mock('../../hooks/useReducedMotion', () => ({ useReducedMotion: () => false }))
+
 describe('JiraCodePage', () => {
   it('renders an iframe pointing to the jira-code pitch deck', () => {
     const { container } = render(<JiraCodePage />)
@@ -17,5 +19,11 @@ describe('JiraCodePage', () => {
     render(<JiraCodePage />)
     expect(screen.getByRole('navigation')).toBeInTheDocument()
     expect(screen.getByRole('button', { name: /back to portfolio/i })).toBeInTheDocument()
+  })
+
+  it('renders the project cover header', () => {
+    render(<JiraCodePage />)
+    expect(screen.getByTestId('project-cover-header')).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: 'Jira Code' })).toBeInTheDocument()
   })
 })

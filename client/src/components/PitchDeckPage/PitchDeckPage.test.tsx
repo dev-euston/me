@@ -2,6 +2,9 @@ import { describe, it, expect, vi } from 'vitest'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { PitchDeckPage } from './PitchDeckPage'
+import type { Project } from '../../types'
+
+vi.mock('../../hooks/useReducedMotion', () => ({ useReducedMotion: () => false }))
 
 const mockNavigate = vi.fn()
 vi.mock('react-router-dom', () => ({
@@ -59,5 +62,39 @@ describe('PitchDeckPage', () => {
     expect(button.style.color).toBe('rgb(59, 130, 246)')
     await userEvent.unhover(button)
     expect(button.style.color).toBe('white')
+  })
+
+  describe('project cover header', () => {
+    const base: Project = {
+      id: 'x',
+      name: 'Proj X',
+      description: 'd',
+      techStack: ['React'],
+    }
+
+    it('renders the cover header before the nav when project has a coverImage', () => {
+      render(
+        <PitchDeckPage
+          src="/pitch/foo.html"
+          title="Foo pitch"
+          project={{ ...base, coverImage: '/img.png' }}
+        />
+      )
+      const header = screen.getByTestId('project-cover-header')
+      const nav = screen.getByRole('navigation')
+      expect(header.compareDocumentPosition(nav) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy()
+      expect(screen.getByRole('heading', { name: 'Proj X' })).toBeInTheDocument()
+    })
+
+    it('does not render the cover header when project has no coverImage', () => {
+      render(<PitchDeckPage src="/pitch/foo.html" title="Foo pitch" project={base} />)
+      expect(screen.queryByTestId('project-cover-header')).not.toBeInTheDocument()
+    })
+
+    it('falls back to the plain layout when no project is passed', () => {
+      const { container } = render(<PitchDeckPage src="/pitch/foo.html" title="Foo pitch" />)
+      expect(screen.queryByTestId('project-cover-header')).not.toBeInTheDocument()
+      expect((container.firstChild as HTMLElement).style.height).toBe('100vh')
+    })
   })
 })

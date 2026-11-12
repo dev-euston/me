@@ -26,6 +26,8 @@ export const projects: Project[] = [
       'Connects your Jira backlog to your codebase. Tickets become pull requests — without leaving Jira.',
     techStack: ['Next.js', 'Claude AI', 'PostgreSQL', 'GitHub API', 'Jira REST API', 'TypeScript'],
     pitchUrl: '/projects/jira-code',
+    coverImage:
+      'https://images.unsplash.com/photo-1633356122544-f134324ef6db?w=1200&h=600&fit=crop',
   },
   {
     id: 'mr-reviewer',
