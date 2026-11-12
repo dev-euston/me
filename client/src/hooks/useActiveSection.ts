@@ -10,9 +10,7 @@ export function useActiveSection(sectionIds: string[]): string {
 
   useEffect(() => {
     const ids = sectionKey.split(',')
-    const elements = ids
-      .map((id) => document.getElementById(id))
-      .filter(Boolean) as HTMLElement[]
+    const elements = ids.map((id) => document.getElementById(id)).filter(Boolean) as HTMLElement[]
 
     const observer = new IntersectionObserver(
       (entries) => {

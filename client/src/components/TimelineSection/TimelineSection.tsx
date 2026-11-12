@@ -17,11 +17,7 @@ export function TimelineSection({ experience }: TimelineSectionProps) {
   }
 
   return (
-    <section
-      id="experience"
-      data-testid="experience-section"
-      className="py-24 px-6"
-    >
+    <section id="experience" data-testid="experience-section" className="py-24 px-6">
       <div className="max-w-4xl mx-auto">
         <motion.div
           initial="hidden"
@@ -34,12 +30,7 @@ export function TimelineSection({ experience }: TimelineSectionProps) {
 
         <div className="space-y-8 relative">
           {experience.map((entry, index) => (
-            <TimelineEntry
-              key={entry.id}
-              entry={entry}
-              index={index}
-              isLeft={index % 2 === 0}
-            />
+            <TimelineEntry key={entry.id} entry={entry} index={index} isLeft={index % 2 === 0} />
           ))}
         </div>
       </div>

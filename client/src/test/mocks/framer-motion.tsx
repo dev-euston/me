@@ -38,10 +38,6 @@ export function useReducedMotion(): boolean {
   return false
 }
 
-export const AnimatePresence = ({ children }: { children: React.ReactNode }) => (
-  <>{children}</>
-)
+export const AnimatePresence = ({ children }: { children: React.ReactNode }) => <>{children}</>
 
-export const MotionConfig = ({ children }: { children: React.ReactNode }) => (
-  <>{children}</>
-)
+export const MotionConfig = ({ children }: { children: React.ReactNode }) => <>{children}</>

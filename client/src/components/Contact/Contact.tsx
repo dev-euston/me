@@ -3,11 +3,7 @@ import { fadeUp } from '../../styles/animations'
 
 export function Contact() {
   return (
-    <section
-      id="contact"
-      data-testid="contact-section"
-      className="py-24 px-6 text-center"
-    >
+    <section id="contact" data-testid="contact-section" className="py-24 px-6 text-center">
       <motion.div
         variants={fadeUp}
         initial="hidden"

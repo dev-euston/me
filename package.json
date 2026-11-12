@@ -1,7 +1,9 @@
 {
   "name": "me",
   "private": true,
-  "workspaces": ["client"],
+  "workspaces": [
+    "client"
+  ],
   "scripts": {
     "dev": "npm run dev -w @me/web",
     "build": "npm run build -w @me/web",

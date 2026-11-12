@@ -71,9 +71,7 @@ export const experience: Experience[] = [
     role: 'Software Engineer',
     startDate: 'Aug 2013',
     endDate: 'Aug 2016',
-    bullets: [
-      'Developed and validated applications for the Government Programs Business Unit.',
-    ],
+    bullets: ['Developed and validated applications for the Government Programs Business Unit.'],
     achievements: [
       'Developed and validated applications for the Government Programs Business Unit.',
     ],

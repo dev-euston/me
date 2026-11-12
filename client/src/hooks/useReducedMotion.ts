@@ -3,9 +3,7 @@ import { useEffect, useState } from 'react'
 const QUERY = '(prefers-reduced-motion: reduce)'
 
 export function useReducedMotion(): boolean {
-  const [prefersReduced, setPrefersReduced] = useState(
-    () => window.matchMedia(QUERY).matches
-  )
+  const [prefersReduced, setPrefersReduced] = useState(() => window.matchMedia(QUERY).matches)
 
   useEffect(() => {
     const mediaQuery = window.matchMedia(QUERY)
