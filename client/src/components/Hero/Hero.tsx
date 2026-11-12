@@ -50,10 +50,7 @@ export function Hero() {
           </p>
         </motion.div>
 
-        <motion.div
-          variants={item}
-          className="flex flex-col sm:flex-row gap-4"
-        >
+        <motion.div variants={item} className="flex flex-col sm:flex-row gap-4">
           <a
             href="#projects"
             className="inline-flex items-center justify-center px-8 py-3 rounded-full bg-accent text-white font-medium hover:bg-accent-hover transition-colors"

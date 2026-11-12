@@ -1,0 +1,5 @@
+coverage
+dist
+pitch
+client/public/pitch
+package-lock.json

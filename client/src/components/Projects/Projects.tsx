@@ -11,11 +11,7 @@ interface ProjectsProps {
 
 export function Projects({ projects }: ProjectsProps) {
   return (
-    <section
-      id="projects"
-      data-testid="projects-section"
-      className="py-24 px-6 bg-surface"
-    >
+    <section id="projects" data-testid="projects-section" className="py-24 px-6 bg-surface">
       <div className="max-w-5xl mx-auto">
         <motion.div
           variants={fadeUp}
@@ -42,8 +38,7 @@ interface ProjectCardProps {
 }
 
 export function ProjectCard({ project, index }: ProjectCardProps) {
-  const { ref, variants, initial, animate, transition } =
-    useStaggeredReveal(index)
+  const { ref, variants, initial, animate, transition } = useStaggeredReveal(index)
   const {
     ref: badgesRef,
     variants: badgesVariants,

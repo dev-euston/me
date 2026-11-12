@@ -87,7 +87,9 @@ describe('projects data', () => {
     expect(projects[6].id).toBe('markdown-commenter')
     expect(projects[6].name).toBe('Markdown Commenter')
     expect(projects[6].githubUrl).toBe('https://github.com/dev-euston/markdown-commenter')
-    expect(projects[6].externalPitchUrl).toBe('https://markdown-commenter.eustonlee.com/?doc=pitchdeck')
+    expect(projects[6].externalPitchUrl).toBe(
+      'https://markdown-commenter.eustonlee.com/?doc=pitchdeck'
+    )
     expect(projects[6].demoUrl).toBe('https://markdown-commenter.eustonlee.com')
     expect(projects[6].pitchUrl).toBeUndefined()
     expect(projects[6].techStack).toContain('Next.js')
