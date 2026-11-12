@@ -59,7 +59,7 @@ client/
     styles/       # Global CSS custom properties / design tokens
     test/
       setup.ts    # @testing-library/jest-dom (auto-loaded by vitest)
-    main.tsx      # Entry point — defines routes via createBrowserRouter, excluded from coverage
+    main.tsx      # Entry point — defines routes via createBrowserRouter + AnimatedLayout wrapper, excluded from coverage
     App.tsx       # Root component — renders section components in order (the "/" route)
   public/
     pitch/        # Static HTML pitch decks served at /pitch/<name>.html
@@ -68,7 +68,7 @@ pitch/            # Source pitch decks (standalone HTML, outside Vite build)
 
 Content lives in `src/data/` as plain TypeScript objects (no CMS). To add/update projects or experience, edit those files.
 
-**Routing:** React Router v6 (`react-router-dom`). Routes are defined in `main.tsx` via `createBrowserRouter`. The main portfolio is the `"/"` route (`App`). Project detail pages live under `src/pages/` and are registered as additional routes.
+**Routing:** React Router v6 (`react-router-dom`). Routes are defined in `main.tsx` via `createBrowserRouter`. All routes are children of a root `AnimatedLayout` layout component that wraps them in `AnimatePresence` + `PageTransition` for animated page transitions. The main portfolio is the `"/"` route (`App`). Project detail pages live under `src/pages/` and are registered as additional child routes.
 
 **Pitch decks:** Static HTML files in `client/public/pitch/` are served under `/pitch/`. Single-asset decks live at `/pitch/<name>.html`; multi-asset decks (with screenshots etc.) use a subdirectory at `/pitch/<name>/index.html`. Page components under `src/pages/` render them with a 48px top nav (dark background, "← Back to portfolio" button using `useNavigate(-1)`) above a `calc(100vh - 48px)` iframe. The source pitch decks also exist in `pitch/` at the repo root for standalone viewing outside the app.
 
@@ -94,6 +94,7 @@ The site is **frontend-only** for now. Keep data-fetching in hooks so components
 - Stagger pattern: wrap each item in `motion.div`, use `useStaggeredReveal(index)` hook which returns `{ref, initial, animate, transition}`. Initial: `{opacity:0, y:24}`, animate: `{opacity:1, y:0}`, stagger delay = `index * 0.1s`, `once: true`.
 - Always check `useReducedMotion()` and skip animation (render at final state with `duration:0`) when it returns `true`. Use the custom hook from `hooks/useReducedMotion` (wraps `window.matchMedia`) — not framer-motion's own `useReducedMotion`.
 - Framer Motion exports (including its own `useReducedMotion`) are mocked in `client/src/test/mocks/framer-motion.tsx`. Add new exports there if tests fail with "not a function." The custom `hooks/useReducedMotion` is tested separately and must be mocked in component tests that use it.
+- **Page transition exception:** `PageTransition` uses framer-motion's own `useReducedMotion` directly (imported alongside `motion`) rather than the custom hook — this is intentional since it already imports from framer-motion. All other components still use the custom hook.
 
 ## Key Conventions
 
