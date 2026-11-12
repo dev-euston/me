@@ -1,10 +1,11 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { useInView, useReducedMotion } from 'framer-motion'
-import { render, screen } from '@testing-library/react'
+import { render, screen, within } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
 
 const motionProps = vi.hoisted(() => ({
   cards: [] as Array<Record<string, unknown>>,
+  badges: [] as Array<Record<string, unknown>>,
 }))
 
 vi.mock('framer-motion', async () => {
@@ -17,6 +18,9 @@ vi.mock('framer-motion', async () => {
         const testId = props['data-testid']
         if (typeof testId === 'string' && testId.startsWith('project-card-')) {
           motionProps.cards.push(props)
+        }
+        if (testId === 'tech-badges-container') {
+          motionProps.badges.push(props)
         }
         // Drop animation props so React doesn't stringify objects onto the DOM
         const { initial, animate, transition, variants, ...rest } = props
@@ -40,7 +44,7 @@ const baseProject: Project = {
   id: 'test',
   name: 'Test Project',
   description: 'A test project',
-  tags: ['TypeScript'],
+  techStack: ['TypeScript'],
   githubUrl: 'https://github.com/dev-euston/test',
 }
 
@@ -62,10 +66,27 @@ describe('Projects', () => {
     expect(screen.getAllByTestId('project-name')[0].textContent).toContain('Spell Star')
   })
 
-  it('renders at least one tag per card', () => {
+  it('renders at least one tech badge per card', () => {
     render(<MemoryRouter><Projects projects={projects} /></MemoryRouter>)
-    const tags = screen.getAllByTestId('project-tag')
-    expect(tags.length).toBeGreaterThanOrEqual(2)
+    const badges = screen.getAllByTestId('tech-badge')
+    expect(badges.length).toBeGreaterThanOrEqual(projects.length)
+  })
+
+  it('renders tech badges with correct count matching techStack array length', () => {
+    render(<MemoryRouter><Projects projects={projects} /></MemoryRouter>)
+    const containers = screen.getAllByTestId('tech-badges-container')
+    containers.forEach((container, i) => {
+      expect(within(container).getAllByTestId('tech-badge')).toHaveLength(
+        projects[i].techStack.length
+      )
+    })
+  })
+
+  it('renders each tech badge with correct label text from techStack', () => {
+    const project: Project[] = [{ ...baseProject, techStack: ['React', 'Vite', 'Node.js'] }]
+    render(<MemoryRouter><Projects projects={project} /></MemoryRouter>)
+    const labels = screen.getAllByTestId('tech-badge').map((b) => b.textContent)
+    expect(labels).toEqual(['React', 'Vite', 'Node.js'])
   })
 
   it('renders GitHub links only for projects with a githubUrl', () => {
@@ -75,7 +96,7 @@ describe('Projects', () => {
   })
 
   it('does not render GitHub link when githubUrl is absent', () => {
-    const project: Project[] = [{ id: 'test', name: 'Test', description: 'A test', tags: ['T'] }]
+    const project: Project[] = [{ id: 'test', name: 'Test', description: 'A test', techStack: ['T'] }]
     render(<MemoryRouter><Projects projects={project} /></MemoryRouter>)
     expect(screen.queryByRole('link', { name: 'GitHub repository' })).toBeNull()
   })
@@ -142,6 +163,7 @@ describe('Projects', () => {
 
     beforeEach(() => {
       motionProps.cards.length = 0
+      motionProps.badges.length = 0
       vi.mocked(useInView).mockReturnValue(true)
       vi.mocked(useReducedMotion).mockReturnValue(false)
     })
@@ -165,6 +187,43 @@ describe('Projects', () => {
       render(<MemoryRouter><Projects projects={projects} /></MemoryRouter>)
       latestCards().forEach((card, index) => {
         expect(card.transition).toEqual({ delay: index * 0.1 })
+      })
+    })
+
+    describe('badges container', () => {
+      const latestBadges = () => motionProps.badges.slice(-projects.length)
+
+      it('starts hidden (opacity 0, y 24) when not in view', () => {
+        vi.mocked(useInView).mockReturnValue(false)
+        render(<MemoryRouter><Projects projects={projects} /></MemoryRouter>)
+        const container = latestBadges()[0]
+        const variants = container.variants as Record<string, unknown>
+        expect(container.initial).toBe('hidden')
+        expect(container.animate).toBe('hidden')
+        expect(variants.hidden).toEqual({ opacity: 0, y: 24 })
+      })
+
+      it('animates to visible when in view', () => {
+        render(<MemoryRouter><Projects projects={projects} /></MemoryRouter>)
+        expect(latestBadges()[0].animate).toBe('visible')
+      })
+
+      it('applies the same index-based delay as the card', () => {
+        render(<MemoryRouter><Projects projects={projects} /></MemoryRouter>)
+        latestBadges().forEach((container, index) => {
+          expect(container.transition).toEqual({ delay: index * 0.1 })
+        })
+      })
+
+      it('renders visible with zero delay under reduced motion', () => {
+        vi.mocked(useReducedMotion).mockReturnValue(true)
+        vi.mocked(useInView).mockReturnValue(false)
+        render(<MemoryRouter><Projects projects={projects} /></MemoryRouter>)
+        latestBadges().forEach((container) => {
+          expect(container.initial).toBe('visible')
+          expect(container.animate).toBe('visible')
+          expect(container.transition).toEqual({ delay: 0 })
+        })
       })
     })
 
