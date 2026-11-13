@@ -6,6 +6,10 @@ vi.mock('react-router-dom', () => ({
   useNavigate: () => vi.fn(),
 }))
 
+vi.mock('../../components/ProjectNavButtons/ProjectNavButtons', () => ({
+  ProjectNavButtons: () => null,
+}))
+
 vi.mock('../../components/RelatedProjects', () => ({
   RelatedProjects: () => null,
 }))

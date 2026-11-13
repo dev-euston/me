@@ -8,6 +8,10 @@ vi.mock('react-router-dom', () => ({
 
 vi.mock('../../hooks/useReducedMotion', () => ({ useReducedMotion: () => false }))
 
+vi.mock('../../components/ProjectNavButtons/ProjectNavButtons', () => ({
+  ProjectNavButtons: () => null,
+}))
+
 vi.mock('../../components/RelatedProjects', () => ({
   RelatedProjects: () => null,
 }))
