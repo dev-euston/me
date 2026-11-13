@@ -2,7 +2,21 @@
 import React, { forwardRef } from 'react'
 
 const MotionDivComponent = forwardRef<HTMLDivElement, any>(
-  ({ children, initial, animate, variants, whileInView, viewport, transition, ...props }, ref) => {
+  (
+    {
+      children,
+      initial,
+      animate,
+      exit,
+      layout,
+      variants,
+      whileInView,
+      viewport,
+      transition,
+      ...props
+    },
+    ref
+  ) => {
     return (
       <div ref={ref} {...props}>
         {children}
@@ -14,7 +28,21 @@ const MotionDivComponent = forwardRef<HTMLDivElement, any>(
 MotionDivComponent.displayName = 'MotionDiv'
 
 const MotionSpanComponent = forwardRef<HTMLSpanElement, any>(
-  ({ children, initial, animate, variants, whileInView, viewport, transition, ...props }, ref) => {
+  (
+    {
+      children,
+      initial,
+      animate,
+      exit,
+      layout,
+      variants,
+      whileInView,
+      viewport,
+      transition,
+      ...props
+    },
+    ref
+  ) => {
     return (
       <span ref={ref} {...props}>
         {children}
@@ -25,8 +53,35 @@ const MotionSpanComponent = forwardRef<HTMLSpanElement, any>(
 
 MotionSpanComponent.displayName = 'MotionSpan'
 
+const MotionButtonComponent = forwardRef<HTMLButtonElement, any>(
+  (
+    {
+      children,
+      initial,
+      animate,
+      exit,
+      layout,
+      variants,
+      whileInView,
+      viewport,
+      transition,
+      ...props
+    },
+    ref
+  ) => {
+    return (
+      <button ref={ref} {...props}>
+        {children}
+      </button>
+    )
+  }
+)
+
+MotionButtonComponent.displayName = 'MotionButton'
+
 export const motion = {
   div: MotionDivComponent,
+  button: MotionButtonComponent,
   span: MotionSpanComponent,
 }
 

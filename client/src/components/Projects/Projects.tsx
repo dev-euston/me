@@ -2,6 +2,9 @@ import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
 import { fadeUp } from '../../styles/animations'
 import { useStaggeredReveal } from '../../hooks/useStaggeredReveal'
+import { useProjectFilter } from '../../hooks/useProjectFilter'
+import { getAllTechStacks } from '../../data/projects'
+import { ProjectFilter } from '../ProjectFilter'
 import { TechBadge } from '../TechBadge'
 import type { Project } from '../../types'
 
@@ -10,6 +13,11 @@ interface ProjectsProps {
 }
 
 export function Projects({ projects }: ProjectsProps) {
+  const { activeFilters, toggleFilter, clearFilters, filteredProjects } = useProjectFilter()
+  const allTechs = getAllTechStacks()
+  const visibleProjects = filteredProjects(projects)
+  const filterKey = Array.from(activeFilters).sort().join('|')
+
   return (
     <section id="projects" data-testid="projects-section" className="py-24 px-6 bg-surface">
       <div className="max-w-5xl mx-auto">
@@ -22,8 +30,15 @@ export function Projects({ projects }: ProjectsProps) {
           <h2 className="text-3xl font-display font-bold mb-16">Projects</h2>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {projects.map((project, index) => (
+        <ProjectFilter
+          techs={allTechs}
+          activeFilters={activeFilters}
+          onFilterChange={toggleFilter}
+          onReset={clearFilters}
+        />
+
+        <div key={filterKey} className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {visibleProjects.map((project, index) => (
             <ProjectCard key={project.id} project={project} index={index} />
           ))}
         </div>

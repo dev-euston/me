@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { projects } from './projects'
+import { projects, getAllTechStacks } from './projects'
 
 describe('projects data', () => {
   it('exports an array of 7 projects', () => {
@@ -102,6 +102,28 @@ describe('projects data', () => {
     for (const p of projects) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       expect((p as any).liveUrl).toBeUndefined()
+    }
+  })
+})
+
+describe('getAllTechStacks', () => {
+  it('returns strings in alphabetical order', () => {
+    const techs = getAllTechStacks()
+    expect(techs.length).toBeGreaterThan(0)
+    expect(techs).toEqual([...techs].sort())
+  })
+
+  it('contains no duplicate values', () => {
+    const techs = getAllTechStacks()
+    expect(new Set(techs).size).toBe(techs.length)
+  })
+
+  it('includes every technology from every project', () => {
+    const techs = getAllTechStacks()
+    for (const p of projects) {
+      for (const t of p.techStack) {
+        expect(techs).toContain(t)
+      }
     }
   })
 })

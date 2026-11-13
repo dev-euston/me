@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { createElement } from 'react'
 import { useInView, useReducedMotion } from 'framer-motion'
-import { render, screen, within } from '@testing-library/react'
+import { render, screen, within, fireEvent } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
 
 const motionProps = vi.hoisted(() => ({
@@ -15,6 +15,7 @@ vi.mock('framer-motion', async () => {
   return {
     ...mock,
     motion: {
+      button: mock.motion.button,
       div: (props: Record<string, unknown>) => {
         const testId = props['data-testid']
         if (typeof testId === 'string' && testId.startsWith('project-card-')) {
@@ -37,8 +38,10 @@ vi.mock('framer-motion', async () => {
   }
 })
 
+vi.mock('../../hooks/useReducedMotion', () => ({ useReducedMotion: () => false }))
+
 import { Projects } from './Projects'
-import { projects } from '../../data/projects'
+import { projects, getAllTechStacks } from '../../data/projects'
 import type { Project } from '../../types'
 
 const baseProject: Project = {
@@ -212,6 +215,58 @@ describe('Projects', () => {
     expect(cards).toHaveLength(7)
     cards.forEach((card, index) => {
       expect(card).toHaveAttribute('data-testid', `project-card-${index}`)
+    })
+  })
+
+  describe('tech filter', () => {
+    const renderProjects = () =>
+      render(
+        <MemoryRouter>
+          <Projects projects={projects} />
+        </MemoryRouter>
+      )
+
+    it('renders an All chip and one chip per tech from getAllTechStacks', () => {
+      renderProjects()
+      expect(screen.getByRole('button', { name: 'All' })).toBeInTheDocument()
+      getAllTechStacks().forEach((tech) => {
+        expect(screen.getByTestId(`filter-chip-${tech}`)).toBeInTheDocument()
+      })
+    })
+
+    it('renders all projects when no filters are active', () => {
+      renderProjects()
+      expect(screen.getAllByTestId('project-name')).toHaveLength(projects.length)
+    })
+
+    it('filters projects when a chip is clicked', () => {
+      renderProjects()
+      fireEvent.click(screen.getByTestId('filter-chip-Mobile'))
+      const names = screen.getAllByTestId('project-name').map((n) => n.textContent)
+      expect(names).toEqual(['Mission: Singapore'])
+    })
+
+    it('uses OR logic across multiple active filters', () => {
+      renderProjects()
+      fireEvent.click(screen.getByTestId('filter-chip-Mobile'))
+      fireEvent.click(screen.getByTestId('filter-chip-Vite'))
+      const names = screen.getAllByTestId('project-name').map((n) => n.textContent)
+      expect(names).toEqual(['Portfolio Site', 'Mission: Singapore'])
+    })
+
+    it('restores all projects when All is clicked', () => {
+      renderProjects()
+      fireEvent.click(screen.getByTestId('filter-chip-Mobile'))
+      fireEvent.click(screen.getByRole('button', { name: 'All' }))
+      expect(screen.getAllByTestId('project-name')).toHaveLength(projects.length)
+    })
+
+    it('remounts cards (replaying entrance animations) when filters change', () => {
+      renderProjects()
+      const before = screen.getAllByTestId('project-name')[0]
+      fireEvent.click(screen.getByTestId('filter-chip-React'))
+      const after = screen.getAllByTestId('project-name')[0]
+      expect(after).not.toBe(before)
     })
   })
 
