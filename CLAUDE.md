@@ -53,7 +53,7 @@ client/
   src/
     components/   # One folder per section/component, each with index.tsx + *.test.tsx
     pages/        # Route-level page components (one folder per route, with *.test.tsx)
-    hooks/        # Custom React hooks — data-fetching (isolated for future API swap) and animation utilities (e.g. useStaggeredReveal, useReducedMotion)
+    hooks/        # Custom React hooks — data-fetching (isolated for future API swap), animation utilities (e.g. useStaggeredReveal, useReducedMotion), and UI state (e.g. useProjectFilter)
     data/         # Static content (projects, experience, skills) as typed TS objects
     types/        # Shared TypeScript interfaces
     styles/       # Global CSS custom properties / design tokens
@@ -105,3 +105,4 @@ The site is **frontend-only** for now. Keep data-fetching in hooks so components
 - Use CSS custom properties from `src/styles/` — no hardcoded colours
 - `Project` type: `techStack: string[]` holds the array of technology labels (renamed from `tags` in earlier versions). Link fields: `githubUrl` (optional — omit for projects without a public repo), `pitchUrl` (optional — internal React Router path, e.g. `/projects/<id>`), `externalPitchUrl` (optional — external URL to a pitch deck hosted outside this app, opens in new tab), and `demoUrl` (optional — external URL to a live deployment). Use `pitchUrl` for projects with an internal pitch page; use `externalPitchUrl` when the pitch deck is hosted externally. All four can coexist. `coverImage` (optional — URL for the hero cover image shown at the top of the project's detail page via `ProjectCoverHeader`; uses above-the-fold animation pattern).
 - `Experience` type: `achievements?: string[]` is optional. When present, `TimelineEntry` renders `achievements` instead of `bullets`.
+- **Project filtering:** `Projects` uses `useProjectFilter` hook (from `hooks/`) for tech stack filtering and renders a `ProjectFilter` chip strip above the grid. `getAllTechStacks()` (from `data/projects.ts`) extracts a deduplicated sorted list of all tech labels across all projects — use it to populate the filter and anywhere else a full tech list is needed.
