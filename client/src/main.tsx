@@ -14,6 +14,7 @@ import { JiraCodePage } from './pages/JiraCode/JiraCode'
 import { MrReviewerPage } from './pages/MrReviewer/MrReviewer'
 import { MissionSingaporePage } from './pages/MissionSingapore/MissionSingapore'
 import { AppraisalHelperPage } from './pages/AppraisalHelper/AppraisalHelper'
+import { PitchDecksPage } from './pages/PitchDecks/PitchDecks'
 
 // eslint-disable-next-line react-refresh/only-export-components -- entry point, not hot-reloaded
 function AnimatedLayout() {
@@ -31,6 +32,7 @@ const router = createBrowserRouter([
     element: <AnimatedLayout />,
     children: [
       { path: '/', element: <App /> },
+      { path: '/pitch', element: <PitchDecksPage /> },
       { path: '/projects/jira-code', element: <JiraCodePage /> },
       { path: '/projects/mr-reviewer', element: <MrReviewerPage /> },
       { path: '/projects/mission-singapore', element: <MissionSingaporePage /> },

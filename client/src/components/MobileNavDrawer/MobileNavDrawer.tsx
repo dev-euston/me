@@ -13,6 +13,7 @@ const links = [
   { label: 'Projects', href: '#projects' },
   { label: 'Experience', href: '#experience' },
   { label: 'Contact', href: '#contact' },
+  { label: 'Pitch Decks', href: '/pitch' },
 ]
 
 export function MobileNavDrawer({ isOpen, onClose }: MobileNavDrawerProps) {
