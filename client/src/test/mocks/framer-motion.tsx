@@ -79,7 +79,35 @@ const MotionButtonComponent = forwardRef<HTMLButtonElement, any>(
 
 MotionButtonComponent.displayName = 'MotionButton'
 
+const MotionAnchorComponent = forwardRef<HTMLAnchorElement, any>(
+  (
+    {
+      children,
+      initial,
+      animate,
+      exit,
+      layout,
+      variants,
+      whileInView,
+      whileHover,
+      viewport,
+      transition,
+      ...props
+    },
+    ref
+  ) => {
+    return (
+      <a ref={ref} {...props}>
+        {children}
+      </a>
+    )
+  }
+)
+
+MotionAnchorComponent.displayName = 'MotionAnchor'
+
 export const motion = {
+  a: MotionAnchorComponent,
   div: MotionDivComponent,
   button: MotionButtonComponent,
   span: MotionSpanComponent,
