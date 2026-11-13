@@ -6,6 +6,10 @@ vi.mock('react-router-dom', () => ({
   useNavigate: () => vi.fn(),
 }))
 
+vi.mock('../../components/RelatedProjects', () => ({
+  RelatedProjects: () => null,
+}))
+
 describe('MissionSingaporePage', () => {
   it('renders an iframe pointing to the mission-singapore pitch deck', () => {
     const { container } = render(<MissionSingaporePage />)
