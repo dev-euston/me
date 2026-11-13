@@ -8,6 +8,10 @@ vi.mock('react-router-dom', () => ({
 
 vi.mock('../../hooks/useReducedMotion', () => ({ useReducedMotion: () => false }))
 
+vi.mock('../../components/RelatedProjects', () => ({
+  RelatedProjects: () => null,
+}))
+
 describe('JiraCodePage', () => {
   it('renders an iframe pointing to the jira-code pitch deck', () => {
     const { container } = render(<JiraCodePage />)

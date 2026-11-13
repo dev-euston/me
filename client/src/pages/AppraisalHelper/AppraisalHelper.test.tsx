@@ -6,6 +6,10 @@ vi.mock('react-router-dom', () => ({
   useNavigate: () => vi.fn(),
 }))
 
+vi.mock('../../components/RelatedProjects', () => ({
+  RelatedProjects: () => null,
+}))
+
 describe('AppraisalHelperPage', () => {
   it('renders an iframe pointing to the appraisal-helper pitch deck', () => {
     const { container } = render(<AppraisalHelperPage />)
