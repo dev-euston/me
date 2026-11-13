@@ -1,6 +1,8 @@
 import { motion } from 'framer-motion'
 import { fadeUp, staggerChildren } from '../../styles/animations'
 import { useReducedMotion } from '../../hooks/useReducedMotion'
+import { AvailabilityBadge } from '../AvailabilityBadge/AvailabilityBadge'
+import { personalInfo } from '../../data/personal'
 
 const instantFadeUp = {
   hidden: fadeUp.visible,
@@ -41,6 +43,7 @@ export function Hero() {
         </motion.div>
 
         <motion.div variants={item}>
+          <AvailabilityBadge isAvailable={personalInfo.isAvailableForWork} />
           <p className="text-xl text-muted mb-3">Software Engineer</p>
         </motion.div>
 

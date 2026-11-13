@@ -19,6 +19,7 @@ vi.mock('../../hooks/useReducedMotion', () => ({
 }))
 
 import { Hero } from './Hero'
+import { personalInfo } from '../../data/personal'
 
 describe('Hero', () => {
   beforeEach(() => {
@@ -62,7 +63,7 @@ describe('Hero', () => {
 
   it('renders a container and four animated children when reduced motion is false', () => {
     render(<Hero />)
-    expect(motionProps).toHaveLength(5)
+    expect(motionProps).toHaveLength(6)
   })
 
   it('animates from hidden to visible on mount when reduced motion is false', () => {
@@ -90,10 +91,23 @@ describe('Hero', () => {
     )
   })
 
+  it('renders the availability badge when personalInfo marks the owner available', () => {
+    render(<Hero />)
+    expect(screen.getByTestId('availability-badge')).toBeInTheDocument()
+    expect(screen.getByText('Open to opportunities')).toBeInTheDocument()
+  })
+
+  it('hides the availability badge when personalInfo marks the owner unavailable', () => {
+    personalInfo.isAvailableForWork = false
+    render(<Hero />)
+    personalInfo.isAvailableForWork = true
+    expect(screen.queryByTestId('availability-badge')).not.toBeInTheDocument()
+  })
+
   it('does not change animation props on re-render', () => {
     const { rerender } = render(<Hero />)
     rerender(<Hero />)
-    const last = motionProps.slice(-5)
+    const last = motionProps.slice(-6)
     expect(last[0].initial).toBe('hidden')
     expect(last[0].animate).toBe('visible')
     expect(screen.getAllByRole('heading')).toHaveLength(1)
