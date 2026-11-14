@@ -67,6 +67,34 @@ describe('Nav', () => {
     expect(screen.getByRole('navigation')).not.toHaveClass('-translate-y-full')
   })
 
+  it('labels the navigation landmark', () => {
+    mockUseActiveSection.mockReturnValue('about')
+    mockUseScrollDirection.mockReturnValue('up')
+    render(<Nav />)
+    expect(screen.getByRole('navigation')).toHaveAttribute('aria-label', 'Main navigation')
+  })
+
+  it('sets aria-current only on the active link', () => {
+    mockUseActiveSection.mockReturnValue('projects')
+    mockUseScrollDirection.mockReturnValue('up')
+    const { rerender } = render(<Nav />)
+    expect(screen.getByRole('link', { name: 'Projects' })).toHaveAttribute('aria-current', 'page')
+    expect(screen.getByRole('link', { name: 'About' })).not.toHaveAttribute('aria-current')
+    mockUseActiveSection.mockReturnValue('contact')
+    rerender(<Nav />)
+    expect(screen.getByRole('link', { name: 'Contact' })).toHaveAttribute('aria-current', 'page')
+    expect(screen.getByRole('link', { name: 'Projects' })).not.toHaveAttribute('aria-current')
+  })
+
+  it('returns focus to the hamburger when the drawer closes', () => {
+    mockUseActiveSection.mockReturnValue('about')
+    mockUseScrollDirection.mockReturnValue('up')
+    render(<Nav />)
+    fireEvent.click(screen.getByRole('button', { name: 'Open menu' }))
+    fireEvent.keyDown(document, { key: 'Escape' })
+    expect(screen.getByRole('button', { name: 'Open menu' })).toHaveFocus()
+  })
+
   describe('mobile navigation', () => {
     beforeEach(() => {
       mockUseActiveSection.mockReturnValue('about')

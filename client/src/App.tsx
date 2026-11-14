@@ -1,4 +1,5 @@
 import { MotionConfig } from 'framer-motion'
+import { SkipToContent } from './components/SkipToContent/SkipToContent'
 import { Nav } from './components/Nav/Nav'
 import { Hero } from './components/Hero/Hero'
 import { About } from './components/About/About'
@@ -12,8 +13,9 @@ import { experience } from './data/experience'
 export default function App() {
   return (
     <MotionConfig reducedMotion="user">
+      <SkipToContent />
       <Nav />
-      <main>
+      <main id="main-content" role="main">
         <Hero />
         <About />
         <Projects projects={projects} />
