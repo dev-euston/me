@@ -2,38 +2,24 @@ import { useCallback, useState } from 'react'
 import type { Project } from '../types'
 
 interface UseProjectFilterResult {
-  activeFilters: Set<string>
-  toggleFilter: (tech: string) => void
-  clearFilters: () => void
+  activeTech: string | null
+  setActiveTech: (tag: string | null) => void
   filteredProjects: (toFilter: Project[]) => Project[]
 }
 
-export function useProjectFilter(): UseProjectFilterResult {
-  const [activeFilters, setActiveFilters] = useState<Set<string>>(new Set())
+// eslint-disable-next-line @typescript-eslint/no-unused-vars -- projects is accepted for typing only
+export function useProjectFilter(_projects?: Project[]): UseProjectFilterResult {
+  const [activeTech, setActive] = useState<string | null>(null)
 
-  const toggleFilter = useCallback((tech: string) => {
-    setActiveFilters((prev) => {
-      const next = new Set(prev)
-      if (next.has(tech)) {
-        next.delete(tech)
-      } else {
-        next.add(tech)
-      }
-      return next
-    })
-  }, [])
-
-  const clearFilters = useCallback(() => {
-    setActiveFilters(new Set())
+  const setActiveTech = useCallback((tag: string | null) => {
+    setActive((prev) => (tag === null || tag === prev ? null : tag))
   }, [])
 
   const filteredProjects = useCallback(
     (toFilter: Project[]) =>
-      activeFilters.size === 0
-        ? toFilter
-        : toFilter.filter((p) => p.techStack.some((t) => activeFilters.has(t))),
-    [activeFilters]
+      activeTech === null ? toFilter : toFilter.filter((p) => p.techStack.includes(activeTech)),
+    [activeTech]
   )
 
-  return { activeFilters, toggleFilter, clearFilters, filteredProjects }
+  return { activeTech, setActiveTech, filteredProjects }
 }

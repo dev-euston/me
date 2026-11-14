@@ -23,20 +23,14 @@ vi.mock('../../hooks/useReducedMotion', () => ({ useReducedMotion: () => reduced
 
 import { ProjectFilter } from './index'
 
-const techs = ['React', 'Vite']
+const allTags = ['React', 'Vite']
 
-function setup(active: string[] = []) {
-  const onFilterChange = vi.fn()
-  const onReset = vi.fn()
+function setup(activeTech: string | null = null) {
+  const onSetActiveTech = vi.fn()
   render(
-    <ProjectFilter
-      techs={techs}
-      activeFilters={new Set(active)}
-      onFilterChange={onFilterChange}
-      onReset={onReset}
-    />
+    <ProjectFilter activeTech={activeTech} onSetActiveTech={onSetActiveTech} allTags={allTags} />
   )
-  return { onFilterChange, onReset }
+  return { onSetActiveTech }
 }
 
 describe('ProjectFilter', () => {
@@ -52,25 +46,25 @@ describe('ProjectFilter', () => {
 
   it('renders one chip per technology', () => {
     setup()
-    expect(screen.getAllByRole('button')).toHaveLength(techs.length + 1)
+    expect(screen.getAllByRole('button')).toHaveLength(allTags.length + 1)
     expect(screen.getByRole('button', { name: 'React' })).toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'Vite' })).toBeInTheDocument()
   })
 
-  it('calls onFilterChange with the tech when a chip is clicked', () => {
-    const { onFilterChange } = setup()
+  it('calls onSetActiveTech with the tech when a chip is clicked', () => {
+    const { onSetActiveTech } = setup()
     fireEvent.click(screen.getByRole('button', { name: 'React' }))
-    expect(onFilterChange).toHaveBeenCalledWith('React')
+    expect(onSetActiveTech).toHaveBeenCalledWith('React')
   })
 
-  it('calls onReset when All is clicked', () => {
-    const { onReset } = setup()
+  it('calls onSetActiveTech(null) when All is clicked', () => {
+    const { onSetActiveTech } = setup('React')
     fireEvent.click(screen.getByRole('button', { name: 'All' }))
-    expect(onReset).toHaveBeenCalledTimes(1)
+    expect(onSetActiveTech).toHaveBeenCalledWith(null)
   })
 
   it('styles active chips differently from inactive chips', () => {
-    setup(['React'])
+    setup('React')
     const active = screen.getByRole('button', { name: 'React' })
     const inactive = screen.getByRole('button', { name: 'Vite' })
     expect(active).toHaveAttribute('aria-pressed', 'true')
@@ -80,7 +74,7 @@ describe('ProjectFilter', () => {
     expect(screen.getByRole('button', { name: 'All' }).className).not.toContain('bg-accent')
   })
 
-  it('highlights All when no filters are active', () => {
+  it('highlights All when activeTech is null', () => {
     setup()
     expect(screen.getByRole('button', { name: 'All' }).className).toContain('bg-accent')
   })

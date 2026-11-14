@@ -1,6 +1,7 @@
-import { motion } from 'framer-motion'
+import { AnimatePresence, motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
 import { fadeUp } from '../../styles/animations'
+import { useReducedMotion } from '../../hooks/useReducedMotion'
 import { useStaggeredReveal } from '../../hooks/useStaggeredReveal'
 import { useProjectFilter } from '../../hooks/useProjectFilter'
 import { getAllTechStacks } from '../../data/projects'
@@ -13,10 +14,10 @@ interface ProjectsProps {
 }
 
 export function Projects({ projects }: ProjectsProps) {
-  const { activeFilters, toggleFilter, clearFilters, filteredProjects } = useProjectFilter()
+  const { activeTech, setActiveTech, filteredProjects } = useProjectFilter(projects)
+  const reducedMotion = useReducedMotion()
   const allTechs = getAllTechStacks()
   const visibleProjects = filteredProjects(projects)
-  const filterKey = Array.from(activeFilters).sort().join('|')
 
   return (
     <section id="projects" data-testid="projects-section" className="py-24 px-6 bg-surface">
@@ -30,17 +31,27 @@ export function Projects({ projects }: ProjectsProps) {
           <h2 className="text-3xl font-display font-bold mb-16">Projects</h2>
         </motion.div>
 
-        <ProjectFilter
-          techs={allTechs}
-          activeFilters={activeFilters}
-          onFilterChange={toggleFilter}
-          onReset={clearFilters}
-        />
+        <ProjectFilter activeTech={activeTech} onSetActiveTech={setActiveTech} allTags={allTechs} />
 
-        <div key={filterKey} className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {visibleProjects.map((project, index) => (
-            <ProjectCard key={project.id} project={project} index={index} />
-          ))}
+        <div data-testid="projects-grid" className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <AnimatePresence mode="popLayout">
+            {visibleProjects.map((project, index) => (
+              <motion.div
+                key={project.id}
+                data-testid={`project-wrapper-${project.id}`}
+                layout
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{
+                  duration: reducedMotion ? 0 : 0.3,
+                  delay: reducedMotion ? 0 : index * 0.05,
+                }}
+              >
+                <ProjectCard project={project} index={index} />
+              </motion.div>
+            ))}
+          </AnimatePresence>
         </div>
       </div>
     </section>
