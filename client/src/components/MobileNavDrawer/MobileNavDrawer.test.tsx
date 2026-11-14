@@ -47,7 +47,7 @@ describe('MobileNavDrawer', () => {
   it('renders all nav links when open', () => {
     mockReduced.mockReturnValue(false)
     render(<MobileNavDrawer isOpen onClose={() => {}} />)
-    for (const name of ['Home', 'About', 'Projects', 'Experience', 'Contact', 'Pitch Decks']) {
+    for (const name of ['Home', 'About', 'Projects', 'Skills', 'Experience', 'Contact', 'Pitch Decks']) {
       expect(screen.getByRole('link', { name })).toBeInTheDocument()
     }
     expect(screen.getByRole('link', { name: 'About' })).toHaveAttribute('href', '#about')

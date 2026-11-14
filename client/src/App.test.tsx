@@ -73,6 +73,21 @@ describe('App', () => {
     expect(screen.getByTestId('experience-section')).toBeInTheDocument()
   })
 
+  it('renders skills section between projects and experience', () => {
+    render(
+      <MemoryRouter>
+        <App />
+      </MemoryRouter>
+    )
+    const projects = screen.getByTestId('projects-section')
+    const skills = screen.getByTestId('skills-section')
+    const experience = screen.getByTestId('experience-section')
+    expect(projects.compareDocumentPosition(skills) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy()
+    expect(
+      skills.compareDocumentPosition(experience) & Node.DOCUMENT_POSITION_FOLLOWING
+    ).toBeTruthy()
+  })
+
   it('renders contact section', () => {
     render(
       <MemoryRouter>

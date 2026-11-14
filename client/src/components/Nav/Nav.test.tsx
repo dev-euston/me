@@ -22,12 +22,13 @@ describe('Nav', () => {
     expect(screen.getByText('EL')).toBeInTheDocument()
   })
 
-  it('renders all 4 anchor links with correct hrefs', () => {
+  it('renders all 5 anchor links with correct hrefs', () => {
     mockUseActiveSection.mockReturnValue('about')
     mockUseScrollDirection.mockReturnValue('up')
     render(<Nav />)
     expect(screen.getByRole('link', { name: 'About' })).toHaveAttribute('href', '#about')
     expect(screen.getByRole('link', { name: 'Projects' })).toHaveAttribute('href', '#projects')
+    expect(screen.getByRole('link', { name: 'Skills' })).toHaveAttribute('href', '#skills')
     expect(screen.getByRole('link', { name: 'Experience' })).toHaveAttribute('href', '#experience')
     expect(screen.getByRole('link', { name: 'Contact' })).toHaveAttribute('href', '#contact')
   })
