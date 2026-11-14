@@ -8,7 +8,7 @@ Portfolio site for **Euston Lee**, Software Engineer. Built with Vite + React + 
 
 **Design system:** Bold & modern. Black/near-black background (`#0A0A0A`), white text, electric blue accent (`#3B82F6`). Strong typography, high contrast.
 
-**Sections:** Hero/About, Projects, Experience/Resume, Contact.
+**Sections:** Hero/About, Projects, Experience/Resume, Contact, Pitch Decks.
 
 ## Monorepo Structure
 
@@ -72,6 +72,8 @@ Content lives in `src/data/` as plain TypeScript objects (no CMS). To add/update
 **Routing:** React Router v6 (`react-router-dom`). Routes are defined in `main.tsx` via `createBrowserRouter`. All routes are children of a root `AnimatedLayout` layout component that wraps them in `AnimatePresence` + `PageTransition` for animated page transitions. The main portfolio is the `"/"` route (`App`). Project detail pages live under `src/pages/` and are registered as additional child routes.
 
 **Pitch decks:** Static HTML files in `client/public/pitch/` are served under `/pitch/`. Single-asset decks live at `/pitch/<name>.html`; multi-asset decks (with screenshots etc.) use a subdirectory at `/pitch/<name>/index.html`. Page components under `src/pages/` render them with a 48px top nav (dark background, "← Back to portfolio" button using `useNavigate(-1)`) above a `calc(100vh - 48px)` iframe. The source pitch decks also exist in `pitch/` at the repo root for standalone viewing outside the app.
+
+**Pitch deck discovery page:** `/pitch` route renders `PitchDecksPage` — a browsable grid of all decks. Deck metadata (id, title, tagline, url) lives in `src/data/pitchDecks.ts` as a typed `PITCH_DECKS` array. When adding a new pitch deck that should appear in the discovery page, add an entry there (in addition to placing the HTML in `client/public/pitch/`). The `PitchDeckCard` component renders each card with Framer Motion `whileHover` scale and staggered entrance animation.
 
 The site is **frontend-only** for now. Keep data-fetching in hooks so components are unchanged when a backend is added.
 
