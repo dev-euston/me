@@ -24,6 +24,19 @@ describe('App', () => {
     expect(screen.getByRole('navigation')).toBeInTheDocument()
   })
 
+  it('renders skip link first, targeting the main landmark', () => {
+    const { container } = render(
+      <MemoryRouter>
+        <App />
+      </MemoryRouter>
+    )
+    const skip = screen.getByRole('link', { name: 'Skip to content' })
+    expect(container.firstElementChild).toBe(skip)
+    expect(skip).toHaveAttribute('href', '#main-content')
+    const main = screen.getByRole('main')
+    expect(main).toHaveAttribute('id', 'main-content')
+  })
+
   it('renders hero section', () => {
     render(
       <MemoryRouter>

@@ -3,13 +3,47 @@ import { render, screen, fireEvent } from '@testing-library/react'
 
 vi.mock('framer-motion', async () => await import('../../test/mocks/framer-motion'))
 vi.mock('../../hooks/useReducedMotion')
+vi.mock('../../hooks/useFocusTrap')
 
 import { useReducedMotion } from '../../hooks/useReducedMotion'
+import { useFocusTrap } from '../../hooks/useFocusTrap'
 import { MobileNavDrawer } from './MobileNavDrawer'
 
 const mockReduced = vi.mocked(useReducedMotion)
 
 describe('MobileNavDrawer', () => {
+  it('traps focus only while open', () => {
+    mockReduced.mockReturnValue(false)
+    const { rerender } = render(<MobileNavDrawer isOpen onClose={() => {}} />)
+    expect(useFocusTrap).toHaveBeenLastCalledWith(
+      expect.objectContaining({ current: expect.anything() }),
+      true
+    )
+    rerender(<MobileNavDrawer isOpen={false} onClose={() => {}} />)
+    expect(useFocusTrap).toHaveBeenLastCalledWith(expect.anything(), false)
+  })
+
+  it('focuses the trigger on Escape, backdrop click and link click', () => {
+    mockReduced.mockReturnValue(false)
+    const focus = vi.fn()
+    const ref = { current: { focus } as unknown as HTMLButtonElement }
+    render(<MobileNavDrawer isOpen onClose={() => {}} triggerButtonRef={ref} />)
+    fireEvent.keyDown(document, { key: 'Escape' })
+    expect(focus).toHaveBeenCalledTimes(1)
+    fireEvent.click(screen.getByTestId('mobile-nav-backdrop'))
+    expect(focus).toHaveBeenCalledTimes(2)
+    fireEvent.click(screen.getByRole('link', { name: 'About' }))
+    expect(focus).toHaveBeenCalledTimes(3)
+  })
+
+  it('tolerates a trigger ref with no element', () => {
+    mockReduced.mockReturnValue(false)
+    const onClose = vi.fn()
+    render(<MobileNavDrawer isOpen onClose={onClose} triggerButtonRef={{ current: null }} />)
+    fireEvent.keyDown(document, { key: 'Escape' })
+    expect(onClose).toHaveBeenCalledTimes(1)
+  })
+
   it('renders all nav links when open', () => {
     mockReduced.mockReturnValue(false)
     render(<MobileNavDrawer isOpen onClose={() => {}} />)
