@@ -4,6 +4,7 @@ import { Nav } from './components/Nav/Nav'
 import { Hero } from './components/Hero/Hero'
 import { About } from './components/About/About'
 import { Projects } from './components/Projects/Projects'
+import { SkillsSection } from './components/Skills'
 import { TimelineSection } from './components/TimelineSection/TimelineSection'
 import { Contact } from './components/Contact/Contact'
 import { Footer } from './components/Footer/Footer'
@@ -19,6 +20,7 @@ export default function App() {
         <Hero />
         <About />
         <Projects projects={projects} />
+        <SkillsSection />
         <TimelineSection experience={experience} />
         <Contact />
       </main>
