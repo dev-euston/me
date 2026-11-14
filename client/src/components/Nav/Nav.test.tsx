@@ -32,6 +32,13 @@ describe('Nav', () => {
     expect(screen.getByRole('link', { name: 'Contact' })).toHaveAttribute('href', '#contact')
   })
 
+  it('renders the Pitch Decks link', () => {
+    mockUseActiveSection.mockReturnValue('about')
+    mockUseScrollDirection.mockReturnValue('up')
+    render(<Nav />)
+    expect(screen.getByRole('link', { name: 'Pitch Decks' })).toHaveAttribute('href', '/pitch')
+  })
+
   it('applies text-accent to the active section link', () => {
     mockUseActiveSection.mockReturnValue('projects')
     mockUseScrollDirection.mockReturnValue('up')

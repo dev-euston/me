@@ -41,6 +41,9 @@ export function Nav() {
             {link.label}
           </a>
         ))}
+        <a href="/pitch" className="text-sm text-muted transition-colors hover:text-accent">
+          Pitch Decks
+        </a>
       </div>
 
       <div className="md:hidden">

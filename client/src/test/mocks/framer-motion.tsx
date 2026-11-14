@@ -11,6 +11,7 @@ const MotionDivComponent = forwardRef<HTMLDivElement, any>(
       layout,
       variants,
       whileInView,
+      whileHover,
       viewport,
       transition,
       ...props
@@ -106,9 +107,36 @@ const MotionAnchorComponent = forwardRef<HTMLAnchorElement, any>(
 
 MotionAnchorComponent.displayName = 'MotionAnchor'
 
+const MotionH1Component = forwardRef<HTMLHeadingElement, any>(
+  (
+    {
+      children,
+      initial,
+      animate,
+      exit,
+      layout,
+      variants,
+      whileInView,
+      viewport,
+      transition,
+      ...props
+    },
+    ref
+  ) => {
+    return (
+      <h1 ref={ref} {...props}>
+        {children}
+      </h1>
+    )
+  }
+)
+
+MotionH1Component.displayName = 'MotionH1'
+
 export const motion = {
   a: MotionAnchorComponent,
   div: MotionDivComponent,
+  h1: MotionH1Component,
   button: MotionButtonComponent,
   span: MotionSpanComponent,
 }
