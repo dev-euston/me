@@ -1,9 +1,11 @@
+import { useCallback, useRef, useState } from 'react'
 import { motion } from 'framer-motion'
 import { useReducedMotion } from '../../hooks/useReducedMotion'
 import { useStaggeredReveal } from '../../hooks/useStaggeredReveal'
 import { PITCH_DECKS } from '../../data/pitchDecks'
 import type { PitchDeck } from '../../data/pitchDecks'
 import { PitchDeckCard } from '../../components/PitchDeckCard/PitchDeckCard'
+import { PitchDeckViewer } from '../../components/PitchDeckViewer/PitchDeckViewer'
 
 const headingVariants = {
   hidden: { opacity: 0, y: 24 },
@@ -12,6 +14,14 @@ const headingVariants = {
 
 export function PitchDecksPage() {
   const reduced = useReducedMotion()
+  const [openDeck, setOpenDeck] = useState<PitchDeck | null>(null)
+  const triggerRef = useRef<HTMLElement | null>(null)
+
+  const handleOpen = useCallback((deck: PitchDeck, triggerElement: HTMLElement) => {
+    triggerRef.current = triggerElement
+    setOpenDeck(deck)
+  }, [])
+  const handleClose = useCallback(() => setOpenDeck(null), [])
 
   return (
     <main className="min-h-screen bg-bg text-text py-24 px-6">
@@ -29,15 +39,29 @@ export function PitchDecksPage() {
           style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))' }}
         >
           {PITCH_DECKS.map((deck, index) => (
-            <StaggeredDeck key={deck.id} deck={deck} index={index} />
+            <StaggeredDeck key={deck.id} deck={deck} index={index} onOpen={handleOpen} />
           ))}
         </div>
       </div>
+      <PitchDeckViewer
+        isOpen={openDeck !== null}
+        deck={openDeck && { path: openDeck.url, title: openDeck.title }}
+        onClose={handleClose}
+        triggerRef={triggerRef}
+      />
     </main>
   )
 }
 
-function StaggeredDeck({ deck, index }: { deck: PitchDeck; index: number }) {
+function StaggeredDeck({
+  deck,
+  index,
+  onOpen,
+}: {
+  deck: PitchDeck
+  index: number
+  onOpen: (deck: PitchDeck, triggerElement: HTMLElement) => void
+}) {
   const { ref, variants, initial, animate, transition } = useStaggeredReveal(index)
   return (
     <motion.div
@@ -48,7 +72,7 @@ function StaggeredDeck({ deck, index }: { deck: PitchDeck; index: number }) {
       transition={transition}
       data-testid={`pitch-deck-item-${index}`}
     >
-      <PitchDeckCard {...deck} />
+      <PitchDeckCard {...deck} onOpen={onOpen} />
     </motion.div>
   )
 }

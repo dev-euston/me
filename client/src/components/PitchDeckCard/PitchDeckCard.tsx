@@ -2,7 +2,11 @@ import { motion } from 'framer-motion'
 import { useReducedMotion } from '../../hooks/useReducedMotion'
 import type { PitchDeck } from '../../data/pitchDecks'
 
-export function PitchDeckCard({ id, title, tagline, url }: PitchDeck) {
+interface PitchDeckCardProps extends PitchDeck {
+  onOpen?: (deck: PitchDeck, triggerElement: HTMLElement) => void
+}
+
+export function PitchDeckCard({ id, title, tagline, url, onOpen }: PitchDeckCardProps) {
   const reduced = useReducedMotion()
 
   return (
@@ -14,14 +18,23 @@ export function PitchDeckCard({ id, title, tagline, url }: PitchDeck) {
     >
       <h3 className="text-lg font-display font-bold text-text">{title}</h3>
       <p className="text-muted text-sm flex-1">{tagline}</p>
-      <a
-        href={url}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="text-sm text-accent hover:underline"
-      >
-        View deck
-      </a>
+      <div className="flex items-center gap-4">
+        <button
+          type="button"
+          onClick={(e) => onOpen?.({ id, title, tagline, url }, e.currentTarget)}
+          className="text-sm text-accent hover:underline"
+        >
+          Open
+        </button>
+        <a
+          href={url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-sm text-muted hover:underline"
+        >
+          View deck
+        </a>
+      </div>
     </motion.div>
   )
 }
