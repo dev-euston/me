@@ -7,6 +7,8 @@ import { MemoryRouter } from 'react-router-dom'
 const motionProps = vi.hoisted(() => ({
   cards: [] as Array<Record<string, unknown>>,
   badges: [] as Array<Record<string, unknown>>,
+  wrappers: [] as Array<Record<string, unknown>>,
+  reduced: false,
 }))
 
 vi.mock('framer-motion', async () => {
@@ -21,11 +23,15 @@ vi.mock('framer-motion', async () => {
         if (typeof testId === 'string' && testId.startsWith('project-card-')) {
           motionProps.cards.push(props)
         }
+        if (typeof testId === 'string' && testId.startsWith('project-wrapper-')) {
+          motionProps.wrappers.push(props)
+        }
         if (testId === 'tech-badges-container') {
           motionProps.badges.push(props)
         }
         // Drop animation props so React doesn't stringify objects onto the DOM
-        const { initial, animate, transition, variants, ...rest } = props
+        const { initial, animate, exit, transition, variants, ...rest } = props
+        void exit
         void initial
         void animate
         void transition
@@ -38,7 +44,7 @@ vi.mock('framer-motion', async () => {
   }
 })
 
-vi.mock('../../hooks/useReducedMotion', () => ({ useReducedMotion: () => false }))
+vi.mock('../../hooks/useReducedMotion', () => ({ useReducedMotion: () => motionProps.reduced }))
 
 import { Projects } from './Projects'
 import { projects, getAllTechStacks } from '../../data/projects'
@@ -246,12 +252,30 @@ describe('Projects', () => {
       expect(names).toEqual(['Mission: Singapore'])
     })
 
-    it('uses OR logic across multiple active filters', () => {
+    it('replaces the active filter when another chip is clicked', () => {
       renderProjects()
       fireEvent.click(screen.getByTestId('filter-chip-Mobile'))
       fireEvent.click(screen.getByTestId('filter-chip-Vite'))
       const names = screen.getAllByTestId('project-name').map((n) => n.textContent)
-      expect(names).toEqual(['Portfolio Site', 'Mission: Singapore'])
+      expect(names).toEqual(['Portfolio Site'])
+    })
+
+    it('clears the filter when the active chip is clicked again', () => {
+      renderProjects()
+      fireEvent.click(screen.getByTestId('filter-chip-Mobile'))
+      fireEvent.click(screen.getByTestId('filter-chip-Mobile'))
+      expect(screen.getAllByTestId('project-name')).toHaveLength(projects.length)
+    })
+
+    it('renders an empty grid when no projects match', () => {
+      render(
+        <MemoryRouter>
+          <Projects projects={[{ ...baseProject, techStack: ['Vite'] }]} />
+        </MemoryRouter>
+      )
+      fireEvent.click(screen.getByTestId('filter-chip-Mobile'))
+      expect(screen.getByTestId('projects-grid')).toBeInTheDocument()
+      expect(screen.queryAllByTestId('project-name')).toHaveLength(0)
     })
 
     it('restores all projects when All is clicked', () => {
@@ -259,14 +283,6 @@ describe('Projects', () => {
       fireEvent.click(screen.getByTestId('filter-chip-Mobile'))
       fireEvent.click(screen.getByRole('button', { name: 'All' }))
       expect(screen.getAllByTestId('project-name')).toHaveLength(projects.length)
-    })
-
-    it('remounts cards (replaying entrance animations) when filters change', () => {
-      renderProjects()
-      const before = screen.getAllByTestId('project-name')[0]
-      fireEvent.click(screen.getByTestId('filter-chip-React'))
-      const after = screen.getAllByTestId('project-name')[0]
-      expect(after).not.toBe(before)
     })
   })
 
@@ -280,6 +296,8 @@ describe('Projects', () => {
     beforeEach(() => {
       motionProps.cards.length = 0
       motionProps.badges.length = 0
+      motionProps.wrappers.length = 0
+      motionProps.reduced = false
       vi.mocked(useInView).mockReturnValue(true)
       vi.mocked(useReducedMotion).mockReturnValue(false)
     })
@@ -315,6 +333,34 @@ describe('Projects', () => {
       )
       latestCards().forEach((card, index) => {
         expect(card.transition).toEqual({ delay: index * 0.1 })
+      })
+    })
+
+    it('animates card wrappers in and out with a 0.3s duration and staggered delay', () => {
+      render(
+        <MemoryRouter>
+          <Projects projects={projects} />
+        </MemoryRouter>
+      )
+      const wrappers = motionProps.wrappers.slice(0, projects.length)
+      expect(wrappers).toHaveLength(projects.length)
+      wrappers.forEach((w, index) => {
+        expect(w.initial).toEqual({ opacity: 0, y: 20 })
+        expect(w.animate).toEqual({ opacity: 1, y: 0 })
+        expect(w.exit).toEqual({ opacity: 0, y: -20 })
+        expect(w.transition).toEqual({ duration: 0.3, delay: index * 0.05 })
+      })
+    })
+
+    it('uses zero duration for card wrappers under reduced motion', () => {
+      motionProps.reduced = true
+      render(
+        <MemoryRouter>
+          <Projects projects={projects} />
+        </MemoryRouter>
+      )
+      motionProps.wrappers.forEach((w) => {
+        expect(w.transition).toEqual({ duration: 0, delay: 0 })
       })
     })
 

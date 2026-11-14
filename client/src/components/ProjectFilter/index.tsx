@@ -2,10 +2,9 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { useReducedMotion } from '../../hooks/useReducedMotion'
 
 interface ProjectFilterProps {
-  techs: string[]
-  activeFilters: Set<string>
-  onFilterChange: (tech: string) => void
-  onReset: () => void
+  activeTech: string | null
+  onSetActiveTech: (tech: string | null) => void
+  allTags: string[]
 }
 
 const CHIP_BASE =
@@ -13,12 +12,7 @@ const CHIP_BASE =
 const CHIP_ACTIVE = 'bg-accent border-accent text-white'
 const CHIP_INACTIVE = 'bg-transparent border-border text-muted hover:text-text'
 
-export function ProjectFilter({
-  techs,
-  activeFilters,
-  onFilterChange,
-  onReset,
-}: ProjectFilterProps) {
+export function ProjectFilter({ activeTech, onSetActiveTech, allTags }: ProjectFilterProps) {
   const reducedMotion = useReducedMotion()
   const transition = { duration: reducedMotion ? 0 : 0.2 }
   const chipMotion = {
@@ -36,26 +30,26 @@ export function ProjectFilter({
           key="__all__"
           type="button"
           data-testid="filter-chip-all"
-          aria-pressed={activeFilters.size === 0}
-          onClick={onReset}
-          className={`${CHIP_BASE} ${activeFilters.size === 0 ? CHIP_ACTIVE : CHIP_INACTIVE}`}
+          aria-pressed={activeTech === null}
+          onClick={() => onSetActiveTech(null)}
+          className={`${CHIP_BASE} ${activeTech === null ? CHIP_ACTIVE : CHIP_INACTIVE}`}
           {...chipMotion}
         >
           All
         </motion.button>
-        {techs.map((tech) => {
-          const active = activeFilters.has(tech)
+        {allTags.map((tag) => {
+          const active = activeTech === tag
           return (
             <motion.button
-              key={tech}
+              key={tag}
               type="button"
-              data-testid={`filter-chip-${tech}`}
+              data-testid={`filter-chip-${tag}`}
               aria-pressed={active}
-              onClick={() => onFilterChange(tech)}
+              onClick={() => onSetActiveTech(tag)}
               className={`${CHIP_BASE} ${active ? CHIP_ACTIVE : CHIP_INACTIVE}`}
               {...chipMotion}
             >
-              {tech}
+              {tag}
             </motion.button>
           )
         })}
