@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { render, screen } from '@testing-library/react'
+import { render, screen, fireEvent } from '@testing-library/react'
 
 const motionProps = vi.hoisted(() => ({ current: {} as Record<string, unknown> }))
 
@@ -46,6 +46,19 @@ describe('PitchDeckCard', () => {
     expect(link).toHaveAttribute('href', '/pitch/x/')
     expect(link).toHaveAttribute('target', '_blank')
     expect(link).toHaveAttribute('rel', 'noopener noreferrer')
+  })
+
+  it('calls onOpen with the deck and the button element', () => {
+    const onOpen = vi.fn()
+    render(<PitchDeckCard {...deck} onOpen={onOpen} />)
+    const button = screen.getByRole('button', { name: 'Open' })
+    fireEvent.click(button)
+    expect(onOpen).toHaveBeenCalledWith(deck, button)
+  })
+
+  it('does not throw when Open is clicked without onOpen', () => {
+    render(<PitchDeckCard {...deck} />)
+    expect(() => fireEvent.click(screen.getByRole('button', { name: 'Open' }))).not.toThrow()
   })
 
   it('scales on hover when motion is allowed', () => {
