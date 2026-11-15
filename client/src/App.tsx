@@ -8,23 +8,26 @@ import { SkillsSection } from './components/Skills'
 import { TimelineSection } from './components/TimelineSection/TimelineSection'
 import { Contact } from './components/Contact/Contact'
 import { Footer } from './components/Footer/Footer'
+import { TechFilterProvider } from './context/TechFilterContext'
 import { projects } from './data/projects'
 import { experience } from './data/experience'
 
 export default function App() {
   return (
     <MotionConfig reducedMotion="user">
-      <SkipToContent />
-      <Nav />
-      <main id="main-content" role="main">
-        <Hero />
-        <About />
-        <Projects projects={projects} />
-        <SkillsSection />
-        <TimelineSection experience={experience} />
-        <Contact />
-      </main>
-      <Footer />
+      <TechFilterProvider>
+        <SkipToContent />
+        <Nav />
+        <main id="main-content" role="main">
+          <Hero />
+          <About />
+          <Projects projects={projects} />
+          <SkillsSection />
+          <TimelineSection experience={experience} />
+          <Contact />
+        </main>
+        <Footer />
+      </TechFilterProvider>
     </MotionConfig>
   )
 }

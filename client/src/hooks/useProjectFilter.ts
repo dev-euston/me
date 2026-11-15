@@ -7,13 +7,17 @@ interface UseProjectFilterResult {
   filteredProjects: (toFilter: Project[]) => Project[]
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars -- projects is accepted for typing only
-export function useProjectFilter(_projects?: Project[]): UseProjectFilterResult {
-  const [activeTech, setActive] = useState<string | null>(null)
+export function useProjectFilter(
+  _projects?: Project[],
+  externalActiveTech?: string | null
+): UseProjectFilterResult {
+  const [internalActiveTech, setActive] = useState<string | null>(null)
 
   const setActiveTech = useCallback((tag: string | null) => {
     setActive((prev) => (tag === null || tag === prev ? null : tag))
   }, [])
+
+  const activeTech = externalActiveTech !== undefined ? externalActiveTech : internalActiveTech
 
   const filteredProjects = useCallback(
     (toFilter: Project[]) =>

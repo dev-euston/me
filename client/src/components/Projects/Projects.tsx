@@ -4,6 +4,7 @@ import { fadeUp } from '../../styles/animations'
 import { useReducedMotion } from '../../hooks/useReducedMotion'
 import { useStaggeredReveal } from '../../hooks/useStaggeredReveal'
 import { useProjectFilter } from '../../hooks/useProjectFilter'
+import { useTechFilter } from '../../context/TechFilterContext'
 import { getAllTechStacks } from '../../data/projects'
 import { ProjectFilter } from '../ProjectFilter'
 import { TechBadge } from '../TechBadge'
@@ -14,7 +15,10 @@ interface ProjectsProps {
 }
 
 export function Projects({ projects }: ProjectsProps) {
-  const { activeTech, setActiveTech, filteredProjects } = useProjectFilter(projects)
+  const { activeTech: contextTech, setActiveTech: setContextTech } = useTechFilter()
+  const { activeTech, filteredProjects } = useProjectFilter(projects, contextTech)
+  const setActiveTech = (tag: string | null) =>
+    setContextTech(tag === null || tag === contextTech ? null : tag)
   const reducedMotion = useReducedMotion()
   const allTechs = getAllTechStacks()
   const visibleProjects = filteredProjects(projects)

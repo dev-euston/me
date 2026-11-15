@@ -67,4 +67,34 @@ describe('useProjectFilter', () => {
     expect(first.result.current.activeTech).toBe('React')
     expect(second.result.current.activeTech).toBeNull()
   })
+
+  describe('external activeTech', () => {
+    it('null shows all projects', () => {
+      const { result } = renderHook(() => useProjectFilter(list, null))
+      expect(result.current.activeTech).toBeNull()
+      expect(result.current.filteredProjects(list)).toEqual(list)
+    })
+
+    it('filters by the external tech', () => {
+      const { result } = renderHook(() => useProjectFilter(list, 'React'))
+      expect(result.current.activeTech).toBe('React')
+      expect(result.current.filteredProjects(list).map((p) => p.id)).toEqual(['a', 'c'])
+    })
+
+    it('takes priority over internal state', () => {
+      const { result } = renderHook(() => useProjectFilter(list, 'React'))
+      act(() => result.current.setActiveTech('Node.js'))
+      expect(result.current.activeTech).toBe('React')
+      expect(result.current.filteredProjects(list).map((p) => p.id)).toEqual(['a', 'c'])
+    })
+
+    it('follows changes to the external value', () => {
+      const { result, rerender } = renderHook(({ t }) => useProjectFilter(list, t), {
+        initialProps: { t: 'React' as string | null },
+      })
+      rerender({ t: 'Vite' })
+      expect(result.current.activeTech).toBe('Vite')
+      expect(result.current.filteredProjects(list).map((p) => p.id)).toEqual(['a'])
+    })
+  })
 })
