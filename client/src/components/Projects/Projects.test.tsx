@@ -1,7 +1,8 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { createElement } from 'react'
 import { useInView, useReducedMotion } from 'framer-motion'
-import { render, screen, within, fireEvent } from '@testing-library/react'
+import { render as rtlRender, screen, within, fireEvent, act } from '@testing-library/react'
+import type { ReactElement } from 'react'
 import { MemoryRouter } from 'react-router-dom'
 
 const motionProps = vi.hoisted(() => ({
@@ -47,6 +48,9 @@ vi.mock('framer-motion', async () => {
 vi.mock('../../hooks/useReducedMotion', () => ({ useReducedMotion: () => motionProps.reduced }))
 
 import { Projects } from './Projects'
+import { TechFilterProvider, useTechFilter } from '../../context/TechFilterContext'
+
+const render = (ui: ReactElement) => rtlRender(ui, { wrapper: TechFilterProvider })
 import { projects, getAllTechStacks } from '../../data/projects'
 import type { Project } from '../../types'
 
@@ -442,6 +446,40 @@ describe('Projects', () => {
         expect(card.animate).toBe('visible')
         expect(card.transition).toEqual({ delay: 0 })
       })
+    })
+  })
+
+  describe('TechFilterContext integration', () => {
+    function Setter({ tech }: { tech: string | null }) {
+      const { setActiveTech } = useTechFilter()
+      return <button onClick={() => setActiveTech(tech)}>ctx-set</button>
+    }
+
+    it('filters the grid when context activeTech changes', () => {
+      const tech = projects[0].techStack[0]
+      render(
+        <MemoryRouter>
+          <Setter tech={tech} />
+          <Projects projects={projects} />
+        </MemoryRouter>
+      )
+      expect(screen.getByTestId('projects-grid').children).toHaveLength(projects.length)
+      act(() => screen.getByText('ctx-set').click())
+      const expected = projects.filter((p) => p.techStack.includes(tech)).length
+      expect(screen.getByTestId('projects-grid').children).toHaveLength(expected)
+    })
+
+    it('clears the context filter via the All button', () => {
+      const tech = projects[0].techStack[0]
+      render(
+        <MemoryRouter>
+          <Setter tech={tech} />
+          <Projects projects={projects} />
+        </MemoryRouter>
+      )
+      act(() => screen.getByText('ctx-set').click())
+      fireEvent.click(screen.getByRole('button', { name: 'All' }))
+      expect(screen.getByTestId('projects-grid').children).toHaveLength(projects.length)
     })
   })
 })

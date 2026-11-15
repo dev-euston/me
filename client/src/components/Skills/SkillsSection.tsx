@@ -2,14 +2,17 @@ import { motion } from 'framer-motion'
 import { SKILLS } from '../../data/skills'
 import { useStaggeredReveal } from '../../hooks/useStaggeredReveal'
 import { useReducedMotion } from '../../hooks/useReducedMotion'
+import { useTechFilter } from '../../context/TechFilterContext'
 import { SkillTag } from './SkillTag'
 
 interface SkillItemProps {
   skill: string
   index: number
+  isActive: boolean
+  onSelect: (tech: string) => void
 }
 
-function SkillItem({ skill, index }: SkillItemProps) {
+function SkillItem({ skill, index, isActive, onSelect }: SkillItemProps) {
   const { ref, variants, initial, animate, transition } = useStaggeredReveal(index)
   const reducedMotion = useReducedMotion()
 
@@ -21,14 +24,27 @@ function SkillItem({ skill, index }: SkillItemProps) {
       animate={animate}
       transition={reducedMotion ? { duration: 0 } : transition}
     >
-      <SkillTag skill={skill} />
+      <SkillTag skill={skill} isActive={isActive} onSelect={onSelect} />
     </motion.div>
   )
 }
 
 /** Skills section: renders skills grouped by category with staggered scroll reveal. */
 export function SkillsSection() {
+  const { activeTech, setActiveTech } = useTechFilter()
+  const reducedMotion = useReducedMotion()
   let globalIndex = 0
+
+  const handleSelect = (tech: string) => {
+    if (tech === activeTech) {
+      setActiveTech(null)
+      return
+    }
+    setActiveTech(tech)
+    document
+      .getElementById('projects')
+      ?.scrollIntoView({ behavior: reducedMotion ? 'auto' : 'smooth' })
+  }
 
   return (
     <section id="skills" data-testid="skills-section" className="py-24 px-6">
@@ -42,7 +58,13 @@ export function SkillsSection() {
               </h3>
               <div className="flex flex-wrap gap-3">
                 {group.skills.map((skill) => (
-                  <SkillItem key={skill} skill={skill} index={globalIndex++} />
+                  <SkillItem
+                    key={skill}
+                    skill={skill}
+                    index={globalIndex++}
+                    isActive={activeTech === skill}
+                    onSelect={handleSelect}
+                  />
                 ))}
               </div>
             </div>
