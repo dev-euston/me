@@ -8,6 +8,7 @@ export interface Project {
   externalPitchUrl?: string
   demoUrl?: string
   coverImage?: string
+  pitchDeckPath?: string
 }
 
 export interface Experience {

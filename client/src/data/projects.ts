@@ -26,6 +26,7 @@ export const projects: Project[] = [
       'Connects your Jira backlog to your codebase. Tickets become pull requests — without leaving Jira.',
     techStack: ['Next.js', 'Claude AI', 'PostgreSQL', 'GitHub API', 'Jira REST API', 'TypeScript'],
     pitchUrl: '/projects/jira-code',
+    pitchDeckPath: '/pitch/jira-code.html',
     coverImage:
       'https://images.unsplash.com/photo-1633356122544-f134324ef6db?w=1200&h=600&fit=crop',
   },
@@ -36,6 +37,7 @@ export const projects: Project[] = [
       'AI-powered code review triage — unified, persistent, and entirely under your control.',
     techStack: ['Next.js', 'React', 'TypeScript', 'Tailwind CSS', 'GitLab API', 'Claude AI'],
     pitchUrl: '/projects/mr-reviewer',
+    pitchDeckPath: '/pitch/mr-reviewer/index.html',
   },
   {
     id: 'mission-singapore',
@@ -44,6 +46,7 @@ export const projects: Project[] = [
       'Location-based narrative adventure platform connecting tourists with locally-crafted story missions. Storytellers author branching adventures tied to real Singapore locations; players navigate stops, complete GPS-verified tasks, and discover the city through local eyes.',
     techStack: ['Mobile', 'GPS', 'AI', 'QR'],
     pitchUrl: '/projects/mission-singapore',
+    pitchDeckPath: '/pitch/mission-singapore/index.html',
     demoUrl: 'https://ms.eustonlee.com',
   },
   {
@@ -53,6 +56,7 @@ export const projects: Project[] = [
       'Engineering Manager tool that pulls activity signals from GitLab and Confluence, then uses Claude AI to generate coaching-oriented appraisal narratives — grounded in real evidence.',
     techStack: ['Next.js', 'TypeScript', 'Claude AI', 'GitLab API', 'Confluence API', 'PostgreSQL'],
     pitchUrl: '/projects/appraisal-helper',
+    pitchDeckPath: '/pitch/appraisal-helper/index.html',
   },
   {
     id: 'markdown-commenter',

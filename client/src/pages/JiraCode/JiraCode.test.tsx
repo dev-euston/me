@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from 'vitest'
-import { render, screen } from '@testing-library/react'
+import { render, screen, fireEvent } from '@testing-library/react'
 import { JiraCodePage } from './JiraCode'
 
 vi.mock('react-router-dom', () => ({
@@ -10,6 +10,18 @@ vi.mock('../../hooks/useReducedMotion', () => ({ useReducedMotion: () => false }
 
 vi.mock('../../components/ProjectNavButtons/ProjectNavButtons', () => ({
   ProjectNavButtons: () => null,
+}))
+
+vi.mock('../../components/PitchDeckViewer/PitchDeckViewer', () => ({
+  PitchDeckViewer: (props: {
+    isOpen: boolean
+    deck: { path: string; title: string } | null
+    onClose: () => void
+  }) => (
+    <div data-testid="viewer" data-open={String(props.isOpen)} data-path={props.deck?.path ?? ''}>
+      <button data-testid="viewer-close" onClick={props.onClose} />
+    </div>
+  ),
 }))
 
 vi.mock('../../components/RelatedProjects', () => ({
@@ -33,5 +45,16 @@ describe('JiraCodePage', () => {
     render(<JiraCodePage />)
     expect(screen.getByTestId('project-cover-header')).toBeInTheDocument()
     expect(screen.getByRole('heading', { name: 'Jira Code' })).toBeInTheDocument()
+  })
+
+  it('shows a View Pitch Deck button that opens and closes the viewer', () => {
+    render(<JiraCodePage />)
+    const viewer = screen.getByTestId('viewer')
+    expect(viewer).toHaveAttribute('data-open', 'false')
+    fireEvent.click(screen.getByRole('button', { name: 'View Pitch Deck' }))
+    expect(viewer).toHaveAttribute('data-open', 'true')
+    expect(viewer.getAttribute('data-path')).toMatch(/^\/pitch\//)
+    fireEvent.click(screen.getByTestId('viewer-close'))
+    expect(viewer).toHaveAttribute('data-open', 'false')
   })
 })
