@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest'
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import { render, screen } from '@testing-library/react'
 
 /* eslint-disable @typescript-eslint/no-explicit-any -- test mock capturing motion props */
@@ -6,8 +6,8 @@ const motionProps: any[] = []
 
 vi.mock('framer-motion', () => ({
   motion: {
-    div: ({ children, animate, transition, ...props }: any) => {
-      motionProps.push({ animate, transition })
+    div: ({ children, initial, animate, transition, ...props }: any) => {
+      motionProps.push({ initial, animate, transition })
       return <div {...props}>{children}</div>
     },
   },
@@ -19,6 +19,7 @@ vi.mock('../../hooks/useReducedMotion', () => ({
 }))
 
 import { AvailabilityBadge } from './AvailabilityBadge'
+import { AVAILABILITY_STATUS } from '../../data/availability'
 
 describe('AvailabilityBadge', () => {
   beforeEach(() => {
@@ -26,29 +27,48 @@ describe('AvailabilityBadge', () => {
     mockReducedMotion.mockReturnValue(false)
   })
 
-  it('renders the green dot and text when available', () => {
-    render(<AvailabilityBadge isAvailable={true} />)
+  afterEach(() => {
+    AVAILABILITY_STATUS.available = true
+  })
+
+  it('has the expected default availability status', () => {
+    expect(AVAILABILITY_STATUS.available).toBe(true)
+    expect(AVAILABILITY_STATUS.label).toBe('Open to opportunities')
+  })
+
+  it('renders the dot and label when available', () => {
+    render(<AvailabilityBadge />)
     expect(screen.getByText('Open to opportunities')).toBeInTheDocument()
-    expect(screen.getByTestId('availability-dot')).toHaveStyle({
-      backgroundColor: 'rgb(34, 197, 94)',
-    })
+    expect(screen.getByTestId('availability-dot')).toBeInTheDocument()
   })
 
   it('renders nothing when not available', () => {
-    const { container } = render(<AvailabilityBadge isAvailable={false} />)
+    AVAILABILITY_STATUS.available = false
+    const { container } = render(<AvailabilityBadge />)
     expect(container).toBeEmptyDOMElement()
   })
 
-  it('pulses with scale [1, 1.1, 1] over 1.8s forever when motion is enabled', () => {
-    render(<AvailabilityBadge isAvailable={true} />)
-    expect(motionProps[0].animate).toEqual({ scale: [1, 1.1, 1] })
-    expect(motionProps[0].transition).toEqual({ duration: 1.8, repeat: Infinity })
+  it('uses the entrance animation values', () => {
+    render(<AvailabilityBadge />)
+    expect(motionProps[0].initial).toEqual({ opacity: 0, x: -8 })
+    expect(motionProps[0].animate).toEqual({ opacity: 1, x: 0 })
   })
 
-  it('skips animation when reduced motion is true', () => {
+  it('uses a 0.3s transition when reduced motion is off', () => {
+    render(<AvailabilityBadge />)
+    expect(motionProps[0].transition).toEqual({ duration: 0.3, ease: 'easeOut' })
+  })
+
+  it('uses a 0s transition when reduced motion is on', () => {
     mockReducedMotion.mockReturnValue(true)
-    render(<AvailabilityBadge isAvailable={true} />)
-    expect(motionProps[0].animate).toEqual({ scale: 1 })
-    expect(motionProps[0].transition).toEqual({ duration: 0 })
+    render(<AvailabilityBadge />)
+    expect(motionProps[0].transition).toEqual({ duration: 0, ease: 'easeOut' })
+  })
+
+  it('pulses the dot using the --success custom property', () => {
+    render(<AvailabilityBadge />)
+    expect(screen.getByTestId('availability-dot').getAttribute('style')).toContain('var(--success)')
+    expect(motionProps[1].animate).toEqual({ scale: [1, 1.2, 1] })
+    expect(motionProps[1].transition).toEqual({ duration: 2, repeat: Infinity })
   })
 })
