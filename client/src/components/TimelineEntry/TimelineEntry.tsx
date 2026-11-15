@@ -2,6 +2,7 @@ import { motion } from 'framer-motion'
 import { useInView } from 'framer-motion'
 import { useRef } from 'react'
 import { useReducedMotion } from '../../hooks/useReducedMotion'
+import { ExperienceAchievements } from './ExperienceAchievements'
 import type { Experience } from '../../types'
 
 interface TimelineEntryProps {
@@ -44,13 +45,17 @@ export function TimelineEntry({ entry, index, isLeft }: TimelineEntryProps) {
           </p>
           <h3 className="text-xl font-display font-bold mb-2">{entry.company}</h3>
           <p className="text-accent mb-4">{entry.role}</p>
-          <ul className="space-y-2">
-            {(entry.achievements || entry.bullets).map((item, i) => (
-              <li key={i} className="text-muted text-sm leading-relaxed">
-                {item}
-              </li>
-            ))}
-          </ul>
+          {entry.achievements && entry.achievements.length > 0 ? (
+            <ExperienceAchievements achievements={entry.achievements} />
+          ) : (
+            <ul className="space-y-2">
+              {entry.bullets.map((item, i) => (
+                <li key={i} className="text-muted text-sm leading-relaxed">
+                  {item}
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
       </div>
 
