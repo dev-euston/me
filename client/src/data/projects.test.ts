@@ -126,4 +126,16 @@ describe('getAllTechStacks', () => {
       }
     }
   })
+
+  it('only projects with pitch decks define pitchDeckPath', () => {
+    const expected: Record<string, string> = {
+      'jira-code': '/pitch/jira-code.html',
+      'mr-reviewer': '/pitch/mr-reviewer/index.html',
+      'appraisal-helper': '/pitch/appraisal-helper/index.html',
+      'mission-singapore': '/pitch/mission-singapore/index.html',
+    }
+    for (const p of projects) {
+      expect(p.pitchDeckPath).toBe(expected[p.id])
+    }
+  })
 })
