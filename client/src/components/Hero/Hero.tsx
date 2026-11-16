@@ -2,6 +2,8 @@ import { motion } from 'framer-motion'
 import { fadeUp, staggerChildren } from '../../styles/animations'
 import { useReducedMotion } from '../../hooks/useReducedMotion'
 import { AvailabilityBadge } from '../AvailabilityBadge/AvailabilityBadge'
+import { CurrentlyBuildingBadge } from '../CurrentlyBuildingBadge'
+import { AVAILABILITY_STATUS } from '../../data/availability'
 
 const instantFadeUp = {
   hidden: fadeUp.visible,
@@ -50,6 +52,7 @@ export function Hero() {
             I build fast, accessible, and well-tested software.
           </p>
           <AvailabilityBadge />
+          <CurrentlyBuildingBadge currentlyBuilding={AVAILABILITY_STATUS.currentlyBuilding} />
         </motion.div>
 
         <motion.div variants={item} className="flex flex-col sm:flex-row gap-4">

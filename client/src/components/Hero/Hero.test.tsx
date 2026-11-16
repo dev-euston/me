@@ -18,6 +18,13 @@ vi.mock('../../hooks/useReducedMotion', () => ({
   useReducedMotion: () => mockReducedMotion(),
 }))
 
+vi.mock('../CurrentlyBuildingBadge', () => ({
+  CurrentlyBuildingBadge: ({ currentlyBuilding }: { currentlyBuilding?: { name: string } }) =>
+    currentlyBuilding ? (
+      <div data-testid="currently-building-badge">{currentlyBuilding.name}</div>
+    ) : null,
+}))
+
 import { Hero } from './Hero'
 import { AVAILABILITY_STATUS } from '../../data/availability'
 
@@ -102,6 +109,24 @@ describe('Hero', () => {
     render(<Hero />)
     AVAILABILITY_STATUS.available = true
     expect(screen.queryByTestId('availability-badge')).not.toBeInTheDocument()
+  })
+
+  it('renders the currently building badge between the availability badge and CTAs', () => {
+    AVAILABILITY_STATUS.currentlyBuilding = { name: 'jira-code' }
+    render(<Hero />)
+    delete AVAILABILITY_STATUS.currentlyBuilding
+    const availability = screen.getByTestId('availability-badge')
+    const building = screen.getByTestId('currently-building-badge')
+    const cta = screen.getByRole('link', { name: 'View my work' })
+    expect(
+      availability.compareDocumentPosition(building) & Node.DOCUMENT_POSITION_FOLLOWING
+    ).toBeTruthy()
+    expect(building.compareDocumentPosition(cta) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy()
+  })
+
+  it('omits the currently building badge when undefined', () => {
+    render(<Hero />)
+    expect(screen.queryByTestId('currently-building-badge')).not.toBeInTheDocument()
   })
 
   it('does not change animation props on re-render', () => {
