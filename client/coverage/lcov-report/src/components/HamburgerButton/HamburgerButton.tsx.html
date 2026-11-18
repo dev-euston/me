@@ -25,7 +25,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>4/4</span>
+                <span class='fraction'>5/5</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>4/4</span>
+                <span class='fraction'>5/5</span>
             </div>
         
             
@@ -106,7 +106,12 @@
 <a name='L41'></a><a href='#L41'>41</a>
 <a name='L42'></a><a href='#L42'>42</a>
 <a name='L43'></a><a href='#L43'>43</a>
-<a name='L44'></a><a href='#L44'>44</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L44'></a><a href='#L44'>44</a>
+<a name='L45'></a><a href='#L45'>45</a>
+<a name='L46'></a><a href='#L46'>46</a>
+<a name='L47'></a><a href='#L47'>47</a>
+<a name='L48'></a><a href='#L48'>48</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -116,14 +121,12 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">34x</span>
-<span class="cline-any cline-yes">34x</span>
+<span class="cline-any cline-yes">43x</span>
+<span class="cline-any cline-yes">43x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">34x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">43x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -149,7 +152,13 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { motion } from 'framer-motion'
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { forwardRef } from 'react'
+import { motion } from 'framer-motion'
 import { useReducedMotion } from '../../hooks/useReducedMotion'
 &nbsp;
 interface HamburgerButtonProps {
@@ -159,39 +168,42 @@ interface HamburgerButtonProps {
 &nbsp;
 const lineClass = 'block h-0.5 w-6 bg-text origin-center'
 &nbsp;
-export function HamburgerButton({ isOpen, onClick }: HamburgerButtonProps) {
-  const reduced = useReducedMotion()
-  const transition = reduced ? { duration: 0 } : { duration: 0.3, ease: 'easeOut' as const }
+export const HamburgerButton = forwardRef&lt;HTMLButtonElement, HamburgerButtonProps&gt;(
+  function HamburgerButton({ isOpen, onClick }, ref) {
+    const reduced = useReducedMotion()
+    const transition = reduced ? { duration: 0 } : { duration: 0.3, ease: 'easeOut' as const }
 &nbsp;
-  return (
-    &lt;button
-      type="button"
-      aria-label={isOpen ? 'Close menu' : 'Open menu'}
-      aria-expanded={isOpen}
-      onClick={onClick}
-      className="flex h-10 w-10 flex-col items-center justify-center gap-1.5 cursor-pointer"
-    &gt;
-      &lt;motion.span
-        data-testid="hamburger-line-top"
-        className={lineClass}
-        animate={isOpen ? { rotate: 45, y: 8 } : { rotate: 0, y: 0 }}
-        transition={transition}
-      /&gt;
-      &lt;motion.span
-        data-testid="hamburger-line-middle"
-        className={lineClass}
-        animate={isOpen ? { opacity: 0 } : { opacity: 1 }}
-        transition={transition}
-      /&gt;
-      &lt;motion.span
-        data-testid="hamburger-line-bottom"
-        className={lineClass}
-        animate={isOpen ? { rotate: -45, y: -8 } : { rotate: 0, y: 0 }}
-        transition={transition}
-      /&gt;
-    &lt;/button&gt;
-  )
-}
+    return (
+      &lt;button
+        ref={ref}
+        type="button"
+        aria-label={isOpen ? 'Close menu' : 'Open menu'}
+        aria-expanded={isOpen}
+        onClick={onClick}
+        className="flex h-10 w-10 flex-col items-center justify-center gap-1.5 cursor-pointer"
+      &gt;
+        &lt;motion.span
+          data-testid="hamburger-line-top"
+          className={lineClass}
+          animate={isOpen ? { rotate: 45, y: 8 } : { rotate: 0, y: 0 }}
+          transition={transition}
+        /&gt;
+        &lt;motion.span
+          data-testid="hamburger-line-middle"
+          className={lineClass}
+          animate={isOpen ? { opacity: 0 } : { opacity: 1 }}
+          transition={transition}
+        /&gt;
+        &lt;motion.span
+          data-testid="hamburger-line-bottom"
+          className={lineClass}
+          animate={isOpen ? { rotate: -45, y: -8 } : { rotate: 0, y: 0 }}
+          transition={transition}
+        /&gt;
+      &lt;/button&gt;
+    )
+  }
+)
 &nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
@@ -199,7 +211,7 @@ export function HamburgerButton({ isOpen, onClick }: HamburgerButtonProps) {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-11-13T16:37:15.071Z
+                at 2026-11-18T21:35:42.579Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

@@ -112,7 +112,9 @@ describe('PitchDeckViewer', () => {
     document.body.appendChild(trigger)
     const triggerRef = { current: trigger }
     const { rerender } = setup({ triggerRef })
-    rerender(<PitchDeckViewer isOpen={false} deck={deck} onClose={vi.fn()} triggerRef={triggerRef} />)
+    rerender(
+      <PitchDeckViewer isOpen={false} deck={deck} onClose={vi.fn()} triggerRef={triggerRef} />
+    )
     expect(trigger).toHaveFocus()
     trigger.remove()
   })
