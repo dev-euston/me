@@ -228,6 +228,28 @@ describe('Projects', () => {
     })
   })
 
+  it('renders a placeholder for projects without a screenshotUrl', () => {
+    render(
+      <MemoryRouter>
+        <Projects projects={[baseProject]} />
+      </MemoryRouter>
+    )
+    expect(screen.getByTestId('project-screenshot-placeholder')).toBeInTheDocument()
+    expect(screen.queryByTestId('project-screenshot')).toBeNull()
+  })
+
+  it('renders a screenshot image for projects with a screenshotUrl', () => {
+    render(
+      <MemoryRouter>
+        <Projects projects={[{ ...baseProject, screenshotUrl: 'https://example.com/s.png' }]} />
+      </MemoryRouter>
+    )
+    expect(screen.getByTestId('project-screenshot')).toHaveAttribute(
+      'src',
+      'https://example.com/s.png'
+    )
+  })
+
   describe('tech filter', () => {
     const renderProjects = () =>
       render(
