@@ -22,6 +22,10 @@ vi.mock('../../components/PitchDeckViewer/PitchDeckViewer', () => ({
   ),
 }))
 
+vi.mock('../../components/ProjectMetrics', () => ({
+  ProjectMetrics: () => null,
+}))
+
 vi.mock('../../components/RelatedProjects', () => ({
   RelatedProjects: () => null,
 }))

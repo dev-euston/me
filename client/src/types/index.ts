@@ -10,6 +10,7 @@ export interface Project {
   coverImage?: string
   screenshotUrl?: string
   pitchDeckPath?: string
+  metrics?: { label: string; value: string }[]
 }
 
 export interface Experience {

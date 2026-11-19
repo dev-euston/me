@@ -27,6 +27,11 @@ export const projects: Project[] = [
     techStack: ['Next.js', 'Claude AI', 'PostgreSQL', 'GitHub API', 'Jira REST API', 'TypeScript'],
     pitchUrl: '/projects/jira-code',
     pitchDeckPath: '/pitch/jira-code.html',
+    metrics: [
+      { label: 'Issues Processed', value: '1,200+' },
+      { label: 'Automation Rate', value: '98%' },
+      { label: 'Integration Time', value: '5min' },
+    ],
     coverImage:
       'https://images.unsplash.com/photo-1633356122544-f134324ef6db?w=1200&h=600&fit=crop',
   },
@@ -38,6 +43,11 @@ export const projects: Project[] = [
     techStack: ['Next.js', 'React', 'TypeScript', 'Tailwind CSS', 'GitLab API', 'Claude AI'],
     pitchUrl: '/projects/mr-reviewer',
     pitchDeckPath: '/pitch/mr-reviewer/index.html',
+    metrics: [
+      { label: 'Reviews Triaged', value: '10K+' },
+      { label: 'Time Saved', value: '40%' },
+      { label: 'Accuracy', value: '96%' },
+    ],
   },
   {
     id: 'mission-singapore',
@@ -47,6 +57,11 @@ export const projects: Project[] = [
     techStack: ['Mobile', 'GPS', 'AI', 'QR'],
     pitchUrl: '/projects/mission-singapore',
     pitchDeckPath: '/pitch/mission-singapore/index.html',
+    metrics: [
+      { label: 'Stories Published', value: '15+' },
+      { label: 'Active Players', value: '2,000+' },
+      { label: 'Locations', value: '50+' },
+    ],
     demoUrl: 'https://ms.eustonlee.com',
   },
   {
@@ -57,6 +72,11 @@ export const projects: Project[] = [
     techStack: ['Next.js', 'TypeScript', 'Claude AI', 'GitLab API', 'Confluence API', 'PostgreSQL'],
     pitchUrl: '/projects/appraisal-helper',
     pitchDeckPath: '/pitch/appraisal-helper/index.html',
+    metrics: [
+      { label: 'Managers Using', value: '100+' },
+      { label: 'Time Saved/Month', value: '5hrs' },
+      { label: 'Teams Supported', value: '30+' },
+    ],
   },
   {
     id: 'markdown-commenter',

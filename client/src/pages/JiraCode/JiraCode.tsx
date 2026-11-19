@@ -4,6 +4,7 @@ import { projects } from '../../data/projects'
 import { PitchDeckPage } from '../../components/PitchDeckPage/PitchDeckPage'
 import { PitchDeckViewer } from '../../components/PitchDeckViewer/PitchDeckViewer'
 import { RelatedProjects } from '../../components/RelatedProjects'
+import { ProjectMetrics } from '../../components/ProjectMetrics'
 import { ProjectNavButtons } from '../../components/ProjectNavButtons/ProjectNavButtons'
 
 const project = projects.find((p) => p.id === 'jira-code') as Project
@@ -31,6 +32,7 @@ export function JiraCodePage() {
         onClose={() => setIsViewerOpen(false)}
         triggerRef={triggerRef}
       />
+      <ProjectMetrics metrics={project.metrics} />
       <RelatedProjects currentProject={project} />
       <ProjectNavButtons projectId={project.id} />
     </>
