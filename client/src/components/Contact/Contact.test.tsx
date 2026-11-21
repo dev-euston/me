@@ -3,6 +3,8 @@ import { render, screen } from '@testing-library/react'
 
 vi.mock('framer-motion', async () => await import('../../test/mocks/framer-motion'))
 
+vi.mock('../../hooks/useReducedMotion', () => ({ useReducedMotion: () => false }))
+
 import { Contact } from './Contact'
 
 describe('Contact', () => {
@@ -16,6 +18,11 @@ describe('Contact', () => {
     render(<Contact />)
     const link = screen.getByRole('link', { name: 'LinkedIn profile' })
     expect(link).toHaveAttribute('href', 'https://www.linkedin.com/in/eustonleeys/')
+  })
+
+  it('renders the contact form', () => {
+    render(<Contact />)
+    expect(screen.getByLabelText('Name')).toBeInTheDocument()
   })
 
   it('renders GitHub link with correct href', () => {
