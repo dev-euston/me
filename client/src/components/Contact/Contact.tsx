@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion'
 import { fadeUp } from '../../styles/animations'
+import { ContactForm } from '../ContactForm'
 
 export function Contact() {
   return (
@@ -12,6 +13,7 @@ export function Contact() {
         className="max-w-xl mx-auto"
       >
         <h2 className="text-3xl font-display font-bold mb-8">Let's connect</h2>
+        <ContactForm />
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <a
             href="https://www.linkedin.com/in/eustonleeys/"
