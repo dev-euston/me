@@ -1,6 +1,7 @@
 import { useRef, useState } from 'react'
+import { Helmet } from 'react-helmet-async'
 import type { Project } from '../../types'
-import { projects } from '../../data/projects'
+import { OWNER_NAME, projects } from '../../data/projects'
 import { PitchDeckPage } from '../../components/PitchDeckPage/PitchDeckPage'
 import { PitchDeckViewer } from '../../components/PitchDeckViewer/PitchDeckViewer'
 import { RelatedProjects } from '../../components/RelatedProjects'
@@ -12,9 +13,28 @@ const project = projects.find((p) => p.id === 'appraisal-helper') as Project
 export function AppraisalHelperPage() {
   const [isViewerOpen, setIsViewerOpen] = useState(false)
   const triggerRef = useRef<HTMLButtonElement>(null)
+  const description = project.metaDescription || project.description
+  const image = project.screenshotUrl || '/og-default.png'
 
   return (
     <>
+      <Helmet>
+        <title>
+          {project.name} | {OWNER_NAME}
+        </title>
+        <meta property="og:title" content={project.name} />
+        <meta property="og:description" content={description} />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={window.location.href} />
+        <meta property="og:image" content={image} />
+        <meta
+          name="twitter:card"
+          content={project.screenshotUrl ? 'summary_large_image' : 'summary'}
+        />
+        <meta name="twitter:title" content={project.name} />
+        <meta name="twitter:description" content={description} />
+        <meta name="twitter:image" content={image} />
+      </Helmet>
       <PitchDeckPage
         src="/pitch/appraisal-helper/index.html"
         title="Appraisal Helper pitch"

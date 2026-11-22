@@ -1,5 +1,7 @@
 import type { Project } from '../types'
 
+export const OWNER_NAME = 'Euston Lee'
+
 export const projects: Project[] = [
   {
     id: 'spell-trainer',
@@ -22,6 +24,8 @@ export const projects: Project[] = [
   {
     id: 'jira-code',
     name: 'Jira Code',
+    metaDescription:
+      'Connects your Jira backlog to your codebase. Tickets become reviewed pull requests, automatically, without leaving Jira.',
     description:
       'Connects your Jira backlog to your codebase. Tickets become pull requests — without leaving Jira.',
     techStack: ['Next.js', 'Claude AI', 'PostgreSQL', 'GitHub API', 'Jira REST API', 'TypeScript'],
@@ -38,6 +42,8 @@ export const projects: Project[] = [
   {
     id: 'mr-reviewer',
     name: 'MR Reviewer',
+    metaDescription:
+      'AI-powered code review triage for GitLab merge requests. Unified, persistent, and entirely under your control.',
     description:
       'AI-powered code review triage — unified, persistent, and entirely under your control.',
     techStack: ['Next.js', 'React', 'TypeScript', 'Tailwind CSS', 'GitLab API', 'Claude AI'],
@@ -52,6 +58,8 @@ export const projects: Project[] = [
   {
     id: 'mission-singapore',
     name: 'Mission: Singapore',
+    metaDescription:
+      'Location-based adventure platform connecting tourists with local story missions, GPS-verified tasks, and Singapore discoveries.',
     description:
       'Location-based narrative adventure platform connecting tourists with locally-crafted story missions. Storytellers author branching adventures tied to real Singapore locations; players navigate stops, complete GPS-verified tasks, and discover the city through local eyes.',
     techStack: ['Mobile', 'GPS', 'AI', 'QR'],
@@ -67,6 +75,8 @@ export const projects: Project[] = [
   {
     id: 'appraisal-helper',
     name: 'Appraisal Helper',
+    metaDescription:
+      'Engineering Manager tool that turns GitLab and Confluence activity into evidence-based, coaching-oriented appraisal narratives.',
     description:
       'Engineering Manager tool that pulls activity signals from GitLab and Confluence, then uses Claude AI to generate coaching-oriented appraisal narratives — grounded in real evidence.',
     techStack: ['Next.js', 'TypeScript', 'Claude AI', 'GitLab API', 'Confluence API', 'PostgreSQL'],
