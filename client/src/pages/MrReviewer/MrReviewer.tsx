@@ -57,7 +57,7 @@ export function MrReviewerPage() {
         triggerRef={triggerRef}
       />
       <ProjectMetrics metrics={project.metrics} />
-      <RelatedProjects currentProject={project} />
+      <RelatedProjects currentProject={project} projects={projects} />
       <ProjectNavButtons projectId={project.id} />
     </>
   )
