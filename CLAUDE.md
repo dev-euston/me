@@ -8,7 +8,7 @@ Portfolio site for **Euston Lee**, Software Engineer. Built with Vite + React + 
 
 **Design system:** Bold & modern. Black/near-black background (`#0A0A0A`), white text, electric blue accent (`#3B82F6`). Strong typography, high contrast.
 
-**Sections:** Hero/About, Projects, Experience/Resume, Contact, Pitch Decks.
+**Sections:** Hero/About, Projects, Experience/Resume, Testimonials, Contact, Pitch Decks.
 
 ## Monorepo Structure
 
@@ -89,6 +89,8 @@ Content lives in `src/data/` as plain TypeScript objects (no CMS). To add/update
 **Pitch deck discovery page:** `/pitch` route renders `PitchDecksPage` — a browsable grid of all decks. Deck metadata (id, title, tagline, url) lives in `src/data/pitchDecks.ts` as a typed `PITCH_DECKS` array. When adding a new pitch deck that should appear in the discovery page, add an entry there (in addition to placing the HTML in `client/public/pitch/`). The `PitchDeckCard` component renders each card with Framer Motion `whileHover` scale and staggered entrance animation; clicking a card opens `PitchDeckViewer` — a fullscreen accessible modal (`role="dialog"`, `aria-modal`, focus trap via `useFocusTrap`, Escape key to close, focus returns to the trigger card on close) that renders the deck in a full-screen iframe with a Framer Motion fade. `PitchDecksPage` manages viewer state (`isViewerOpen`, `viewerDeck`, `triggerRef`) and passes them to both `PitchDeckCard` and `PitchDeckViewer`.
 
 **Contact form (ME-31):** `ContactForm` (`components/ContactForm/index.tsx`) is a name/email/message form rendered inside the `Contact` section. Form state, validation, and submission are handled by `useContactForm` (`hooks/useContactForm.ts`). The hook POSTs `{ name, email, message }` to `VITE_CONTACT_FORM_ENDPOINT` (a Vite env var — see `.env.example`; intended for EmailJS or Formspree free-tier endpoints). When the endpoint var is unset the hook surfaces a configuration error rather than throwing. `useContactForm` accepts an optional `fetchFn` parameter (defaults to global `fetch`) for test injection — pass a mock there, do not spy on `window.fetch`. After a successful send the form auto-resets after 2 seconds. Validation: name required (≤100 chars), valid email, message required (≤1000 chars); errors are cleared field-by-field on change. `ContactFormState` = `'idle' | 'submitting' | 'success' | 'error'`.
+
+**Testimonials section (ME-34):** `Testimonials` (`components/Testimonials/index.tsx`) renders a grid of `TestimonialCard` items using the staggered scroll-reveal pattern (`useStaggeredReveal(index)` + `useReducedMotion()`). Data lives in `src/data/testimonials.ts` as `TESTIMONIALS: Testimonial[]` — `Testimonial` has `name`, `title`, `company`, `quote`, and optional `linkedInUrl` and `avatarUrl`. `Testimonials` returns `null` when `TESTIMONIALS` is empty, so the section hides itself automatically when no testimonials are present. To add testimonials, edit `src/data/testimonials.ts` only. The section is wired into `App.tsx`, `Nav`, and `MobileNavDrawer`.
 
 The site is **frontend-only** for now (no internal server; the contact form calls an external third-party endpoint). Keep data-fetching in hooks so components are unchanged when a backend is added.
 
