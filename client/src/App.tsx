@@ -7,6 +7,7 @@ import { Projects } from './components/Projects/Projects'
 import { SkillsSection } from './components/Skills'
 import { TimelineSection } from './components/TimelineSection/TimelineSection'
 import { Contact } from './components/Contact/Contact'
+import { Testimonials } from './components/Testimonials'
 import { Footer } from './components/Footer/Footer'
 import { TechFilterProvider } from './context/TechFilterContext'
 import { projects } from './data/projects'
@@ -25,6 +26,9 @@ export default function App() {
           <SkillsSection />
           <TimelineSection experience={experience} />
           <Contact />
+          <section id="testimonials">
+            <Testimonials />
+          </section>
         </main>
         <Footer />
       </TechFilterProvider>
